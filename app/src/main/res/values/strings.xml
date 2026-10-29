@@ -87,7 +87,13 @@
     <string name="season_autumn_months">Sep – Nov</string>
     <string name="season_passed">%s · passed</string>
     <string name="action_find_breaks">Find my breaks</string>
-    <string name="working_week_note">Assumes a standard Monday–Friday working week.</string>
+    <string name="working_week_note_monday">Assumes a Monday–Friday working week.</string>
+    <string name="summary_week_sunday">Sun–Thu</string>
+    <string name="working_week_note_sunday">Assumes a Sunday–Thursday working week.</string>
+    <string name="label_first_workday">First working day</string>
+    <string name="label_first_workday_hint">Set automatically from your default country; change it if you work a different week</string>
+    <string name="workweek_monday">Monday (Mon–Fri, weekend Sat–Sun)</string>
+    <string name="workweek_sunday">Sunday (Sun–Thu, weekend Fri–Sat)</string>
     <string name="tip_title">Smart booking tip</string>
     <string name="tip_body">Booking %1$s around %2$s (%3$s) gives you %4$d consecutive days off.</string>
     <string name="top_picks_title">Top picks for you</string>
@@ -123,7 +129,7 @@
         <item quantity="one">%d day budget</item>
         <item quantity="other">%d days budget</item>
     </plurals>
-    <string name="summary_week">Mon–Fri</string>
+    <string name="summary_week_monday">Mon–Fri</string>
     <string name="action_edit">Edit</string>
     <plurals name="summary_optimising">
         <item quantity="one">Optimising up to %d annual leave day</item>

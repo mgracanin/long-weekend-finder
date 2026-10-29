@@ -2,9 +2,11 @@ package com.longweekend.optimizer.repository
 
 import android.content.Context
 import com.longweekend.optimizer.model.Country
+import com.longweekend.optimizer.model.WorkWeek
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import java.time.DayOfWeek
 import java.util.Locale
 
 /** User profile settings, persisted in SharedPreferences. */
@@ -27,6 +29,12 @@ class SettingsRepository private constructor(context: Context) {
     )
     val defaultCountryCode: StateFlow<String> = _defaultCountryCode.asStateFlow()
 
+    private val _firstWorkday = MutableStateFlow(
+        runCatching { DayOfWeek.valueOf(prefs.getString(KEY_FIRST_WORKDAY, null)!!) }
+            .getOrNull()?.takeIf { it in WorkWeek.OPTIONS } ?: WorkWeek.defaultFor(_defaultCountryCode.value)
+    )
+    val firstWorkday: StateFlow<DayOfWeek> = _firstWorkday.asStateFlow()
+
     private val _onboardingDone = MutableStateFlow(prefs.getBoolean(KEY_ONBOARDING_DONE, false))
     val onboardingDone: StateFlow<Boolean> = _onboardingDone.asStateFlow()
 
@@ -46,6 +54,11 @@ class SettingsRepository private constructor(context: Context) {
         val budget = days.coerceIn(1, _annualAllowance.value)
         _defaultLeaveBudget.value = budget
         prefs.edit().putInt(KEY_DEFAULT_BUDGET, budget).apply()
+    }
+
+    fun setFirstWorkday(day: DayOfWeek) {
+        _firstWorkday.value = day
+        prefs.edit().putString(KEY_FIRST_WORKDAY, day.name).apply()
     }
 
     fun setOnboardingDone(done: Boolean) {
@@ -68,6 +81,7 @@ class SettingsRepository private constructor(context: Context) {
         private const val KEY_DEFAULT_BUDGET = "default_leave_budget"
         private const val KEY_DEFAULT_COUNTRY = "default_country"
         private const val KEY_ONBOARDING_DONE = "onboarding_done"
+        private const val KEY_FIRST_WORKDAY = "first_workday"
 
         @Volatile
         private var instance: SettingsRepository? = null

@@ -4,6 +4,7 @@ import com.longweekend.optimizer.model.DayStripItem
 import com.longweekend.optimizer.model.DayType
 import com.longweekend.optimizer.model.Opportunity
 import com.longweekend.optimizer.model.PublicHoliday
+import com.longweekend.optimizer.model.WorkWeek
 import java.time.DayOfWeek
 import java.time.LocalDate
 
@@ -20,8 +21,11 @@ object HolidayBridgeOptimizer {
         holidays: List<PublicHoliday>,
         year: Int,
         leaveBudget: Int,
-        seasonFilter: String = "any"
+        seasonFilter: String = "any",
+        weekend: Set<DayOfWeek> = WorkWeek.weekend(DayOfWeek.MONDAY)
     ): List<Opportunity> {
+        fun isWeekend(date: LocalDate) = date.dayOfWeek in weekend
+
         val holidayMap = mutableMapOf<LocalDate, PublicHoliday>()
         for (h in holidays) {
             // Regional holidays (e.g. a single German state) are not days off for everyone
@@ -145,8 +149,4 @@ object HolidayBridgeOptimizer {
 
     private fun overlaps(a: Opportunity, b: Opportunity): Boolean =
         !a.startDate.isAfter(b.endDate) && !b.startDate.isAfter(a.endDate)
-
-    private fun isWeekend(date: LocalDate): Boolean {
-        return date.dayOfWeek == DayOfWeek.SATURDAY || date.dayOfWeek == DayOfWeek.SUNDAY
-    }
 }

@@ -2,6 +2,8 @@
 
 package com.longweekend.optimizer.ui.screens.profile
 
+import java.time.DayOfWeek
+import com.longweekend.optimizer.model.WorkWeek
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
@@ -55,6 +57,7 @@ fun ProfileScreen(
     val defaultLeaveBudget by viewModel.defaultLeaveBudget.collectAsState()
     val selectedYear by viewModel.selectedYear.collectAsState()
     val savedPlans by viewModel.savedPlans.collectAsState()
+    val firstWorkday by viewModel.firstWorkday.collectAsState()
 
     val plannedDays = viewModel.plannedLeaveDays(savedPlans, selectedYear)
     val remainingDays = annualAllowance - plannedDays
@@ -189,6 +192,8 @@ fun ProfileScreen(
                 }
             }
 
+            WorkWeekCard(selected = firstWorkday, onSelect = viewModel::setFirstWorkday)
+
             LanguageCard()
 
             TextButton(
@@ -206,6 +211,39 @@ fun ProfileScreen(
             )
 
             Spacer(modifier = Modifier.height(24.dp))
+        }
+    }
+}
+
+@Composable
+private fun WorkWeekCard(selected: DayOfWeek, onSelect: (DayOfWeek) -> Unit) {
+    SettingsCard {
+        SectionLabel(
+            icon = Icons.Default.DateRange,
+            title = stringResource(R.string.label_first_workday),
+            subtitle = stringResource(R.string.label_first_workday_hint)
+        )
+        WorkWeek.OPTIONS.forEach { day ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(10.dp))
+                    .clickable { onSelect(day) }
+                    .padding(vertical = 2.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RadioButton(
+                    selected = day == selected,
+                    onClick = null,
+                    colors = RadioButtonDefaults.colors(selectedColor = TealPrimary)
+                )
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    text = stringResource(if (day == DayOfWeek.SUNDAY) R.string.workweek_sunday else R.string.workweek_monday),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = TextOnSurface
+                )
+            }
         }
     }
 }

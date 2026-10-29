@@ -60,6 +60,7 @@ fun PlanDetailsScreen(
     // A saved plan keeps its own country, even after the search switches to another one
     val planCountry = viewModel.supportedCountries.firstOrNull { it.countryCode == opportunity.countryCode } ?: currentCountry
     val savedPlans by viewModel.savedPlans.collectAsState()
+    val firstWorkday by viewModel.firstWorkday.collectAsState()
 
     val savedPlan = savedPlans.firstOrNull { it.opportunity.id == opportunity.id }
     val isSaved = savedPlan != null
@@ -206,7 +207,8 @@ fun PlanDetailsScreen(
             months.forEach { month ->
                 MonthCalendarView(
                     yearMonth = month,
-                    days = opportunity.days
+                    days = opportunity.days,
+                    firstWorkday = firstWorkday
                 )
             }
 

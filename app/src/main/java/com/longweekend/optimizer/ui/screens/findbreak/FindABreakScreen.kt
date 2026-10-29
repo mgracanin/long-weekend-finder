@@ -2,6 +2,7 @@
 
 package com.longweekend.optimizer.ui.screens.findbreak
 
+import java.time.DayOfWeek
 import androidx.annotation.StringRes
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.res.pluralStringResource
@@ -55,6 +56,7 @@ fun FindABreakScreen(
     val opportunities by viewModel.opportunities.collectAsState()
     val topPicks by viewModel.topPicks.collectAsState()
     val uiStatus by viewModel.uiStatus.collectAsState()
+    val firstWorkday by viewModel.firstWorkday.collectAsState()
     val isOfflineData by viewModel.isOfflineData.collectAsState()
     val countries = viewModel.supportedCountries
     val isLoading = uiStatus == UiStatus.LOADING
@@ -261,7 +263,7 @@ fun FindABreakScreen(
                     }
 
                     Text(
-                        text = stringResource(R.string.working_week_note),
+                        text = stringResource(if (firstWorkday == DayOfWeek.SUNDAY) R.string.working_week_note_sunday else R.string.working_week_note_monday),
                         style = MaterialTheme.typography.labelSmall,
                         color = TextOnSurfaceVariant,
                         modifier = Modifier.align(Alignment.CenterHorizontally)

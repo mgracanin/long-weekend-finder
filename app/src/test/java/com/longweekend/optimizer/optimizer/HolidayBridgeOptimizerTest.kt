@@ -1,10 +1,12 @@
 package com.longweekend.optimizer.optimizer
 
 import com.longweekend.optimizer.model.PublicHoliday
+import com.longweekend.optimizer.model.WorkWeek
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.time.DayOfWeek
 import java.time.LocalDate
 
 class HolidayBridgeOptimizerTest {
@@ -118,6 +120,27 @@ class HolidayBridgeOptimizerTest {
             leaveBudget = 5
         )
         assertTrue(result.map { it.id }.toString(), result.isEmpty())
+    }
+
+    @Test
+    fun sundayToThursdayWeek_usesFridaySaturdayWeekend() {
+        // Wed 3 Jun 2026 holiday + Thu leave = Wed–Sat off when the weekend is Fri–Sat
+        val result = HolidayBridgeOptimizer.generateOpportunities(
+            holidays = listOf(holiday("2026-06-03", "Some Holiday")),
+            year = 2026,
+            leaveBudget = 1,
+            weekend = WorkWeek.weekend(DayOfWeek.SUNDAY)
+        )
+        val bridge = result.single()
+        assertEquals(LocalDate.of(2026, 6, 3), bridge.startDate)
+        assertEquals(LocalDate.of(2026, 6, 6), bridge.endDate)
+        assertEquals(1, bridge.leaveDays)
+    }
+
+    @Test
+    fun workWeek_hasFiveWorkdaysAndTwoWeekendDays() {
+        assertEquals(setOf(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY), WorkWeek.weekend(DayOfWeek.MONDAY))
+        assertEquals(setOf(DayOfWeek.FRIDAY, DayOfWeek.SATURDAY), WorkWeek.weekend(DayOfWeek.SUNDAY))
     }
 
     @Test

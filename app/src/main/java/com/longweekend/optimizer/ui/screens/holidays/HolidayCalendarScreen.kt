@@ -1,5 +1,6 @@
 package com.longweekend.optimizer.ui.screens.holidays
 
+import com.longweekend.optimizer.model.WorkWeek
 import androidx.compose.ui.res.stringResource
 import com.longweekend.optimizer.R
 import com.longweekend.optimizer.ui.text.appLocale
@@ -54,6 +55,8 @@ fun HolidayCalendarScreen(
     val holidays by viewModel.holidays.collectAsState()
     val uiStatus by viewModel.uiStatus.collectAsState()
     val isOfflineData by viewModel.isOfflineData.collectAsState()
+    val firstWorkday by viewModel.firstWorkday.collectAsState()
+    val weekend = WorkWeek.weekend(firstWorkday)
 
     // Holidays are fetched for the selected year; ignore anything else that slipped in
     val yearHolidays = remember(holidays, selectedYear) {
@@ -61,7 +64,7 @@ fun HolidayCalendarScreen(
     }
     val byDate = remember(yearHolidays) { yearHolidays.groupBy { it.localDate()!! } }
     val countryName = selectedCountry.localName()
-    val weekdayCount = byDate.keys.count { !it.isWeekend() && byDate.getValue(it).any { h -> h.global } }
+    val weekdayCount = byDate.keys.count { it.dayOfWeek !in weekend && byDate.getValue(it).any { h -> h.global } }
 
     Scaffold(
         topBar = {
@@ -171,6 +174,7 @@ fun HolidayCalendarScreen(
                                 MiniMonth(
                                     yearMonth = YearMonth.of(selectedYear, month),
                                     holidays = byDate,
+                                    firstWorkday = firstWorkday,
                                     modifier = Modifier.weight(1f)
                                 )
                             }
@@ -180,7 +184,7 @@ fun HolidayCalendarScreen(
                     Legend()
 
                     SectionLabel(icon = Icons.Default.EventNote, title = stringResource(R.string.holidays_all_in_year, selectedYear))
-                    yearHolidays.forEach { HolidayRow(it, selectedCountry.countryCode) }
+                    yearHolidays.forEach { HolidayRow(it, selectedCountry.countryCode, weekend) }
                 }
             }
 
@@ -225,10 +229,14 @@ private fun StatusMessage(
 private fun MiniMonth(
     yearMonth: YearMonth,
     holidays: Map<LocalDate, List<PublicHoliday>>,
+    firstWorkday: DayOfWeek,
     modifier: Modifier = Modifier
 ) {
     val today = LocalDate.now()
-    val offset = yearMonth.atDay(1).dayOfWeek.value - 1 // Monday first
+    // Columns start on the first working day; the weekend is the other two days
+    val offset = (yearMonth.atDay(1).dayOfWeek.value - firstWorkday.value + 7) % 7
+    val weekend = WorkWeek.weekend(firstWorkday)
+    val columnDays = WorkWeek.daysFrom(firstWorkday)
     val days = yearMonth.lengthOfMonth()
 
     Card(
@@ -245,14 +253,14 @@ private fun MiniMonth(
                 modifier = Modifier.padding(start = 2.dp, bottom = 2.dp)
             )
             Row {
-                weekdayInitials().forEachIndexed { i, d ->
+                weekdayInitials(firstWorkday).forEachIndexed { i, d ->
                     Text(
                         text = d,
                         modifier = Modifier.weight(1f),
                         textAlign = TextAlign.Center,
                         fontSize = 9.sp,
                         fontWeight = FontWeight.Bold,
-                        color = if (i >= 5) AmberSecondary else TextOnSurfaceVariant
+                        color = if (columnDays[i] in weekend) AmberSecondary else TextOnSurfaceVariant
                     )
                 }
             }
@@ -279,7 +287,7 @@ private fun MiniMonth(
                                         .background(
                                             when {
                                                 national -> AmberSecondaryContainer
-                                                date.isWeekend() -> SurfaceContainer
+                                                date.dayOfWeek in weekend -> SurfaceContainer
                                                 else -> Color.Transparent
                                             }
                                         )
@@ -330,7 +338,7 @@ private fun LegendSwatch(style: Modifier, label: String) {
 }
 
 @Composable
-private fun HolidayRow(holiday: PublicHoliday, countryCode: String) {
+private fun HolidayRow(holiday: PublicHoliday, countryCode: String, weekend: Set<DayOfWeek>) {
     val date = holiday.localDate() ?: return
     val isPast = date.isBefore(LocalDate.now())
     Row(
@@ -378,7 +386,7 @@ private fun HolidayRow(holiday: PublicHoliday, countryCode: String) {
         }
         val tag = when {
             !holiday.global -> stringResource(R.string.tag_regional)
-            date.isWeekend() -> stringResource(R.string.tag_weekend)
+            date.dayOfWeek in weekend -> stringResource(R.string.tag_weekend)
             else -> null
         }
         if (tag != null) {
@@ -396,5 +404,3 @@ private fun HolidayRow(holiday: PublicHoliday, countryCode: String) {
 }
 
 private fun PublicHoliday.localDate(): LocalDate? = runCatching { LocalDate.parse(date) }.getOrNull()
-
-private fun LocalDate.isWeekend() = dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY

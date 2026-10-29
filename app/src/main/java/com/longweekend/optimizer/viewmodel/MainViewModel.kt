@@ -7,6 +7,7 @@ import com.longweekend.optimizer.model.Country
 import com.longweekend.optimizer.model.Opportunity
 import com.longweekend.optimizer.model.PublicHoliday
 import com.longweekend.optimizer.model.SavedPlan
+import com.longweekend.optimizer.model.WorkWeek
 import com.longweekend.optimizer.optimizer.HolidayBridgeOptimizer
 import com.longweekend.optimizer.repository.HolidayRepository
 import com.longweekend.optimizer.repository.SettingsRepository
@@ -24,6 +25,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.DayOfWeek
 import java.time.LocalDate
 
 enum class UiStatus {
@@ -52,6 +54,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val annualAllowance: StateFlow<Int> = settings.annualAllowance
     val defaultLeaveBudget: StateFlow<Int> = settings.defaultLeaveBudget
     val onboardingDone: StateFlow<Boolean> = settings.onboardingDone
+    val firstWorkday: StateFlow<DayOfWeek> = settings.firstWorkday
 
     val defaultCountry: StateFlow<Country> = settings.defaultCountryCode
         .map(::countryFor)
@@ -119,10 +122,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         searchBreaks()
     }
 
-    /** Updates the saved default country and switches the current search to it. */
+    /**
+     * Updates the saved default country and switches the current search to it. The working week
+     * follows the home country (e.g. Sun–Thu in Egypt); Profile can still override it afterwards.
+     */
     fun setDefaultCountry(country: Country) {
         settings.setDefaultCountryCode(country.countryCode)
-        setCountry(country)
+        settings.setFirstWorkday(WorkWeek.defaultFor(country.countryCode))
+        if (country != _selectedCountry.value) setCountry(country) else searchBreaks()
     }
 
     private fun countryFor(code: String): Country =
@@ -167,8 +174,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         settings.setDefaultCountryCode(SettingsRepository.deviceCountryCode())
         settings.setAnnualAllowance(SettingsRepository.DEFAULT_ANNUAL_ALLOWANCE)
         settings.setDefaultLeaveBudget(SettingsRepository.DEFAULT_LEAVE_BUDGET)
+        settings.setFirstWorkday(WorkWeek.defaultFor(SettingsRepository.deviceCountryCode()))
         _selectedCountry.value = defaultCountry.value
         _leaveBudget.value = defaultLeaveBudget.value
+        searchBreaks()
+    }
+
+    /** Changes the working week (e.g. Sun–Thu) and recalculates, since the weekend days change. */
+    fun setFirstWorkday(day: DayOfWeek) {
+        if (day == firstWorkday.value) return
+        settings.setFirstWorkday(day)
         searchBreaks()
     }
 
@@ -255,7 +270,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                         holidays = result.holidays + nextYear.holidays,
                         year = year,
                         leaveBudget = _leaveBudget.value,
-                        seasonFilter = _selectedSeason.value
+                        seasonFilter = _selectedSeason.value,
+                        weekend = WorkWeek.weekend(firstWorkday.value)
                     )
                 }
 

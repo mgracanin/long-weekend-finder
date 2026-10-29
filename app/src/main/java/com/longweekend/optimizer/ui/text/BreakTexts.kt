@@ -2,6 +2,7 @@
 
 package com.longweekend.optimizer.ui.text
 
+import com.longweekend.optimizer.model.WorkWeek
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.platform.LocalConfiguration
@@ -121,10 +122,10 @@ fun DayType.badgeText(): String = when (this) {
     DayType.WORKDAY -> ""
 }
 
-/** Monday-first single-letter weekday headers, e.g. M T W T F S S / P U S Č P S N. */
+/** Single-letter weekday headers starting with [firstDay], e.g. M T W T F S S / P U S Č P S N. */
 @Composable
 @ReadOnlyComposable
-fun weekdayInitials(): List<String> {
+fun weekdayInitials(firstDay: java.time.DayOfWeek): List<String> {
     val locale = appLocale()
-    return java.time.DayOfWeek.values().map { it.getDisplayName(TextStyle.NARROW, locale).uppercase(locale) }
+    return WorkWeek.daysFrom(firstDay).map { it.getDisplayName(TextStyle.NARROW, locale).uppercase(locale) }
 }

@@ -1,5 +1,6 @@
 package com.longweekend.optimizer.ui.components
 
+import com.longweekend.optimizer.model.WorkWeek
 import com.longweekend.optimizer.ui.text.weekdayInitials
 import com.longweekend.optimizer.ui.text.formatDate
 import com.longweekend.optimizer.ui.text.appLocale
@@ -39,13 +40,17 @@ import java.time.format.DateTimeFormatter
 fun MonthCalendarView(
     yearMonth: YearMonth,
     days: List<DayStripItem>,
+    firstWorkday: DayOfWeek,
     modifier: Modifier = Modifier
 ) {
     val monthTitle = formatDate(yearMonth.atDay(1), R.string.pattern_month_year).replaceFirstChar { it.titlecase(appLocale()) }
     val daysInMonth = yearMonth.lengthOfMonth()
     val firstDayOfMonth = yearMonth.atDay(1).dayOfWeek
     // Monday is index 0 in British/European standard
-    val startOffset = (firstDayOfMonth.value - 1) % 7
+    // Columns start on the first working day; the weekend is the other two days
+    val startOffset = (firstDayOfMonth.value - firstWorkday.value + 7) % 7
+    val weekend = WorkWeek.weekend(firstWorkday)
+    val columnDays = WorkWeek.daysFrom(firstWorkday)
 
     val dayTypeMap = days.associateBy({ it.date }, { it.type })
 
@@ -104,8 +109,8 @@ fun MonthCalendarView(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                weekdayInitials().forEachIndexed { i, label ->
-                    val color = if (i >= 5) AmberSecondary else TextOnSurfaceVariant
+                weekdayInitials(firstWorkday).forEachIndexed { i, label ->
+                    val color = if (columnDays[i] in weekend) AmberSecondary else TextOnSurfaceVariant
                     Text(
                         text = label,
                         modifier = Modifier.width(36.dp),
@@ -212,7 +217,7 @@ fun MonthCalendarView(
                                         }
                                     }
                                     else -> {
-                                        val isWk = date.dayOfWeek == DayOfWeek.SATURDAY || date.dayOfWeek == DayOfWeek.SUNDAY
+                                        val isWk = date.dayOfWeek in weekend
                                         Box(
                                             modifier = Modifier
                                                 .size(38.dp)

@@ -2,6 +2,7 @@
 
 package com.longweekend.optimizer.ui.screens.suggestedbreaks
 
+import java.time.DayOfWeek
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -54,6 +55,7 @@ fun SuggestedBreaksScreen(
     val opportunities by viewModel.opportunities.collectAsState()
     val uiStatus by viewModel.uiStatus.collectAsState()
     val sortOrder by viewModel.sortOrder.collectAsState()
+    val firstWorkday by viewModel.firstWorkday.collectAsState()
     val selectedSeason by viewModel.selectedSeason.collectAsState()
     val isOfflineData by viewModel.isOfflineData.collectAsState()
 
@@ -157,7 +159,7 @@ fun SuggestedBreaksScreen(
                                     .padding(horizontal = 8.dp, vertical = 4.dp)
                             ) {
                                 Text(
-                                    stringResource(R.string.summary_week),
+                                    stringResource(if (firstWorkday == DayOfWeek.SUNDAY) R.string.summary_week_sunday else R.string.summary_week_monday),
                                     style = MaterialTheme.typography.labelSmall,
                                     color = TextOnSurfaceVariant
                                 )
