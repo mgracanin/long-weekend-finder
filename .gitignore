@@ -1,0 +1,26 @@
+# Android / Gradle
+*.iml
+.gradle/
+.kotlin/
+build/
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+/.idea/
+.DS_Store
+*.apk
+*.aab
+
+# Release signing (never commit)
+keystore.properties
+*.jks
+*.keystore
+
+# Local-only: helper scripts, prototype screenshots, Play Store listing material
+test-desk.bat
+/screenshot_*.png
+/run-app.*
+/start-emulator.*
+/PLAY_STORE.md
+/store/

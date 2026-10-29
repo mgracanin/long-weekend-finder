@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Long Weekend</string>
+    <string name="app_subtitle">Leave Optimizer</string>
+
+    <!-- Common -->
+    <string name="cd_back">Back</string>
+    <string name="cd_logo">Long Weekend logo</string>
+    <string name="cd_profile">Profile and settings</string>
+    <string name="cd_decrease">Decrease</string>
+    <string name="cd_increase">Increase</string>
+    <string name="cd_previous_year">Previous year</string>
+    <string name="cd_next_year">Next year</string>
+    <string name="cd_save_plan">Save plan</string>
+    <string name="cd_remove_saved">Remove from saved</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_try_again">Try again</string>
+    <string name="search_country_hint">Search countries</string>
+    <string name="no_country_match">No country matches “%1$s”</string>
+    <string name="data_source_caption">Public holidays via Nager.Date API</string>
+
+    <plurals name="days_count">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <plurals name="working_days_unit">
+        <item quantity="one">working day</item>
+        <item quantity="other">working days</item>
+    </plurals>
+    <plurals name="days_per_year_unit">
+        <item quantity="one">day per year</item>
+        <item quantity="other">days per year</item>
+    </plurals>
+
+    <!-- Bottom navigation -->
+    <string name="nav_discover">Discover</string>
+    <string name="nav_holidays">Holidays</string>
+    <string name="nav_saved">Saved</string>
+    <string name="cd_nav_holidays">Public holidays</string>
+
+    <!-- Year picker -->
+    <string name="year_this">This year</string>
+    <string name="year_next">Next year</string>
+    <string name="year_last">Last year</string>
+
+    <!-- Discover -->
+    <string name="discover_tagline">Smart Holiday Stacking</string>
+    <string name="discover_headline">Make more of your days off.</string>
+    <string name="discover_intro">Turn strategic annual leave into extended getaways by pairing your time off with official public holidays.</string>
+    <string name="radar_label">OPPORTUNITY RADAR</string>
+    <string name="radar_error">Couldn\'t calculate your breaks</string>
+    <string name="radar_scanning">Scanning the %1$s %2$d calendar…</string>
+    <plurals name="radar_count">
+        <item quantity="one">%1$d holiday bridge fits %2$s of leave in %3$d</item>
+        <item quantity="other">%1$d holiday bridges fit %2$s of leave in %3$d</item>
+    </plurals>
+    <string name="radar_none">No holiday bridges fit %1$s of leave in %2$d</string>
+    <string name="radar_season_passed">%1$s %2$d has already passed — try a later season or %3$d</string>
+    <string name="radar_hint_retry">Tap to try again</string>
+    <string name="radar_hint_offline">Offline calendar in use · tap to see breaks</string>
+    <string name="radar_hint_tips">Tap for tips</string>
+    <string name="radar_hint_results">Tap to see them</string>
+    <string name="label_your_country">Your country</string>
+    <string name="label_holiday_year">Holiday year</string>
+    <string name="label_leave_to_invest">Annual leave days to invest</string>
+    <plurals name="label_leave_to_invest_hint">
+        <item quantity="one">Up to your %1$d-day allowance (change it in your profile)</item>
+        <item quantity="other">Up to your %1$d-day allowance (change it in your profile)</item>
+    </plurals>
+    <string name="preset_days">%d days</string>
+    <plurals name="preset_default">
+        <item quantity="one">%d day (your default)</item>
+        <item quantity="other">%d days (your default)</item>
+    </plurals>
+    <plurals name="preset_all">
+        <item quantity="one">%d day (all)</item>
+        <item quantity="other">All %d days</item>
+    </plurals>
+    <string name="label_season">Preferred season or timing</string>
+    <string name="season_any">Flexible</string>
+    <string name="season_spring">Spring</string>
+    <string name="season_summer">Summer</string>
+    <string name="season_autumn">Autumn</string>
+    <string name="season_any_hint">Any time in %d</string>
+    <string name="season_spring_months">Mar – May</string>
+    <string name="season_summer_months">Jun – Aug</string>
+    <string name="season_autumn_months">Sep – Nov</string>
+    <string name="season_passed">%s · passed</string>
+    <string name="action_find_breaks">Find my breaks</string>
+    <string name="working_week_note">Assumes a standard Monday–Friday working week.</string>
+    <string name="tip_title">Smart booking tip</string>
+    <string name="tip_body">Booking %1$s around %2$s (%3$s) gives you %4$d consecutive days off.</string>
+    <string name="top_picks_title">Top picks for you</string>
+    <string name="top_picks_loading">Finding the best bridges…</string>
+    <string name="top_picks_error">Top picks are unavailable until the calculation succeeds — tap the radar above to try again.</string>
+    <string name="top_picks_empty">No bridges match your current budget and season. Try more leave days or a flexible season.</string>
+    <string name="take_get">Take %1$d, get %2$d days</string>
+
+    <!-- Break texts -->
+    <string name="badge_best_ratio">BEST RATIO • TAKE %1$d, GET %2$d</string>
+    <string name="badge_summer">SUMMER GETAWAY • %d DAYS OFF</string>
+    <string name="badge_one_day">HIGH EFFICIENCY • 1 DAY OF LEAVE</string>
+    <string name="badge_smart">SMART BRIDGE • TAKE %1$d, GET %2$d</string>
+    <string name="gain_tag">+%d%% gain</string>
+    <string name="title_easter">Easter Spring Extension</string>
+    <string name="title_festive">Festive Winter Bridge</string>
+    <string name="title_may_day">May Day Long Weekend</string>
+    <string name="title_all_saints">All Saints\' Autumn Respite</string>
+    <string name="title_generic">%s getaway</string>
+    <string name="day_badge_holiday">HOL</string>
+    <string name="day_badge_weekend">WE</string>
+    <string name="day_badge_leave">OFF</string>
+    <string name="holiday_with_date">%1$s (%2$s)</string>
+    <string name="date_range">%1$s – %2$s</string>
+    <!-- java.time patterns -->
+    <string name="pattern_day_month">d MMM</string>
+    <string name="pattern_day_month_year">d MMM yyyy</string>
+    <string name="pattern_full_date">EEEE, d MMMM yyyy</string>
+    <string name="pattern_month_year">LLLL yyyy</string>
+
+    <!-- Suggested breaks -->
+    <plurals name="summary_budget">
+        <item quantity="one">%d day budget</item>
+        <item quantity="other">%d days budget</item>
+    </plurals>
+    <string name="summary_week">Mon–Fri</string>
+    <string name="action_edit">Edit</string>
+    <plurals name="summary_optimising">
+        <item quantity="one">Optimising up to %d annual leave day</item>
+        <item quantity="other">Optimising up to %d annual leave days</item>
+    </plurals>
+    <string name="summary_smart_roi">Smart ROI</string>
+    <string name="offline_notice">Offline calendar: the holiday API was unreachable, so built-in dates are used. They may miss regional or one-off holidays.</string>
+    <string name="suggested_title">Suggested Breaks</string>
+    <plurals name="opportunities_count">
+        <item quantity="one">%d opportunity</item>
+        <item quantity="other">%d opportunities</item>
+    </plurals>
+    <string name="sort_longest">Longest break</string>
+    <string name="sort_fewest">Fewest leave days</string>
+    <string name="sort_upcoming">Upcoming first</string>
+    <string name="disclaimer">Illustrative calculations based on public holiday schedules. Official calendar feeds powered by Nager.Date API.</string>
+    <string name="upsell_title">Fancy more time away?</string>
+    <string name="upsell_body">Investing %1$d of your %2$d leave days unlocks additional long holiday bridges.</string>
+    <string name="upsell_action">Invest %d days</string>
+    <string name="loading_title">Crunching holiday calendars…</string>
+    <string name="loading_body">Optimising holiday bridges for %1$s %2$d</string>
+    <string name="empty_title">No breaks found</string>
+    <string name="empty_season_passed">That season has already passed in %1$d. Pick a later season, Flexible, or %2$d.</string>
+    <plurals name="empty_body">
+        <item quantity="one">No long weekend combinations matched %1$d leave day in %2$s for your current filters.</item>
+        <item quantity="other">No long weekend combinations matched %1$d leave days in %2$s for your current filters.</item>
+    </plurals>
+    <string name="empty_tips_title">Recommendations:</string>
+    <string name="empty_tip_more_days">• Invest more leave days (up to your %d-day allowance)</string>
+    <string name="empty_tip_flexible">• Switch the season filter to Flexible</string>
+    <string name="action_reset_filters">Reset search filters</string>
+    <string name="error_title">Something went wrong</string>
+    <string name="error_body">We couldn\'t work out your breaks this time. Please try again.</string>
+    <string name="stat_total_days">Total days off</string>
+    <string name="stat_annual_leave">Annual leave</string>
+    <string name="stat_public_holidays">Public holidays</string>
+    <string name="includes">Includes:</string>
+    <string name="action_view_plan">View plan</string>
+    <string name="visualiser_label">BREAK VISUALISER</string>
+    <string name="legend_weekend">Weekend</string>
+    <string name="legend_holiday">Holiday</string>
+    <string name="legend_leave">Leave</string>
+
+    <!-- Plan details -->
+    <string name="detail_title">Plan details</string>
+    <string name="back_to_results">Back to results</string>
+    <string name="country_calendar">%s calendar</string>
+    <string name="metric_total">TOTAL</string>
+    <string name="metric_days_away">Days away</string>
+    <string name="metric_cost">COST</string>
+    <string name="metric_leave_days">Leave days</string>
+    <string name="metric_roi">ROI</string>
+    <string name="metric_extra_days">Extra days</string>
+    <string name="calendar_strategy_window">Strategy window</string>
+    <string name="calendar_legend">LEGEND</string>
+    <string name="legend_public_holiday">Public holiday</string>
+    <string name="legend_annual_leave">Annual leave</string>
+    <string name="legend_working_day">Working day</string>
+    <string name="request_title">Dates to request from your employer</string>
+    <plurals name="request_body">
+        <item quantity="one">Submit this %d working day in your HR portal:</item>
+        <item quantity="other">Submit these %d working days in your HR portal:</item>
+    </plurals>
+    <string name="full_day">Full day • 8 hrs</string>
+    <string name="status_requested">Requested</string>
+    <string name="status_to_request">To request</string>
+    <string name="holidays_included">Public holidays included automatically:</string>
+    <string name="bullet_item">• %s</string>
+    <string name="saved_banner_title">Plan saved to your Saved tab!</string>
+    <string name="saved_banner_body">It\'s ready for when you log into your company portal.</string>
+    <string name="action_saved">Saved to my list</string>
+    <string name="action_save">Save plan to my list</string>
+    <string name="action_copy_dates">Copy dates</string>
+    <string name="action_calendar">Calendar</string>
+    <string name="clipboard_label">Leave request dates</string>
+    <string name="clipboard_text">%1$s: request %2$s (annual leave). Total time off: %3$s.</string>
+    <string name="toast_copied">Dates copied to clipboard</string>
+    <string name="toast_no_calendar">No browser or calendar app available</string>
+    <string name="calendar_event_title">%1$s (%2$s)</string>
+    <plurals name="calendar_event_details">
+        <item quantity="one">Leave requested: %d day. Holiday bridge break.</item>
+        <item quantity="other">Leave requested: %d days. Holiday bridge break.</item>
+    </plurals>
+    <string name="data_verification">Public data verification</string>
+    <string name="data_source_full">Data source: Nager.Date Worldwide Public Holidays API (date.nager.at)</string>
+    <string name="data_notice">Illustrative planning calculations. Always confirm your employer\'s holiday policy before booking non-refundable travel.</string>
+
+    <!-- Saved -->
+    <string name="saved_title">Saved breaks</string>
+    <string name="saved_subtitle">Leave planner</string>
+    <string name="saved_heading">Your bookmarked plans</string>
+    <string name="saved_count">%d saved</string>
+    <string name="saved_empty_title">No saved plans yet</string>
+    <string name="saved_empty_body">Explore holiday bridge opportunities and bookmark your favourites to track which dates you\'ve requested.</string>
+    <string name="action_explore">Explore opportunities</string>
+    <string name="cd_remove">Remove</string>
+    <string name="checklist_progress">Requested from HR: %1$d of %2$d</string>
+    <string name="action_view_full_plan">View full plan</string>
+
+    <!-- Holidays -->
+    <string name="holidays_title">Public holidays</string>
+    <string name="label_country">Country</string>
+    <string name="label_year">Year</string>
+    <string name="holidays_loading_title">Loading holidays…</string>
+    <string name="holidays_loading_body">Fetching the %1$s %2$d calendar</string>
+    <string name="holidays_error_title">Couldn\'t load the calendar</string>
+    <string name="holidays_error_body">Something went wrong. Please try again.</string>
+    <string name="holidays_empty_title">No public holidays found</string>
+    <string name="holidays_empty_body">There is no holiday data for %1$s in %2$d.</string>
+    <string name="holidays_offline">Offline calendar: built-in national holidays only.</string>
+    <string name="holidays_offline_empty_title">No connection</string>
+    <string name="holidays_offline_empty_body">The holiday service can\'t be reached and there is no built-in calendar for %1$s. Try again when you\'re online.</string>
+    <string name="holidays_summary">%1$d public holidays · %2$d on weekdays</string>
+    <string name="holidays_all_in_year">All holidays in %d</string>
+    <string name="legend_national">National</string>
+    <string name="legend_regional">Regional</string>
+    <string name="legend_today">Today</string>
+    <string name="tag_regional">Regional</string>
+    <string name="tag_weekend">Weekend</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Your profile</string>
+    <string name="profile_subtitle">Settings &amp; about</string>
+    <string name="profile_heading">Your leave allowance</string>
+    <string name="profile_intro">We use these to pick your country, cap your searches and pre-fill how many days you want to invest.</string>
+    <string name="label_default_country">Default country</string>
+    <string name="label_default_country_hint">Whose public holidays to use when the app opens</string>
+    <string name="caption_default_country">Used for every new search</string>
+    <string name="label_allowance">Annual leave allowance</string>
+    <string name="label_allowance_hint">Paid leave days you get per year</string>
+    <string name="label_default_invest">Default days to invest</string>
+    <string name="label_default_invest_hint">Pre-filled on the Discover screen for each search</string>
+    <string name="label_planned">%d leave planned</string>
+    <string name="label_planned_hint">Leave days in your saved plans for %d</string>
+    <string name="planned_progress">%1$d of %2$d days planned</string>
+    <string name="planned_left">%d left</string>
+    <string name="planned_over">%d over</string>
+    <string name="planned_warning">Your saved plans use more leave than your allowance.</string>
+    <string name="action_reset_defaults">Reset to defaults</string>
+    <string name="label_language">Language</string>
+    <string name="label_language_hint">App language</string>
+    <string name="language_system">System default</string>
+    <string name="language_english">English</string>
+    <string name="language_croatian">Hrvatski (Croatian)</string>
+
+    <!-- About -->
+    <string name="about_heading">About</string>
+    <string name="about_version">Version %s</string>
+    <string name="about_description">Long Weekend helps you plan annual leave around public holidays so a few days off turn into long breaks. Free, with no ads and no tracking.</string>
+    <string name="about_open_source">Open source</string>
+    <string name="about_open_source_hint">Source code, issues and contributions on GitHub</string>
+    <string name="about_privacy">Privacy policy</string>
+    <string name="about_privacy_hint">No accounts, no tracking — your plans stay on your phone</string>
+    <string name="about_feedback">Send feedback or report a bug</string>
+    <string name="about_feedback_hint">Opens a new issue on GitHub</string>
+    <string name="about_data">Holiday data</string>
+    <string name="about_data_hint">Nager.Date public holidays API (date.nager.at), %d countries</string>
+    <string name="about_licence">Licence</string>
+    <string name="about_licence_hint">MIT License · © 2026 Long Weekend contributors</string>
+    <string name="about_welcome_again">Show welcome screens again</string>
+    <string name="about_disclaimer">Calculations are illustrative. Always check your employment contract and company holiday policy before booking.</string>
+    <string name="about_no_browser">No browser available to open the link</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_start">Get started</string>
+    <string name="onboarding_1_title">Make more of your days off</string>
+    <string name="onboarding_1_body">Long Weekend finds the public holidays in your country and shows where a few days of annual leave turn into a long break.</string>
+    <string name="onboarding_2_title">Take 3 days, get 9</string>
+    <string name="onboarding_2_body">A holiday on a Thursday? Take Friday off and enjoy four days. We work out every bridge like this for the whole year and rank them for you.</string>
+    <string name="onboarding_3_title">Private, free and open source</string>
+    <string name="onboarding_3_body">No account, no ads, no tracking. Your settings and saved plans stay on your phone. Holiday data comes from the free Nager.Date service for %d countries.</string>
+    <string name="onboarding_4_title">Let\'s set you up</string>
+    <string name="onboarding_4_body">Pick your country and how many days of paid leave you get each year. You can change both later in your profile.</string>
+</resources>

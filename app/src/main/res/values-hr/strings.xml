@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Long Weekend</string>
+    <string name="app_subtitle">Planer godišnjeg odmora</string>
+
+    <!-- Common -->
+    <string name="cd_back">Natrag</string>
+    <string name="cd_logo">Logo aplikacije Long Weekend</string>
+    <string name="cd_profile">Profil i postavke</string>
+    <string name="cd_decrease">Smanji</string>
+    <string name="cd_increase">Povećaj</string>
+    <string name="cd_previous_year">Prethodna godina</string>
+    <string name="cd_next_year">Sljedeća godina</string>
+    <string name="cd_save_plan">Spremi plan</string>
+    <string name="cd_remove_saved">Ukloni iz spremljenih</string>
+    <string name="action_retry">Pokušaj ponovno</string>
+    <string name="action_try_again">Pokušaj ponovno</string>
+    <string name="search_country_hint">Pretraži države</string>
+    <string name="no_country_match">Nijedna država ne odgovara upitu „%1$s”</string>
+    <string name="data_source_caption">Izvor: Nager.Date API</string>
+
+    <plurals name="days_count">
+        <item quantity="one">%d dan</item>
+        <item quantity="few">%d dana</item>
+        <item quantity="other">%d dana</item>
+    </plurals>
+    <plurals name="working_days_unit">
+        <item quantity="one">radni dan</item>
+        <item quantity="few">radna dana</item>
+        <item quantity="other">radnih dana</item>
+    </plurals>
+    <plurals name="days_per_year_unit">
+        <item quantity="one">dan godišnje</item>
+        <item quantity="few">dana godišnje</item>
+        <item quantity="other">dana godišnje</item>
+    </plurals>
+
+    <!-- Bottom navigation -->
+    <string name="nav_discover">Otkrij</string>
+    <string name="nav_holidays">Blagdani</string>
+    <string name="nav_saved">Spremljeno</string>
+    <string name="cd_nav_holidays">Državni blagdani</string>
+
+    <!-- Year picker -->
+    <string name="year_this">Ova godina</string>
+    <string name="year_next">Sljedeća</string>
+    <string name="year_last">Prošla</string>
+
+    <!-- Discover -->
+    <string name="discover_tagline">Pametno spajanje blagdana</string>
+    <string name="discover_headline">Maksimalno iskoristite godišnji odmor.</string>
+    <string name="discover_intro">Pretvorite nekoliko dana godišnjeg u produljeni odmor spajanjem s državnim blagdanima i praznicima.</string>
+    <string name="radar_label">RADAR PRILIKA</string>
+    <string name="radar_error">Izračun odmora nije uspio</string>
+    <string name="radar_scanning">Učitavanje kalendara: %1$s, %2$d.</string>
+    <plurals name="radar_count">
+        <item quantity="one">%1$d produljeni vikend uz %2$s godišnjeg u %3$d.</item>
+        <item quantity="few">%1$d produljena vikenda uz %2$s godišnjeg u %3$d.</item>
+        <item quantity="other">%1$d produljenih vikenda uz %2$s godišnjeg u %3$d.</item>
+    </plurals>
+    <string name="radar_none">Nema produljenih vikenda uz %1$s godišnjeg u %2$d.</string>
+    <string name="radar_season_passed">Razdoblje „%1$s” u %2$d. već je prošlo — odaberite kasnije razdoblje ili %3$d.</string>
+    <string name="radar_hint_retry">Dodirnite za ponovni pokušaj</string>
+    <string name="radar_hint_offline">Koristi se izvanmrežni kalendar · dodirnite za prijedloge</string>
+    <string name="radar_hint_tips">Dodirnite za savjete</string>
+    <string name="radar_hint_results">Dodirnite za prikaz</string>
+    <string name="label_your_country">Vaša država</string>
+    <string name="label_holiday_year">Godina</string>
+    <string name="label_leave_to_invest">Dani godišnjeg koje želite iskoristiti</string>
+    <plurals name="label_leave_to_invest_hint">
+        <item quantity="one">Najviše %1$d dan, koliko imate godišnjeg (mijenja se u profilu)</item>
+        <item quantity="few">Najviše %1$d dana, koliko imate godišnjeg (mijenja se u profilu)</item>
+        <item quantity="other">Najviše %1$d dana, koliko imate godišnjeg (mijenja se u profilu)</item>
+    </plurals>
+    <string name="preset_days">%d dana</string>
+    <plurals name="preset_default">
+        <item quantity="one">%d dan (zadano)</item>
+        <item quantity="few">%d dana (zadano)</item>
+        <item quantity="other">%d dana (zadano)</item>
+    </plurals>
+    <plurals name="preset_all">
+        <item quantity="one">%d dan (sve)</item>
+        <item quantity="few">Sva %d dana</item>
+        <item quantity="other">Svih %d dana</item>
+    </plurals>
+    <string name="label_season">Željeno razdoblje</string>
+    <string name="season_any">Bilo kada</string>
+    <string name="season_spring">Proljeće</string>
+    <string name="season_summer">Ljeto</string>
+    <string name="season_autumn">Jesen</string>
+    <string name="season_any_hint">Bilo kada u %d.</string>
+    <string name="season_spring_months">ožu – svi</string>
+    <string name="season_summer_months">lip – kol</string>
+    <string name="season_autumn_months">ruj – stu</string>
+    <string name="season_passed">%s · prošlo</string>
+    <string name="action_find_breaks">Pronađi odmore</string>
+    <string name="working_week_note">Pretpostavlja se radni tjedan od ponedjeljka do petka.</string>
+    <string name="tip_title">Pametan savjet</string>
+    <string name="tip_body">Uzmete li %1$s oko blagdana %2$s (%3$s), dobivate %4$d dana odmora zaredom.</string>
+    <string name="top_picks_title">Najbolje prilike za vas</string>
+    <string name="top_picks_loading">Traženje najboljih kombinacija…</string>
+    <string name="top_picks_error">Najbolje prilike nisu dostupne dok izračun ne uspije — dodirnite radar iznad za ponovni pokušaj.</string>
+    <string name="top_picks_empty">Nijedna kombinacija ne odgovara odabranom broju dana i razdoblju. Probajte s više dana ili razdobljem „Bilo kada”.</string>
+    <string name="take_get">Uzmi %1$d, dobij %2$d dana</string>
+
+    <!-- Break texts -->
+    <string name="badge_best_ratio">NAJBOLJI OMJER • UZMI %1$d, DOBIJ %2$d</string>
+    <string name="badge_summer">LJETNI ODMOR • %d DANA ODMORA</string>
+    <string name="badge_one_day">VRLO ISPLATIVO • SAMO 1 DAN GODIŠNJEG</string>
+    <string name="badge_smart">PAMETNO SPAJANJE • UZMI %1$d, DOBIJ %2$d</string>
+    <string name="gain_tag">+%d%% dobitka</string>
+    <string name="title_easter">Uskrsni proljetni odmor</string>
+    <string name="title_festive">Božićno-novogodišnji odmor</string>
+    <string name="title_may_day">Prvosvibanjski produljeni vikend</string>
+    <string name="title_all_saints">Jesenski predah za Sve svete</string>
+    <string name="title_generic">Odmor: %s</string>
+    <string name="day_badge_holiday">BLAG</string>
+    <string name="day_badge_weekend">VIK</string>
+    <string name="day_badge_leave">GO</string>
+    <string name="holiday_with_date">%1$s (%2$s)</string>
+    <string name="date_range">%1$s – %2$s</string>
+    <!-- java.time patterns -->
+    <string name="pattern_day_month">d. MMM</string>
+    <string name="pattern_day_month_year">d. MMM yyyy.</string>
+    <string name="pattern_full_date">EEEE, d. MMMM yyyy.</string>
+    <string name="pattern_month_year">LLLL yyyy.</string>
+
+    <!-- Suggested breaks -->
+    <plurals name="summary_budget">
+        <item quantity="one">%d dan godišnjeg</item>
+        <item quantity="few">%d dana godišnjeg</item>
+        <item quantity="other">%d dana godišnjeg</item>
+    </plurals>
+    <string name="summary_week">pon–pet</string>
+    <string name="action_edit">Uredi</string>
+    <plurals name="summary_optimising">
+        <item quantity="one">Izračun za najviše %d dan godišnjeg</item>
+        <item quantity="few">Izračun za najviše %d dana godišnjeg</item>
+        <item quantity="other">Izračun za najviše %d dana godišnjeg</item>
+    </plurals>
+    <string name="summary_smart_roi">Pametan omjer</string>
+    <string name="offline_notice">Izvanmrežni kalendar: servis za preuzimanje blagdana nije dostupan pa se koriste ugrađeni datumi. Neki blagdani možda nedostaju.</string>
+    <string name="suggested_title">Predloženi odmori</string>
+    <plurals name="opportunities_count">
+        <item quantity="one">%d prilika</item>
+        <item quantity="few">%d prilike</item>
+        <item quantity="other">%d prilika</item>
+    </plurals>
+    <string name="sort_longest">Najduži odmor</string>
+    <string name="sort_fewest">Najmanje dana godišnjeg</string>
+    <string name="sort_upcoming">Najprije najbliži</string>
+    <string name="disclaimer">Okvirni izračuni na temelju rasporeda državnih blagdana. Službeni pregled blagdana preuzima se iz Nager.Date API-ja.</string>
+    <string name="upsell_title">Želite još slobodnih dana?</string>
+    <string name="upsell_body">Iskoristite li %1$d od svojih %2$d dana godišnjeg, dobit ćete i dulje odmore.</string>
+    <string name="upsell_action">Iskoristi %d dana</string>
+    <string name="loading_title">Analiziram kalendare blagdana…</string>
+    <string name="loading_body">Traženje produljenih vikenda: %1$s, %2$d.</string>
+    <string name="empty_title">Nema prijedloga</string>
+    <string name="empty_season_passed">To je razdoblje u %1$d. već prošlo. Odaberite kasnije razdoblje, „Bilo kada” ili %2$d.</string>
+    <plurals name="empty_body">
+        <item quantity="one">Nema produljenih vikenda za %1$d dan godišnjeg (%2$s) uz odabrane filtre.</item>
+        <item quantity="few">Nema produljenih vikenda za %1$d dana godišnjeg (%2$s) uz odabrane filtre.</item>
+        <item quantity="other">Nema produljenih vikenda za %1$d dana godišnjeg (%2$s) uz odabrane filtre.</item>
+    </plurals>
+    <string name="empty_tips_title">Preporuke:</string>
+    <string name="empty_tip_more_days">• Iskoristite više dana godišnjeg (najviše %d, koliko imate)</string>
+    <string name="empty_tip_flexible">• Promijenite razdoblje u „Bilo kada”</string>
+    <string name="action_reset_filters">Vrati zadane filtre</string>
+    <string name="error_title">Nešto je pošlo po zlu</string>
+    <string name="error_body">Ovaj put nismo uspjeli izračunati odmore. Pokušajte ponovno.</string>
+    <string name="stat_total_days">Ukupno slobodnih dana</string>
+    <string name="stat_annual_leave">Godišnji odmor</string>
+    <string name="stat_public_holidays">Blagdani</string>
+    <string name="includes">Uključuje:</string>
+    <string name="action_view_plan">Pogledaj plan</string>
+    <string name="visualiser_label">PRIKAZ ODMORA</string>
+    <string name="legend_weekend">Vikend</string>
+    <string name="legend_holiday">Blagdan</string>
+    <string name="legend_leave">Godišnji</string>
+
+    <!-- Plan details -->
+    <string name="detail_title">Detalji plana</string>
+    <string name="back_to_results">Natrag na prijedloge</string>
+    <string name="country_calendar">Kalendar: %s</string>
+    <string name="metric_total">UKUPNO</string>
+    <string name="metric_days_away">Dana odmora</string>
+    <string name="metric_cost">TROŠAK</string>
+    <string name="metric_leave_days">Dana godišnjeg</string>
+    <string name="metric_roi">DOBITAK</string>
+    <string name="metric_extra_days">Dodatni dani</string>
+    <string name="calendar_strategy_window">Razdoblje odmora</string>
+    <string name="calendar_legend">LEGENDA</string>
+    <string name="legend_public_holiday">Državni blagdan</string>
+    <string name="legend_annual_leave">Godišnji odmor</string>
+    <string name="legend_working_day">Radni dan</string>
+    <string name="request_title">Datumi koje trebate zatražiti od poslodavca</string>
+    <plurals name="request_body">
+        <item quantity="one">Zatražite ovaj %d radni dan u HR sustavu:</item>
+        <item quantity="few">Zatražite ova %d radna dana u HR sustavu:</item>
+        <item quantity="other">Zatražite ovih %d radnih dana u HR sustavu:</item>
+    </plurals>
+    <string name="full_day">Cijeli dan • 8 h</string>
+    <string name="status_requested">Zatraženo</string>
+    <string name="status_to_request">Treba zatražiti</string>
+    <string name="holidays_included">Blagdani koji su automatski uključeni:</string>
+    <string name="bullet_item">• %s</string>
+    <string name="saved_banner_title">Plan je spremljen u karticu Spremljeno!</string>
+    <string name="saved_banner_body">Bit će spreman kad se prijavite u sustav tvrtke.</string>
+    <string name="action_saved">Plan je spremljen</string>
+    <string name="action_save">Spremi plan</string>
+    <string name="action_copy_dates">Kopiraj datume</string>
+    <string name="action_calendar">Kalendar</string>
+    <string name="clipboard_label">Datumi za zahtjev za godišnji</string>
+    <string name="clipboard_text">%1$s: zatražiti %2$s (godišnji odmor). Ukupno slobodno: %3$s.</string>
+    <string name="toast_copied">Datumi su kopirani</string>
+    <string name="toast_no_calendar">Nema dostupnog preglednika ni kalendara</string>
+    <string name="calendar_event_title">%1$s (%2$s)</string>
+    <plurals name="calendar_event_details">
+        <item quantity="one">Zatražen godišnji: %d dan. Odmor uz spajanje blagdana.</item>
+        <item quantity="few">Zatražen godišnji: %d dana. Odmor uz spajanje blagdana.</item>
+        <item quantity="other">Zatražen godišnji: %d dana. Odmor uz spajanje blagdana.</item>
+    </plurals>
+    <string name="data_verification">Provjera javnih podataka</string>
+    <string name="data_source_full">Izvor podataka: Nager.Date Worldwide Public Holidays API (date.nager.at)</string>
+    <string name="data_notice">Okvirni izračuni. Prije rezervacije nepovratnih putovanja provjerite pravila poslodavca o godišnjem odmoru.</string>
+
+    <!-- Saved -->
+    <string name="saved_title">Spremljeni odmori</string>
+    <string name="saved_subtitle">Planer godišnjeg</string>
+    <string name="saved_heading">Vaši spremljeni planovi</string>
+    <string name="saved_count">Spremljeno: %d</string>
+    <string name="saved_empty_title">Još nema spremljenih planova</string>
+    <string name="saved_empty_body">Istražite prilike za spajanje blagdana i spremite omiljene kako biste pratili koje ste datume već zatražili.</string>
+    <string name="action_explore">Istraži prilike</string>
+    <string name="cd_remove">Ukloni</string>
+    <string name="checklist_progress">Zatraženo od poslodavca: %1$d od %2$d</string>
+    <string name="action_view_full_plan">Pogledaj cijeli plan</string>
+
+    <!-- Holidays -->
+    <string name="holidays_title">Državni blagdani</string>
+    <string name="label_country">Država</string>
+    <string name="label_year">Godina</string>
+    <string name="holidays_loading_title">Učitavanje blagdana…</string>
+    <string name="holidays_loading_body">Dohvaćam kalendar: %1$s, %2$d.</string>
+    <string name="holidays_error_title">Kalendar se ne može učitati</string>
+    <string name="holidays_error_body">Nešto je pošlo po zlu. Pokušajte ponovno.</string>
+    <string name="holidays_empty_title">Nema pronađenih blagdana</string>
+    <string name="holidays_empty_body">Nema podataka o blagdanima (%1$s, %2$d.).</string>
+    <string name="holidays_offline">Izvanmrežni kalendar: samo ugrađeni državni blagdani.</string>
+    <string name="holidays_offline_empty_title">Nema veze</string>
+    <string name="holidays_offline_empty_body">Servis za blagdane nije dostupan, a za državu %1$s nema ugrađenog kalendara. Pokušajte ponovno kad budete na mreži.</string>
+    <string name="holidays_summary">Blagdana: %1$d · radnim danom: %2$d</string>
+    <string name="holidays_all_in_year">Svi blagdani u %d.</string>
+    <string name="legend_national">Državni</string>
+    <string name="legend_regional">Regionalni</string>
+    <string name="legend_today">Danas</string>
+    <string name="tag_regional">Regionalni</string>
+    <string name="tag_weekend">Vikend</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Vaš profil</string>
+    <string name="profile_subtitle">Postavke i informacije</string>
+    <string name="profile_heading">Vaš godišnji odmor</string>
+    <string name="profile_intro">Odredite zadanu državu, koliko dana godišnjeg odmora imate i koliko ih obično želite iskoristiti. Te se vrijednosti koriste kao polazište za svaki novi plan.</string>
+    <string name="label_default_country">Zadana država</string>
+    <string name="label_default_country_hint">Država za koju se prikazuju blagdani i praznici</string>
+    <string name="caption_default_country">Koristi se za svaku novu pretragu</string>
+    <string name="label_allowance">Dani godišnjeg odmora</string>
+    <string name="label_allowance_hint">Plaćeni dani godišnjeg koje imate svake godine</string>
+    <string name="label_default_invest">Zadani broj dana godišnjeg za plan</string>
+    <string name="label_default_invest_hint">Unaprijed upisano na zaslonu Otkrij</string>
+    <string name="label_planned">Planirani godišnji za %d.</string>
+    <string name="label_planned_hint">Dani godišnjeg u spremljenim planovima za %d.</string>
+    <string name="planned_progress">Planirano %1$d od %2$d dana</string>
+    <string name="planned_left">Preostalo: %d</string>
+    <string name="planned_over">Prekoračeno: %d</string>
+    <string name="planned_warning">Spremljeni planovi troše više dana nego što imate godišnjeg.</string>
+    <string name="action_reset_defaults">Vrati zadane postavke</string>
+    <string name="label_language">Jezik</string>
+    <string name="label_language_hint">Jezik aplikacije</string>
+    <string name="language_system">Jezik sustava</string>
+    <string name="language_english">English (engleski)</string>
+    <string name="language_croatian">Hrvatski</string>
+
+    <!-- About -->
+    <string name="about_heading">O aplikaciji</string>
+    <string name="about_version">Verzija %s</string>
+    <string name="about_description">Long Weekend pomaže vam planirati godišnji odmor oko državnih blagdana kako bi nekoliko slobodnih dana postalo dug odmor. Besplatno, bez oglasa i bez praćenja.</string>
+    <string name="about_open_source">Otvoreni kod</string>
+    <string name="about_open_source_hint">Izvorni kod, prijave problema i doprinosi na GitHubu</string>
+    <string name="about_privacy">Pravila privatnosti</string>
+    <string name="about_privacy_hint">Bez računa i praćenja — planovi ostaju na vašem telefonu</string>
+    <string name="about_feedback">Pošaljite povratnu informaciju ili prijavite grešku</string>
+    <string name="about_feedback_hint">Otvara novu prijavu na GitHubu</string>
+    <string name="about_data">Podaci o blagdanima</string>
+    <string name="about_data_hint">Nager.Date API za državne blagdane (date.nager.at), %d država</string>
+    <string name="about_licence">Licenca</string>
+    <string name="about_licence_hint">MIT licenca · © 2026. suradnici projekta Long Weekend</string>
+    <string name="about_welcome_again">Ponovno prikaži uvodne zaslone</string>
+    <string name="about_disclaimer">Izračuni su okvirni. Prije rezervacije uvijek provjerite ugovor o radu i pravila tvrtke o godišnjem odmoru.</string>
+    <string name="about_no_browser">Nema preglednika za otvaranje poveznice</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip">Preskoči</string>
+    <string name="onboarding_next">Dalje</string>
+    <string name="onboarding_start">Započni</string>
+    <string name="onboarding_1_title">Izvucite više iz slobodnih dana</string>
+    <string name="onboarding_1_body">Long Weekend pronalazi državne blagdane u vašoj zemlji i pokazuje gdje nekoliko dana godišnjeg postaje dug odmor.</string>
+    <string name="onboarding_2_title">Uzmite 3 dana, dobijte 9</string>
+    <string name="onboarding_2_body">Blagdan pada u četvrtak? Uzmite petak i uživajte u četiri slobodna dana. Sve takve kombinacije za cijelu godinu izračunamo i poredamo umjesto vas.</string>
+    <string name="onboarding_3_title">Privatno, besplatno i otvorenog koda</string>
+    <string name="onboarding_3_body">Bez računa, bez oglasa, bez praćenja. Postavke i spremljeni planovi ostaju na vašem telefonu. Podaci o blagdanima dolaze s besplatnog servisa Nager.Date za %d država.</string>
+    <string name="onboarding_4_title">Krenimo</string>
+    <string name="onboarding_4_body">Odaberite državu i koliko dana plaćenog godišnjeg imate svake godine. Oboje možete kasnije promijeniti u profilu.</string>
+</resources>
