@@ -280,7 +280,10 @@
     <string name="about_feedback">Send feedback or report a bug</string>
     <string name="about_feedback_hint">Opens a new issue on GitHub</string>
     <string name="about_data">Holiday data</string>
-    <string name="about_data_hint">Nager.Date public holidays API (date.nager.at), %d countries</string>
+    <plurals name="about_data_hint">
+        <item quantity="one">Nager.Date public holidays API (date.nager.at), %d country</item>
+        <item quantity="other">Nager.Date public holidays API (date.nager.at), %d countries</item>
+    </plurals>
     <string name="about_licence">Licence</string>
     <string name="about_licence_hint">MIT License · © 2026 Long Weekend contributors</string>
     <string name="about_welcome_again">Show welcome screens again</string>
@@ -296,7 +299,10 @@
     <string name="onboarding_2_title">Take 3 days, get 9</string>
     <string name="onboarding_2_body">A holiday on a Thursday? Take Friday off and enjoy four days. We work out every bridge like this for the whole year and rank them for you.</string>
     <string name="onboarding_3_title">Private, free and open source</string>
-    <string name="onboarding_3_body">No account, no ads, no tracking. Your settings and saved plans stay on your phone. Holiday data comes from the free Nager.Date service for %d countries.</string>
+    <plurals name="onboarding_3_body">
+        <item quantity="one">No account, no ads, no tracking. Your settings and saved plans stay on your phone. Holiday data comes from the free Nager.Date service for %d country.</item>
+        <item quantity="other">No account, no ads, no tracking. Your settings and saved plans stay on your phone. Holiday data comes from the free Nager.Date service for %d countries.</item>
+    </plurals>
     <string name="onboarding_4_title">Let\'s set you up</string>
     <string name="onboarding_4_body">Pick your country and how many days of paid leave you get each year. You can change both later in your profile.</string>
 </resources>

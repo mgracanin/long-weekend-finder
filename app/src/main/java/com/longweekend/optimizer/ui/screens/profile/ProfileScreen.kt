@@ -294,7 +294,7 @@ private fun AboutCard(countryCount: Int, onShowWelcome: () -> Unit) {
         AboutRow(Icons.Default.BugReport, stringResource(R.string.about_feedback), stringResource(R.string.about_feedback_hint)) {
             open(AppLinks.NEW_ISSUE)
         }
-        AboutRow(Icons.Default.Public, stringResource(R.string.about_data), stringResource(R.string.about_data_hint, countryCount)) {
+        AboutRow(Icons.Default.Public, stringResource(R.string.about_data), pluralStringResource(R.plurals.about_data_hint, countryCount, countryCount)) {
             open(AppLinks.HOLIDAY_DATA)
         }
         AboutRow(Icons.Default.Description, stringResource(R.string.about_licence), stringResource(R.string.about_licence_hint)) {

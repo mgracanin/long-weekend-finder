@@ -89,7 +89,7 @@ fun OnboardingScreen(viewModel: MainViewModel) {
                     2 -> InfoPage(
                         icon = Icons.Default.Lock,
                         title = stringResource(R.string.onboarding_3_title),
-                        body = stringResource(R.string.onboarding_3_body, viewModel.supportedCountries.size)
+                        body = pluralStringResource(R.plurals.onboarding_3_body, viewModel.supportedCountries.size, viewModel.supportedCountries.size)
                     )
                     else -> SetupPage(
                         country = country,
