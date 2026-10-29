@@ -193,7 +193,7 @@
         <item quantity="one">Submit this %d working day in your HR portal:</item>
         <item quantity="other">Submit these %d working days in your HR portal:</item>
     </plurals>
-    <string name="full_day">Full day • 8 hrs</string>
+    <string name="full_day">Full day</string>
     <string name="status_requested">Requested</string>
     <string name="status_to_request">To request</string>
     <string name="holidays_included">Public holidays included automatically:</string>

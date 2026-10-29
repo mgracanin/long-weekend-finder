@@ -205,7 +205,7 @@
         <item quantity="few">U sustavu za evidenciju godišnjeg odmora zatražite ova %d radna dana:</item>
         <item quantity="other">U sustavu za evidenciju godišnjeg odmora zatražite ovih %d radnih dana:</item>
     </plurals>
-    <string name="full_day">Cijeli dan • 8 h</string>
+    <string name="full_day">Cijeli dan</string>
     <string name="status_requested">Zatraženo</string>
     <string name="status_to_request">Još nije zatraženo</string>
     <string name="holidays_included">Blagdani uključeni u plan:</string>
