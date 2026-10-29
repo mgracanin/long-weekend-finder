@@ -282,7 +282,7 @@
     <string name="about_open_source">Open source</string>
     <string name="about_open_source_hint">Source code, issues and contributions on GitHub</string>
     <string name="about_privacy">Privacy policy</string>
-    <string name="about_privacy_hint">No accounts, no tracking — your plans stay on your phone</string>
+    <string name="about_privacy_hint">No accounts, no tracking. Your settings and plans are stored only on your phone and, if enabled, in your own Google backup.</string>
     <string name="about_feedback">Send feedback or report a bug</string>
     <string name="about_feedback_hint">Opens a new issue on GitHub</string>
     <string name="about_data">Holiday data</string>
@@ -306,8 +306,8 @@
     <string name="onboarding_2_body">A holiday on a Thursday? Take Friday off and enjoy four days. We work out every bridge like this for the whole year and rank them for you.</string>
     <string name="onboarding_3_title">Private, free and open source</string>
     <plurals name="onboarding_3_body">
-        <item quantity="one">No account, no ads, no tracking. Your settings and saved plans stay on your phone. Holiday data comes from the free Nager.Date service for %d country.</item>
-        <item quantity="other">No account, no ads, no tracking. Your settings and saved plans stay on your phone. Holiday data comes from the free Nager.Date service for %d countries.</item>
+        <item quantity="one">No account, no ads, no tracking. Your settings and saved plans are stored only on your phone and, if enabled, in your own Google backup. Holiday data comes from the free Nager.Date service for %d country.</item>
+        <item quantity="other">No account, no ads, no tracking. Your settings and saved plans are stored only on your phone and, if enabled, in your own Google backup. Holiday data comes from the free Nager.Date service for %d countries.</item>
     </plurals>
     <string name="onboarding_4_title">Let\'s set you up</string>
     <string name="onboarding_4_body">Pick your country and how many days of paid leave you get each year. You can change both later in your profile.</string>

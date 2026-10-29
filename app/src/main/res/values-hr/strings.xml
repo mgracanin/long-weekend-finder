@@ -295,7 +295,7 @@
     <string name="about_open_source">Otvoreni izvorni kod</string>
     <string name="about_open_source_hint">Izvorni kod, prijave poteškoća i mogućnost doprinosa projektu na GitHubu</string>
     <string name="about_privacy">Pravila privatnosti</string>
-    <string name="about_privacy_hint">Nema korisničkog računa ni praćenja. Vaše postavke i planovi ostaju na uređaju.</string>
+    <string name="about_privacy_hint">Nema korisničkog računa ni praćenja. Postavke i planovi spremaju se samo na vašem uređaju i, ako je uključena, u vašoj Google sigurnosnoj kopiji.</string>
     <string name="about_feedback">Pošaljite povratne informacije ili prijavite pogrešku</string>
     <string name="about_feedback_hint">Otvara se stranica za prijavu poteškoća na GitHubu</string>
     <string name="about_data">Podaci o blagdanima</string>
@@ -321,9 +321,9 @@
     <string name="onboarding_2_body">Blagdan pada u četvrtak? Uzmite petak kao dan godišnjeg odmora i imat ćete četiri slobodna dana zaredom. Long Weekend pronalazi takve prilike tijekom cijele godine i izdvaja najpovoljnije kombinacije.</string>
     <string name="onboarding_3_title">Besplatna aplikacija otvorenog koda</string>
     <plurals name="onboarding_3_body">
-        <item quantity="one">Za korištenje aplikacije nije potreban korisnički račun. Nema oglasa ni praćenja korisnika, a vaše postavke i spremljeni planovi ostaju na telefonu. Podaci o blagdanima za %d državu preuzimaju se putem usluge Nager.Date.</item>
-        <item quantity="few">Za korištenje aplikacije nije potreban korisnički račun. Nema oglasa ni praćenja korisnika, a vaše postavke i spremljeni planovi ostaju na telefonu. Podaci o blagdanima za %d države preuzimaju se putem usluge Nager.Date.</item>
-        <item quantity="other">Za korištenje aplikacije nije potreban korisnički račun. Nema oglasa ni praćenja korisnika, a vaše postavke i spremljeni planovi ostaju na telefonu. Podaci o blagdanima za %d država preuzimaju se putem usluge Nager.Date.</item>
+        <item quantity="one">Za korištenje aplikacije nije potreban korisnički račun. Nema oglasa ni praćenja korisnika, a vaše postavke i spremljeni planovi spremaju se samo na telefonu i, ako je uključena, u vašoj Google sigurnosnoj kopiji. Podaci o blagdanima za %d državu preuzimaju se putem usluge Nager.Date.</item>
+        <item quantity="few">Za korištenje aplikacije nije potreban korisnički račun. Nema oglasa ni praćenja korisnika, a vaše postavke i spremljeni planovi spremaju se samo na telefonu i, ako je uključena, u vašoj Google sigurnosnoj kopiji. Podaci o blagdanima za %d države preuzimaju se putem usluge Nager.Date.</item>
+        <item quantity="other">Za korištenje aplikacije nije potreban korisnički račun. Nema oglasa ni praćenja korisnika, a vaše postavke i spremljeni planovi spremaju se samo na telefonu i, ako je uključena, u vašoj Google sigurnosnoj kopiji. Podaci o blagdanima za %d država preuzimaju se putem usluge Nager.Date.</item>
     </plurals>
 
     <string name="onboarding_4_title">Spremni za planiranje odmora?</string>
