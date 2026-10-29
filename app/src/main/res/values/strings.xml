@@ -135,7 +135,6 @@
         <item quantity="one">Optimising up to %d annual leave day</item>
         <item quantity="other">Optimising up to %d annual leave days</item>
     </plurals>
-    <string name="summary_smart_roi">Smart ROI</string>
     <string name="offline_notice">Offline calendar: the holiday API was unreachable, so built-in dates are used. They may miss regional or one-off holidays.</string>
     <string name="suggested_title">Suggested Breaks</string>
     <plurals name="opportunities_count">

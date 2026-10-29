@@ -48,7 +48,7 @@
 
     <!-- Discover -->
     <string name="discover_tagline">Povežite blagdane i godišnji odmor</string>
-    <string name="discover_headline">Iskoristite svaki dan godišnjeg odmora</string>
+    <string name="discover_headline">Maksimalno iskoristite svaki dan godišnjeg odmora</string>
     <string name="discover_intro">Povežite dane godišnjeg odmora s blagdanima i vikendima te uživajte u produljenom odmoru.</string>
     <string name="radar_label">PRILIKE ZA ODMOR</string>
     <string name="radar_error">Nije moguće izračunati prijedloge za odmor</string>
@@ -144,7 +144,6 @@
         <item quantity="few">Izračun za najviše %d dana godišnjeg odmora</item>
         <item quantity="other">Izračun za najviše %d dana godišnjeg odmora</item>
     </plurals>
-    <string name="summary_smart_roi">Povoljan omjer</string>
     <string name="offline_notice">Usluga za dohvaćanje blagdana trenutačno nije dostupna. Koristi se ugrađeni kalendar koji možda ne sadrži sve blagdane.</string>
     <string name="suggested_title">Prijedlozi za odmor</string>
     <plurals name="opportunities_count">

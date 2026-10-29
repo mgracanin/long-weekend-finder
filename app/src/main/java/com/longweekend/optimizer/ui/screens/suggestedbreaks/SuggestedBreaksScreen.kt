@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalComposeUiApi::class)
+@file:OptIn(ExperimentalComposeUiApi::class, ExperimentalLayoutApi::class)
 
 package com.longweekend.optimizer.ui.screens.suggestedbreaks
 
@@ -96,98 +96,60 @@ fun SuggestedBreaksScreen(
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.Top
                     ) {
-                        Row(
-                            modifier = Modifier
-                                .weight(1f)
-                                .horizontalScroll(rememberScrollState()),
-                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        // Pills wrap onto a second line instead of being cut off
+                        FlowRow(
+                            modifier = Modifier.weight(1f),
+                            horizontalArrangement = Arrangement.spacedBy(6.dp),
+                            verticalArrangement = Arrangement.spacedBy(6.dp)
                         ) {
-                            // Country Pill
-                            Row(
-                                modifier = Modifier
-                                    .clip(CircleShape)
-                                    .background(SurfaceContainer)
-                                    .padding(horizontal = 8.dp, vertical = 4.dp),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(4.dp)
-                            ) {
-                                Text(selectedCountry.flagEmoji, fontSize = 14.sp)
+                            SummaryPill(SurfaceContainer) {
+                                Text(selectedCountry.flagEmoji, fontSize = 12.sp, lineHeight = 12.sp)
                                 Text(
                                     selectedCountry.localName(),
                                     style = MaterialTheme.typography.labelSmall,
                                     color = TealPrimary,
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Bold,
+                                    maxLines = 1
                                 )
                             }
-
-                            // Year Pill
-                            Box(
-                                modifier = Modifier
-                                    .clip(CircleShape)
-                                    .background(SurfaceContainer)
-                                    .padding(horizontal = 8.dp, vertical = 4.dp)
-                            ) {
+                            SummaryPill(SurfaceContainer) {
                                 Text(
                                     "$selectedYear",
                                     style = MaterialTheme.typography.labelSmall,
                                     color = TextOnSurfaceVariant
                                 )
                             }
-
-                            // Budget Pill
-                            Box(
-                                modifier = Modifier
-                                    .clip(CircleShape)
-                                    .background(AmberSecondaryFixed)
-                                    .padding(horizontal = 8.dp, vertical = 4.dp)
-                            ) {
+                            SummaryPill(AmberSecondaryFixed) {
                                 Text(
                                     pluralStringResource(R.plurals.summary_budget, leaveBudget, leaveBudget),
                                     style = MaterialTheme.typography.labelSmall,
                                     fontWeight = FontWeight.Bold,
-                                    color = AmberOnSecondaryFixed
+                                    color = AmberOnSecondaryFixed,
+                                    maxLines = 1
                                 )
                             }
-
-                            // Work schedule Pill
-                            Box(
-                                modifier = Modifier
-                                    .clip(CircleShape)
-                                    .background(SurfaceContainer)
-                                    .padding(horizontal = 8.dp, vertical = 4.dp)
-                            ) {
+                            SummaryPill(SurfaceContainer) {
                                 Text(
                                     stringResource(if (firstWorkday == DayOfWeek.SUNDAY) R.string.summary_week_sunday else R.string.summary_week_monday),
                                     style = MaterialTheme.typography.labelSmall,
-                                    color = TextOnSurfaceVariant
+                                    color = TextOnSurfaceVariant,
+                                    maxLines = 1
                                 )
                             }
                         }
 
-                        TextButton(
-                            onClick = onNavigateBack,
-                            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
-                        ) {
-                            Icon(Icons.Default.Edit, null, tint = TealPrimary, modifier = Modifier.size(16.dp))
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Text(
-                                stringResource(R.string.action_edit),
-                                style = MaterialTheme.typography.labelMedium,
-                                fontWeight = FontWeight.Bold,
-                                color = TealPrimary
-                            )
-                        }
                     }
 
-                    // Micro progress
+                    // Micro progress + edit
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Row(
+                            modifier = Modifier.weight(1f, fill = false).padding(end = 8.dp),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
@@ -198,12 +160,20 @@ fun SuggestedBreaksScreen(
                                 color = TextOnSurfaceVariant
                             )
                         }
-                        Text(
-                            text = stringResource(R.string.summary_smart_roi),
-                            style = MaterialTheme.typography.labelSmall,
-                            fontWeight = FontWeight.Bold,
-                            color = TealPrimary
-                        )
+                        TextButton(
+                            onClick = onNavigateBack,
+                            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+                            modifier = Modifier.heightIn(min = 32.dp)
+                        ) {
+                            Icon(Icons.Default.Edit, null, tint = TealPrimary, modifier = Modifier.size(16.dp))
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                stringResource(R.string.action_edit),
+                                style = MaterialTheme.typography.labelMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = TealPrimary
+                            )
+                        }
                     }
                 }
             }
@@ -577,11 +547,11 @@ private fun OpportunityFeedCard(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // ROI Badge Header
-            Row(
+            // ROI Badge Header: the gain tag moves to its own line rather than wrapping inside
+            FlowRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 Row(
                     modifier = Modifier
@@ -596,7 +566,8 @@ private fun OpportunityFeedCard(
                         text = opportunity.badge(),
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold,
-                        color = AmberOnSecondaryContainer
+                        color = AmberOnSecondaryContainer,
+                        maxLines = 1
                     )
                 }
 
@@ -604,13 +575,14 @@ private fun OpportunityFeedCard(
                     modifier = Modifier
                         .clip(CircleShape)
                         .background(TealPrimaryFixed)
-                        .padding(horizontal = 8.dp, vertical = 3.dp)
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
                 ) {
                     Text(
                         text = opportunity.gainTag(),
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold,
-                        color = TealOnPrimaryFixed
+                        color = TealOnPrimaryFixed,
+                        maxLines = 1
                     )
                 }
             }
@@ -646,17 +618,17 @@ private fun OpportunityFeedCard(
 
             // Included Holidays Tags
             if (opportunity.holidayDays.isNotEmpty()) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState()),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                // Wraps so long holiday names are shown in full instead of scrolling off the card
+                FlowRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     Text(
                         text = stringResource(R.string.includes),
                         style = MaterialTheme.typography.labelSmall,
-                        color = TextOnSurfaceVariant
+                        color = TextOnSurfaceVariant,
+                        modifier = Modifier.align(Alignment.CenterVertically)
                     )
                     opportunity.includedHolidayLabels().forEach { hName ->
                         Row(
@@ -720,6 +692,21 @@ private fun OpportunityFeedCard(
             }
         }
     }
+}
+
+/** One fixed-height pill in the search summary, so pills with and without a flag line up. */
+@Composable
+private fun SummaryPill(background: Color, content: @Composable RowScope.() -> Unit) {
+    Row(
+        modifier = Modifier
+            .height(26.dp)
+            .clip(CircleShape)
+            .background(background)
+            .padding(horizontal = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        content = content
+    )
 }
 
 @Composable
