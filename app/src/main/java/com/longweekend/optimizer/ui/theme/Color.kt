@@ -43,6 +43,11 @@ data class AppColors(
     val error: Color,
     val errorContainer: Color,
     val onErrorContainer: Color,
+    // Filled highlight blocks (leave days, the "Total" tile): bright teal, or deep teal on OLED
+    val highlightFill: Color,
+    val onHighlightFill: Color,
+    val onHighlightFillMuted: Color,
+    val highlightAccent: Color,
     val isDark: Boolean
 )
 
@@ -73,6 +78,10 @@ val LightAppColors = AppColors(
     error = Color(0xFFBA1A1A),
     errorContainer = Color(0xFFFFDAD6),
     onErrorContainer = Color(0xFF93000A),
+    highlightFill = Color(0xFF003733),
+    onHighlightFill = Color(0xFFFFFFFF),
+    onHighlightFillMuted = Color(0xFF84BFB8),
+    highlightAccent = Color(0xFFB2EEE7),
     isDark = false
 )
 
@@ -104,6 +113,10 @@ val DarkAppColors = AppColors(
     error = Color(0xFFFFB4AB),
     errorContainer = Color(0xFF93000A),
     onErrorContainer = Color(0xFFFFDAD6),
+    highlightFill = Color(0xFF96D2CB),
+    onHighlightFill = Color(0xFF00201D),
+    onHighlightFillMuted = Color(0xFF00201D),
+    highlightAccent = Color(0xFF1D4A46),
     isDark = true
 )
 
@@ -139,6 +152,11 @@ val OledAppColors = AppColors(
     error = Color(0xFFFFB4AB),
     errorContainer = Color(0xFF5C0006),
     onErrorContainer = Color(0xFFFFDAD6),
+    // Deep teal blocks with light text instead of bright fills: far fewer lit pixels
+    highlightFill = Color(0xFF0F2F2C),
+    onHighlightFill = Color(0xFFA6E4DC),
+    onHighlightFillMuted = Color(0xFF80CBC4),
+    highlightAccent = Color(0xFF80CBC4),
     isDark = true
 )
 
@@ -175,3 +193,8 @@ val OutlineColor: Color @Composable @ReadOnlyComposable get() = LocalAppColors.c
 val ErrorRed: Color @Composable @ReadOnlyComposable get() = LocalAppColors.current.error
 val ErrorContainer: Color @Composable @ReadOnlyComposable get() = LocalAppColors.current.errorContainer
 val OnErrorContainer: Color @Composable @ReadOnlyComposable get() = LocalAppColors.current.onErrorContainer
+
+val HighlightFill: Color @Composable @ReadOnlyComposable get() = LocalAppColors.current.highlightFill
+val OnHighlightFill: Color @Composable @ReadOnlyComposable get() = LocalAppColors.current.onHighlightFill
+val OnHighlightFillMuted: Color @Composable @ReadOnlyComposable get() = LocalAppColors.current.onHighlightFillMuted
+val HighlightAccent: Color @Composable @ReadOnlyComposable get() = LocalAppColors.current.highlightAccent

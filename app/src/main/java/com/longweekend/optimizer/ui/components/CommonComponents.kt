@@ -375,7 +375,7 @@ fun MetricBentoStrip(
             modifier = Modifier
                 .weight(1f)
                 .height(95.dp),
-            colors = CardDefaults.cardColors(containerColor = TealPrimary),
+            colors = CardDefaults.cardColors(containerColor = HighlightFill),
             shape = RoundedCornerShape(14.dp)
         ) {
             Column(
@@ -392,13 +392,13 @@ fun MetricBentoStrip(
                     Icon(
                         imageVector = Icons.Default.BeachAccess,
                         contentDescription = null,
-                        tint = TealPrimaryFixed,
+                        tint = HighlightAccent,
                         modifier = Modifier.size(16.dp)
                     )
                     Text(
                         text = stringResource(R.string.metric_total),
                         style = MaterialTheme.typography.labelSmall,
-                        color = TealPrimaryFixed
+                        color = HighlightAccent
                     )
                 }
                 Column {
@@ -406,12 +406,12 @@ fun MetricBentoStrip(
                         text = "$totalDays",
                         style = MaterialTheme.typography.headlineLarge.copy(fontSize = 28.sp),
                         fontWeight = FontWeight.ExtraBold,
-                        color = TealOnPrimary
+                        color = OnHighlightFill
                     )
                     Text(
                         text = stringResource(R.string.metric_days_away),
                         style = MaterialTheme.typography.labelSmall,
-                        color = TealOnPrimaryContainer
+                        color = OnHighlightFillMuted
                     )
                 }
             }

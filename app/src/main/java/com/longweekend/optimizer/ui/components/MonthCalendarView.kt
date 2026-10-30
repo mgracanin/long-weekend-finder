@@ -171,7 +171,7 @@ fun MonthCalendarView(
                                             modifier = Modifier
                                                 .size(38.dp)
                                                 .clip(RoundedCornerShape(8.dp))
-                                                .background(TealPrimary),
+                                                .background(HighlightFill),
                                             horizontalAlignment = Alignment.CenterHorizontally,
                                             verticalArrangement = Arrangement.Center
                                         ) {
@@ -181,12 +181,12 @@ fun MonthCalendarView(
                                                     fontWeight = FontWeight.Bold,
                                                     fontSize = 12.sp
                                                 ),
-                                                color = TealOnPrimary
+                                                color = OnHighlightFill
                                             )
                                             Icon(
                                                 imageVector = Icons.Default.Check,
                                                 contentDescription = null,
-                                                tint = TealOnPrimary,
+                                                tint = OnHighlightFill,
                                                 modifier = Modifier.size(10.dp)
                                             )
                                         }
@@ -280,10 +280,10 @@ fun MonthCalendarView(
                                 modifier = Modifier
                                     .size(16.dp)
                                     .clip(RoundedCornerShape(4.dp))
-                                    .background(TealPrimary),
+                                    .background(HighlightFill),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Icon(Icons.Default.Check, null, tint = TealOnPrimary, modifier = Modifier.size(9.dp))
+                                Icon(Icons.Default.Check, null, tint = OnHighlightFill, modifier = Modifier.size(9.dp))
                             }
                         },
                         text = stringResource(R.string.legend_annual_leave)
