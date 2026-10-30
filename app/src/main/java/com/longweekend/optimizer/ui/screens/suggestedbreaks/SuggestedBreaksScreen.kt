@@ -17,10 +17,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
@@ -72,16 +73,17 @@ fun SuggestedBreaksScreen(
         },
         containerColor = SurfaceBg
     ) { padding ->
-        Column(
+        // Lazy so only the cards on screen are composed; a long result list would otherwise
+        // be built and measured all at once
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp, vertical = 10.dp),
+                .padding(padding),
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 10.dp, bottom = 40.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             // Search Summary Bar (Tactile Pill Card)
-            Card(
+            item(key = "summary", contentType = "summary") { Card(
                 colors = CardDefaults.cardColors(containerColor = SurfaceLowest),
                 shape = RoundedCornerShape(14.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
@@ -176,10 +178,10 @@ fun SuggestedBreaksScreen(
                         }
                     }
                 }
-            }
+            } }
 
             // Offline notice applies to results and to "no results" alike
-            if (isOfflineData && uiStatus != UiStatus.LOADING && uiStatus != UiStatus.ERROR) {
+            if (isOfflineData && uiStatus != UiStatus.LOADING && uiStatus != UiStatus.ERROR) item(key = "offline") {
                 Card(
                     colors = CardDefaults.cardColors(containerColor = AmberSecondaryFixed.copy(alpha = 0.6f)),
                     shape = RoundedCornerShape(12.dp),
@@ -210,7 +212,7 @@ fun SuggestedBreaksScreen(
             when (uiStatus) {
                 UiStatus.RESULTS -> {
                     // Header & Counter
-                    Row(
+                    item(key = "header") { Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
@@ -234,10 +236,10 @@ fun SuggestedBreaksScreen(
                                 color = TealOnPrimaryFixed
                             )
                         }
-                    }
+                    } }
 
                     // Sorting Bar
-                    Row(
+                    item(key = "sort") { Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .horizontalScroll(rememberScrollState()),
@@ -261,10 +263,10 @@ fun SuggestedBreaksScreen(
                             isSelected = sortOrder == SortOrder.UPCOMING_FIRST,
                             onClick = { viewModel.setSortOrder(SortOrder.UPCOMING_FIRST) }
                         )
-                    }
+                    } }
 
                     // Disclaimer Notice
-                    Card(
+                    item(key = "disclaimer") { Card(
                         colors = CardDefaults.cardColors(containerColor = SurfaceContainer),
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.fillMaxWidth()
@@ -283,10 +285,10 @@ fun SuggestedBreaksScreen(
                                 color = TextOnSurfaceVariant
                             )
                         }
-                    }
+                    } }
 
                     // Opportunities List
-                    opportunities.forEach { opp ->
+                    items(opportunities, key = { it.id }, contentType = { "opportunity" }) { opp ->
                         OpportunityFeedCard(
                             opportunity = opp,
                             onViewPlan = { onNavigateToDetail(opp) },
@@ -296,7 +298,7 @@ fun SuggestedBreaksScreen(
 
                     // Upsell card, only while there is allowance left to invest
                     val suggestedBudget = (leaveBudget + 3).coerceAtMost(annualAllowance)
-                    if (suggestedBudget > leaveBudget) Card(
+                    if (suggestedBudget > leaveBudget) item(key = "upsell") { Card(
                         colors = CardDefaults.cardColors(containerColor = SurfaceContainerLow),
                         shape = RoundedCornerShape(16.dp),
                         modifier = Modifier.fillMaxWidth()
@@ -338,10 +340,10 @@ fun SuggestedBreaksScreen(
                                 Text(stringResource(R.string.upsell_action, suggestedBudget), style = MaterialTheme.typography.labelMedium)
                             }
                         }
-                    }
+                    } }
                 }
 
-                UiStatus.LOADING -> {
+                UiStatus.LOADING -> item(key = "loading") {
                     // Loading Skeleton View
                     Column(
                         modifier = Modifier.fillMaxWidth(),
@@ -386,7 +388,7 @@ fun SuggestedBreaksScreen(
                     }
                 }
 
-                UiStatus.EMPTY -> {
+                UiStatus.EMPTY -> item(key = "empty") {
                     // Empty State View
                     Column(
                         modifier = Modifier
@@ -445,7 +447,7 @@ fun SuggestedBreaksScreen(
                     }
                 }
 
-                UiStatus.ERROR -> {
+                UiStatus.ERROR -> item(key = "error") {
                     // Error view: holidays always fall back offline, so this means the calculation failed
                     Column(
                         modifier = Modifier
@@ -488,8 +490,6 @@ fun SuggestedBreaksScreen(
                     }
                 }
             }
-
-            Spacer(modifier = Modifier.height(30.dp))
         }
     }
 }

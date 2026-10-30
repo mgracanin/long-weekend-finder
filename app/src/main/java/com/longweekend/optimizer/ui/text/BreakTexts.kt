@@ -28,10 +28,24 @@ fun appLocale(): Locale = LocalConfiguration.current.locales[0]
 @ReadOnlyComposable
 fun Country.localName(): String = displayName(appLocale())
 
+/** Formatters are immutable and costly to build, so each pattern/locale pair is built once. */
+private val formatterCache = java.util.concurrent.ConcurrentHashMap<Pair<String, Locale>, DateTimeFormatter>()
+
+private fun formatter(pattern: String, locale: Locale): DateTimeFormatter =
+    formatterCache.getOrPut(pattern to locale) { DateTimeFormatter.ofPattern(pattern, locale) }
+
+/** Languages spoken per country, from the JVM's locale list (scanned once, not per label). */
+private val languagesByCountry: Map<String, Set<String>> by lazy {
+    Locale.getAvailableLocales()
+        .filter { it.country.isNotEmpty() }
+        .groupBy({ it.country.uppercase() }, { it.language })
+        .mapValues { it.value.toSet() }
+}
+
 @Composable
 @ReadOnlyComposable
 fun formatDate(date: LocalDate, patternRes: Int): String =
-    date.format(DateTimeFormatter.ofPattern(stringResource(patternRes), appLocale()))
+    date.format(formatter(stringResource(patternRes), appLocale()))
 
 @Composable
 @ReadOnlyComposable
@@ -64,7 +78,7 @@ fun shortWeekday(date: LocalDate): String =
 fun holidayLabel(englishName: String?, localName: String?, countryCode: String?): String {
     val language = appLocale().language
     val useLocal = localName != null && language != "en" && countryCode != null &&
-        Locale.getAvailableLocales().any { it.country.equals(countryCode, true) && it.language == language }
+        languagesByCountry[countryCode.uppercase()]?.contains(language) == true
     return (if (useLocal) localName else englishName).orEmpty()
 }
 

@@ -10,10 +10,10 @@ import com.longweekend.optimizer.ui.text.weekdayInitials
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -25,8 +25,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -77,15 +85,15 @@ fun HolidayCalendarScreen(
         },
         containerColor = SurfaceBg
     ) { padding ->
-        Column(
+        // Lazy so the month grids and holiday rows are built only as they scroll into view
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp, vertical = 12.dp),
+                .padding(padding),
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 36.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Card(
+            item(key = "pickers") { Card(
                 colors = CardDefaults.cardColors(containerColor = SurfaceLowest),
                 shape = RoundedCornerShape(18.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
@@ -109,35 +117,35 @@ fun HolidayCalendarScreen(
                         onYearSelected = viewModel::setYear
                     )
                 }
-            }
+            } }
 
             when {
-                uiStatus == UiStatus.LOADING && yearHolidays.isEmpty() -> StatusMessage(
+                uiStatus == UiStatus.LOADING && yearHolidays.isEmpty() -> item(key = "status") { StatusMessage(
                     icon = null,
                     title = stringResource(R.string.holidays_loading_title),
                     body = stringResource(R.string.holidays_loading_body, countryName, selectedYear)
-                )
-                uiStatus == UiStatus.ERROR -> StatusMessage(
+                ) }
+                uiStatus == UiStatus.ERROR -> item(key = "status") { StatusMessage(
                     icon = Icons.Default.ErrorOutline,
                     title = stringResource(R.string.holidays_error_title),
                     body = stringResource(R.string.holidays_error_body),
                     actionLabel = stringResource(R.string.action_try_again),
                     onAction = viewModel::refresh
-                )
-                isOfflineData && yearHolidays.isEmpty() -> StatusMessage(
+                ) }
+                isOfflineData && yearHolidays.isEmpty() -> item(key = "status") { StatusMessage(
                     icon = Icons.Default.CloudOff,
                     title = stringResource(R.string.holidays_offline_empty_title),
                     body = stringResource(R.string.holidays_offline_empty_body, countryName),
                     actionLabel = stringResource(R.string.action_retry),
                     onAction = viewModel::refresh
-                )
-                yearHolidays.isEmpty() -> StatusMessage(
+                ) }
+                yearHolidays.isEmpty() -> item(key = "status") { StatusMessage(
                     icon = Icons.Default.EventBusy,
                     title = stringResource(R.string.holidays_empty_title),
                     body = stringResource(R.string.holidays_empty_body, countryName, selectedYear)
-                )
+                ) }
                 else -> {
-                    if (isOfflineData) {
+                    if (isOfflineData) item(key = "offline") {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -160,15 +168,15 @@ fun HolidayCalendarScreen(
                         }
                     }
 
-                    Text(
+                    item(key = "summary") { Text(
                         text = stringResource(R.string.holidays_summary, yearHolidays.size, weekdayCount),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = TealPrimary
-                    )
+                    ) }
 
                     // Year at a glance: two months per row
-                    (1..12).chunked(2).forEach { months ->
+                    items((1..12).chunked(2), key = { "months_${it.first()}" }, contentType = { "months" }) { months ->
                         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                             months.forEach { month ->
                                 MiniMonth(
@@ -181,14 +189,16 @@ fun HolidayCalendarScreen(
                         }
                     }
 
-                    Legend()
+                    item(key = "legend") { Legend() }
 
-                    SectionLabel(icon = Icons.Default.EventNote, title = stringResource(R.string.holidays_all_in_year, selectedYear))
-                    yearHolidays.forEach { HolidayRow(it, selectedCountry.countryCode, weekend) }
+                    item(key = "list_label") {
+                        SectionLabel(icon = Icons.Default.EventNote, title = stringResource(R.string.holidays_all_in_year, selectedYear))
+                    }
+                    items(yearHolidays, key = { "${it.date}_${it.name}" }, contentType = { "holiday" }) {
+                        HolidayRow(it, selectedCountry.countryCode, weekend)
+                    }
                 }
             }
-
-            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }
@@ -264,54 +274,57 @@ private fun MiniMonth(
                     )
                 }
             }
-            for (week in 0 until (offset + days + 6) / 7) {
-                Row {
-                    for (col in 0..6) {
-                        val day = week * 7 + col - offset + 1
-                        Box(
-                            modifier = Modifier
-                                .weight(1f)
-                                .aspectRatio(1f)
-                                .padding(1.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            if (day in 1..days) {
-                                val date = yearMonth.atDay(day)
-                                val dayHolidays = holidays[date].orEmpty()
-                                val national = dayHolidays.any { it.global }
-                                val regionalOnly = dayHolidays.isNotEmpty() && !national
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .clip(RoundedCornerShape(4.dp))
-                                        .background(
-                                            when {
-                                                national -> AmberSecondaryContainer
-                                                date.dayOfWeek in weekend -> SurfaceContainer
-                                                else -> Color.Transparent
-                                            }
-                                        )
-                                        .then(
-                                            when {
-                                                regionalOnly -> Modifier.border(1.dp, AmberSecondaryContainer, RoundedCornerShape(4.dp))
-                                                date == today -> Modifier.border(1.dp, TealPrimary, RoundedCornerShape(4.dp))
-                                                else -> Modifier
-                                            }
-                                        ),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = "$day",
-                                        fontSize = 9.sp,
-                                        fontWeight = if (national) FontWeight.ExtraBold else FontWeight.Normal,
-                                        color = if (national) AmberOnSecondaryContainer else TextOnSurface
-                                    )
-                                }
+            // The day grid is drawn in one pass: twelve months of per-day boxes and texts would be
+            // hundreds of layout nodes, which makes the screen slow to build and to scroll
+            val textMeasurer = rememberTextMeasurer(cacheSize = 64)
+            val dayStyle = TextStyle(fontSize = 9.sp, color = TextOnSurface)
+            val holidayStyle = dayStyle.copy(fontWeight = FontWeight.ExtraBold, color = AmberOnSecondaryContainer)
+            val rows = (offset + days + 6) / 7
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(7f / rows)
+                    .drawBehind {
+                        val cell = size.width / 7
+                        val inset = 1.dp.toPx()
+                        val stroke = 1.dp.toPx()
+                        val radius = CornerRadius(4.dp.toPx())
+                        val box = Size(cell - 2 * inset, cell - 2 * inset)
+                        for (day in 1..days) {
+                            val index = offset + day - 1
+                            val topLeft = Offset((index % 7) * cell + inset, (index / 7) * cell + inset)
+                            val date = yearMonth.atDay(day)
+                            val dayHolidays = holidays[date].orEmpty()
+                            val national = dayHolidays.any { it.global }
+                            val background = when {
+                                national -> AmberSecondaryContainer
+                                date.dayOfWeek in weekend -> SurfaceContainer
+                                else -> null
                             }
+                            if (background != null) drawRoundRect(background, topLeft, box, radius)
+                            val outline = when {
+                                dayHolidays.isNotEmpty() && !national -> AmberSecondaryContainer
+                                date == today -> TealPrimary
+                                else -> null
+                            }
+                            if (outline != null) drawRoundRect(
+                                color = outline,
+                                topLeft = topLeft + Offset(stroke / 2, stroke / 2),
+                                size = Size(box.width - stroke, box.height - stroke),
+                                cornerRadius = radius,
+                                style = Stroke(stroke)
+                            )
+                            val label = textMeasurer.measure("$day", if (national) holidayStyle else dayStyle)
+                            drawText(
+                                label,
+                                topLeft = topLeft + Offset(
+                                    (box.width - label.size.width) / 2,
+                                    (box.height - label.size.height) / 2
+                                )
+                            )
                         }
                     }
-                }
-            }
+            )
         }
     }
 }

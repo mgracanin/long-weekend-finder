@@ -62,6 +62,13 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+        // Strong skipping lets composables with list/data-class parameters skip recomposition
+        // when their inputs are unchanged; the config file marks our read-only models as stable
+        freeCompilerArgs += listOf(
+            "-P", "plugin:androidx.compose.compiler.plugins.kotlin:experimentalStrongSkipping=true",
+            "-P", "plugin:androidx.compose.compiler.plugins.kotlin:stabilityConfigurationPath=" +
+                project.file("compose-stability.conf").absolutePath
+        )
     }
     buildFeatures {
         compose = true
@@ -100,6 +107,8 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.navigation:navigation-compose:2.7.7")
+    // Installs the baseline profile (src/main/baseline-prof.txt) on sideloaded installs too
+    implementation("androidx.profileinstaller:profileinstaller:1.3.1")
 
     // Networking & Serialization (2.11 / 2.11 ship the R8 rules release builds need)
     implementation("com.squareup.retrofit2:retrofit:2.11.0")

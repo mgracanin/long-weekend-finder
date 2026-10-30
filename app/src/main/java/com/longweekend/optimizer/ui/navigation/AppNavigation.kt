@@ -1,5 +1,8 @@
 package com.longweekend.optimizer.ui.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -195,7 +198,12 @@ fun AppNavigation(
             // Consume what this scaffold already padded so the screens' own scaffolds don't pad it again
             modifier = Modifier
                 .padding(innerPadding)
-                .consumeWindowInsets(innerPadding)
+                .consumeWindowInsets(innerPadding),
+            // The library default is a 700 ms crossfade, which makes every tap feel sluggish
+            enterTransition = { fadeIn(tween(SCREEN_FADE_IN_MS)) },
+            exitTransition = { fadeOut(tween(SCREEN_FADE_OUT_MS)) },
+            popEnterTransition = { fadeIn(tween(SCREEN_FADE_IN_MS)) },
+            popExitTransition = { fadeOut(tween(SCREEN_FADE_OUT_MS)) }
         ) {
             composable(Screen.Discover.route) {
                 FindABreakScreen(
@@ -267,3 +275,6 @@ fun AppNavigation(
         }
     }
 }
+
+private const val SCREEN_FADE_IN_MS = 220
+private const val SCREEN_FADE_OUT_MS = 120

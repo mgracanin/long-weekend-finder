@@ -11,10 +11,10 @@ import com.longweekend.optimizer.ui.text.title
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -51,15 +51,15 @@ fun SavedPlansScreen(
         },
         containerColor = SurfaceBg
     ) { padding ->
-        Column(
+        // Lazy so a long list of saved plans composes only what is on screen
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp, vertical = 12.dp),
+                .padding(padding),
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 42.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Row(
+            item(key = "heading") { Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
@@ -68,7 +68,9 @@ fun SavedPlansScreen(
                     text = stringResource(R.string.saved_heading),
                     style = MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.ExtraBold,
-                    color = TealPrimary
+                    color = TealPrimary,
+                    // A long heading wraps instead of squeezing the counter pill
+                    modifier = Modifier.weight(1f, fill = false).padding(end = 8.dp)
                 )
                 Box(
                     modifier = Modifier
@@ -80,12 +82,13 @@ fun SavedPlansScreen(
                         text = stringResource(R.string.saved_count, savedPlans.size),
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold,
-                        color = AmberOnSecondaryFixed
+                        color = AmberOnSecondaryFixed,
+                        maxLines = 1
                     )
                 }
-            }
+            } }
 
-            if (savedPlans.isEmpty()) {
+            if (savedPlans.isEmpty()) item(key = "empty") {
                 // Empty saved state
                 Column(
                     modifier = Modifier
@@ -128,7 +131,7 @@ fun SavedPlansScreen(
                     }
                 }
             } else {
-                savedPlans.forEach { plan ->
+                items(savedPlans, key = { it.opportunity.id }, contentType = { "plan" }) { plan ->
                     val opp = plan.opportunity
                     Card(
                         colors = CardDefaults.cardColors(containerColor = SurfaceLowest),
@@ -253,8 +256,6 @@ fun SavedPlansScreen(
                     }
                 }
             }
-
-            Spacer(modifier = Modifier.height(30.dp))
         }
     }
 }
