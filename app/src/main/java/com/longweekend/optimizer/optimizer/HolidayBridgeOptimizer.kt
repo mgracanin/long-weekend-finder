@@ -67,7 +67,6 @@ object HolidayBridgeOptimizer {
 
                     // Count leave days, holidays, weekends
                     var leaveDaysCount = 0
-                    var holidayCount = 0
                     var weekdayHolidayCount = 0
                     val dayItems = mutableListOf<DayStripItem>()
 
@@ -77,7 +76,7 @@ object HolidayBridgeOptimizer {
 
                         val dayType = when {
                             holiday != null -> {
-                                holidayCount++
+                                // A holiday on a weekend is still shown, but it saves no leave
                                 if (!isWeekend(curr)) weekdayHolidayCount++
                                 DayType.PUBLIC_HOLIDAY
                             }
@@ -120,7 +119,8 @@ object HolidayBridgeOptimizer {
                             id = "opp_${start}_${end}_$leaveDaysCount",
                             totalDays = windowDays,
                             leaveDays = leaveDaysCount,
-                            publicHolidaysCount = holidayCount,
+                            // Only holidays that replace a working day, so leave + holidays + weekend days = total
+                            publicHolidaysCount = weekdayHolidayCount,
                             startDate = start,
                             endDate = end,
                             days = dayItems

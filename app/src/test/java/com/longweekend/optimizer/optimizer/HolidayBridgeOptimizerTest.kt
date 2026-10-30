@@ -1,7 +1,9 @@
 package com.longweekend.optimizer.optimizer
 
+import com.longweekend.optimizer.model.DayType
 import com.longweekend.optimizer.model.PublicHoliday
 import com.longweekend.optimizer.model.WorkWeek
+import com.longweekend.optimizer.repository.OfflineHolidayCalendar
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -109,6 +111,29 @@ class HolidayBridgeOptimizerTest {
             }
             assertTrue("${a.id} is dominated by ${dominator?.id}", dominator == null)
         }
+    }
+
+    @Test
+    fun easter2027Croatia_weekendHolidayIsNotCountedAsSavingLeave() {
+        // Easter Sunday 28 Mar 2027 is a holiday on a weekend; only Easter Monday (29 Mar) saves leave.
+        // Sat 27 Mar – Sun 4 Apr: leave Tue 30 Mar – Fri 2 Apr (4 days) for 9 days off
+        val holidays = OfflineHolidayCalendar.holidays("HR", 2027) + OfflineHolidayCalendar.holidays("HR", 2028)
+        val result = HolidayBridgeOptimizer.generateOpportunities(holidays = holidays, year = 2027, leaveBudget = 4)
+        val easter = result.single { it.startDate == LocalDate.of(2027, 3, 27) }
+
+        assertEquals(LocalDate.of(2027, 4, 4), easter.endDate)
+        assertEquals(9, easter.totalDays)
+        assertEquals(4, easter.leaveDays)
+        assertEquals(1, easter.publicHolidaysCount)
+        assertEquals(
+            listOf(30, 31, 1, 2),
+            easter.days.filter { it.type == DayType.ANNUAL_LEAVE }.map { it.date.dayOfMonth }
+        )
+        // Easter Sunday is still shown as a holiday in the day strip
+        assertEquals(DayType.PUBLIC_HOLIDAY, easter.days.single { it.date == LocalDate.of(2027, 3, 28) }.type)
+        // Every day is leave, a weekend day or a holiday that falls on a working day
+        val weekendDays = easter.days.count { it.date.dayOfWeek in WorkWeek.weekend(DayOfWeek.MONDAY) }
+        assertEquals(easter.totalDays, easter.leaveDays + easter.publicHolidaysCount + weekendDays)
     }
 
     @Test

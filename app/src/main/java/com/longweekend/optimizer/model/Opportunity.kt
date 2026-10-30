@@ -10,6 +10,7 @@ data class Opportunity(
     val id: String,
     val totalDays: Int,
     val leaveDays: Int,
+    /** Holidays on working days, i.e. the ones that save leave (a holiday on a Sunday does not). */
     val publicHolidaysCount: Int,
     val startDate: LocalDate,
     val endDate: LocalDate,
