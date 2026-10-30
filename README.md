@@ -42,12 +42,14 @@ Croatia, Christmas 2026: book **5 days** of leave and you are off for **11 days 
 
 🟩 annual leave &nbsp;·&nbsp; 🟧 public holiday &nbsp;·&nbsp; ⬜ weekend
 
+St Stephen's Day falls on a Saturday that year, so the app counts only the two weekday holidays as saving leave: 5 leave + 2 holidays + 4 weekend days = 11.
+
 ## Features
 
 - 🧭 **Discover**: pick a country, a year and how many leave days you want to spend, and see the best bridges straight away.
-- 📋 **Suggested breaks**: every useful combination, sorted by longest break, fewest leave days or soonest date, with a day-by-day strip.
+- 📋 **Suggested breaks**: every useful combination, sorted by longest break, fewest leave days or soonest date, with a day-by-day strip and how many extra days you gain.
 - 🗓️ **Plan details**: month calendars, the exact dates to request from HR with a checklist, copy to clipboard and add to Google Calendar.
-- 📤 **Share a plan** by e-mail, WhatsApp, Viber or any other app: the dates to request, the holidays and what you gain, as readable text.
+- 📤 **Share a plan** from Plan details or Saved, by e-mail, WhatsApp, Viber or any other app: the dates to request, the holidays and what you gain, as readable text.
 - 🌍 **Public holidays**: the whole year at a glance for 204 countries, national and regional.
 - 🔖 **Saved plans**: keep the breaks you like and tick off each day as your employer approves it.
 - 🗂️ **Your working week**: Monday–Friday or Sunday–Thursday, set from your country automatically.
@@ -102,6 +104,8 @@ Holidays come from the free [Nager.Date](https://date.nager.at) public holidays 
 - need at least one leave day, within your budget,
 - include a holiday that falls on a working day.
 
+A holiday on a weekend is still shown in the break, but it isn't counted as saving leave, because that day was off anyway.
+
 It then drops any break that an overlapping one beats on both leave cost and length. The bridge-finding code is in [`HolidayBridgeOptimizer.kt`](app/src/main/java/com/longweekend/optimizer/optimizer/HolidayBridgeOptimizer.kt) and is covered by unit tests.
 
 ## Build from source
@@ -152,7 +156,7 @@ app/src/main/java/com/longweekend/optimizer/
 ├── optimizer/    HolidayBridgeOptimizer: the bridge-finding algorithm
 ├── repository/   holiday API, cache, offline calendars, settings, saved plans
 ├── viewmodel/    MainViewModel
-└── ui/           Compose screens, components, themes and text formatting
+└── ui/           Compose screens, components, themes, plan sharing and text formatting
 ```
 
 ## Contributing
