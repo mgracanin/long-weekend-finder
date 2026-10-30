@@ -281,6 +281,11 @@
     <string name="planned_over">Prekoračenje broja dana: %d</string>
     <string name="planned_warning">U spremljenim planovima predviđeno je više dana godišnjeg odmora nego što ih imate na raspolaganju.</string>
     <string name="action_reset_defaults">Vrati zadane postavke</string>
+    <string name="label_appearance">Izgled</string>
+    <string name="label_appearance_hint">Prema postavci telefona ili uvijek svijetla odnosno tamna tema.</string>
+    <string name="theme_system">Prema postavci telefona</string>
+    <string name="theme_light">Svijetla</string>
+    <string name="theme_dark">Tamna</string>
     <string name="label_language">Jezik</string>
     <string name="label_language_hint">Jezik aplikacije</string>
     <string name="language_system">Jezik sustava</string>

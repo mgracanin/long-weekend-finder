@@ -9,6 +9,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import java.time.DayOfWeek
 import java.util.Locale
 
+/** Light/dark appearance; SYSTEM follows the phone's dark-theme setting. */
+enum class ThemeMode { SYSTEM, LIGHT, DARK }
+
 /** User profile settings, persisted in SharedPreferences. */
 class SettingsRepository private constructor(context: Context) {
 
@@ -34,6 +37,11 @@ class SettingsRepository private constructor(context: Context) {
             .getOrNull()?.takeIf { it in WorkWeek.OPTIONS } ?: WorkWeek.defaultFor(_defaultCountryCode.value)
     )
     val firstWorkday: StateFlow<DayOfWeek> = _firstWorkday.asStateFlow()
+
+    private val _themeMode = MutableStateFlow(
+        runCatching { ThemeMode.valueOf(prefs.getString(KEY_THEME_MODE, null)!!) }.getOrDefault(ThemeMode.SYSTEM)
+    )
+    val themeMode: StateFlow<ThemeMode> = _themeMode.asStateFlow()
 
     private val _onboardingDone = MutableStateFlow(prefs.getBoolean(KEY_ONBOARDING_DONE, false))
     val onboardingDone: StateFlow<Boolean> = _onboardingDone.asStateFlow()
@@ -61,6 +69,11 @@ class SettingsRepository private constructor(context: Context) {
         prefs.edit().putString(KEY_FIRST_WORKDAY, day.name).apply()
     }
 
+    fun setThemeMode(mode: ThemeMode) {
+        _themeMode.value = mode
+        prefs.edit().putString(KEY_THEME_MODE, mode.name).apply()
+    }
+
     fun setOnboardingDone(done: Boolean) {
         _onboardingDone.value = done
         prefs.edit().putBoolean(KEY_ONBOARDING_DONE, done).apply()
@@ -82,6 +95,7 @@ class SettingsRepository private constructor(context: Context) {
         private const val KEY_DEFAULT_COUNTRY = "default_country"
         private const val KEY_ONBOARDING_DONE = "onboarding_done"
         private const val KEY_FIRST_WORKDAY = "first_workday"
+        private const val KEY_THEME_MODE = "theme_mode"
 
         @Volatile
         private var instance: SettingsRepository? = null

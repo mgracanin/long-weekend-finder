@@ -268,6 +268,11 @@
     <string name="planned_over">%d over</string>
     <string name="planned_warning">Your saved plans use more leave than your allowance.</string>
     <string name="action_reset_defaults">Reset to defaults</string>
+    <string name="label_appearance">Appearance</string>
+    <string name="label_appearance_hint">Follow the phone, or always use a light or dark theme.</string>
+    <string name="theme_system">Same as phone</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
     <string name="label_language">Language</string>
     <string name="label_language_hint">App language</string>
     <string name="language_system">System default</string>

@@ -2,6 +2,8 @@
 
 package com.longweekend.optimizer.ui.screens.profile
 
+import com.longweekend.optimizer.repository.ThemeMode
+import com.longweekend.optimizer.ui.theme.applyNightMode
 import java.time.DayOfWeek
 import com.longweekend.optimizer.model.WorkWeek
 import android.content.ActivityNotFoundException
@@ -58,6 +60,7 @@ fun ProfileScreen(
     val selectedYear by viewModel.selectedYear.collectAsState()
     val savedPlans by viewModel.savedPlans.collectAsState()
     val firstWorkday by viewModel.firstWorkday.collectAsState()
+    val themeMode by viewModel.themeMode.collectAsState()
 
     val plannedDays = viewModel.plannedLeaveDays(savedPlans, selectedYear)
     val remainingDays = annualAllowance - plannedDays
@@ -196,6 +199,14 @@ fun ProfileScreen(
 
             LanguageCard()
 
+            AppearanceCard(
+                selected = themeMode,
+                onSelect = { mode ->
+                    viewModel.setThemeMode(mode)
+                    mode.applyNightMode()
+                }
+            )
+
             TextButton(
                 onClick = viewModel::resetProfile,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -240,6 +251,45 @@ private fun WorkWeekCard(selected: DayOfWeek, onSelect: (DayOfWeek) -> Unit) {
                 Spacer(Modifier.width(8.dp))
                 Text(
                     text = stringResource(if (day == DayOfWeek.SUNDAY) R.string.workweek_sunday else R.string.workweek_monday),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = TextOnSurface
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun AppearanceCard(selected: ThemeMode, onSelect: (ThemeMode) -> Unit) {
+    SettingsCard {
+        SectionLabel(
+            icon = Icons.Default.Contrast,
+            title = stringResource(R.string.label_appearance),
+            subtitle = stringResource(R.string.label_appearance_hint)
+        )
+        ThemeMode.values().forEach { mode ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(10.dp))
+                    .clickable { if (mode != selected) onSelect(mode) }
+                    .padding(vertical = 2.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RadioButton(
+                    selected = mode == selected,
+                    onClick = null,
+                    colors = RadioButtonDefaults.colors(selectedColor = TealPrimary)
+                )
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    text = stringResource(
+                        when (mode) {
+                            ThemeMode.SYSTEM -> R.string.theme_system
+                            ThemeMode.LIGHT -> R.string.theme_light
+                            ThemeMode.DARK -> R.string.theme_dark
+                        }
+                    ),
                     style = MaterialTheme.typography.bodyLarge,
                     color = TextOnSurface
                 )

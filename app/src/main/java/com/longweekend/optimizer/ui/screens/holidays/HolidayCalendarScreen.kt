@@ -280,6 +280,10 @@ private fun MiniMonth(
             val dayStyle = TextStyle(fontSize = 9.sp, color = TextOnSurface)
             val holidayStyle = dayStyle.copy(fontWeight = FontWeight.ExtraBold, color = AmberOnSecondaryContainer)
             val rows = (offset + days + 6) / 7
+            // Theme colours are read here; the draw block below is not composable
+            val holidayColor = AmberSecondaryContainer
+            val weekendColor = SurfaceContainer
+            val todayColor = TealPrimary
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -297,14 +301,14 @@ private fun MiniMonth(
                             val dayHolidays = holidays[date].orEmpty()
                             val national = dayHolidays.any { it.global }
                             val background = when {
-                                national -> AmberSecondaryContainer
-                                date.dayOfWeek in weekend -> SurfaceContainer
+                                national -> holidayColor
+                                date.dayOfWeek in weekend -> weekendColor
                                 else -> null
                             }
                             if (background != null) drawRoundRect(background, topLeft, box, radius)
                             val outline = when {
-                                dayHolidays.isNotEmpty() && !national -> AmberSecondaryContainer
-                                date == today -> TealPrimary
+                                dayHolidays.isNotEmpty() && !national -> holidayColor
+                                date == today -> todayColor
                                 else -> null
                             }
                             if (outline != null) drawRoundRect(

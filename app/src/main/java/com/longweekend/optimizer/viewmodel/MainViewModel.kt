@@ -11,6 +11,7 @@ import com.longweekend.optimizer.model.WorkWeek
 import com.longweekend.optimizer.optimizer.HolidayBridgeOptimizer
 import com.longweekend.optimizer.repository.HolidayRepository
 import com.longweekend.optimizer.repository.SettingsRepository
+import com.longweekend.optimizer.repository.ThemeMode
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -55,6 +56,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val defaultLeaveBudget: StateFlow<Int> = settings.defaultLeaveBudget
     val onboardingDone: StateFlow<Boolean> = settings.onboardingDone
     val firstWorkday: StateFlow<DayOfWeek> = settings.firstWorkday
+    val themeMode: StateFlow<ThemeMode> = settings.themeMode
 
     val defaultCountry: StateFlow<Country> = settings.defaultCountryCode
         .map(::countryFor)
@@ -185,6 +187,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         if (day == firstWorkday.value) return
         settings.setFirstWorkday(day)
         searchBreaks()
+    }
+
+    fun setThemeMode(mode: ThemeMode) {
+        settings.setThemeMode(mode)
     }
 
     fun resetFilters() {
