@@ -52,6 +52,7 @@ St Stephen's Day falls on a Saturday that year, so the app counts only the two w
 - 📤 **Share a plan** from Plan details or Saved, by e-mail, WhatsApp, Viber or any other app: the dates to request, the holidays and what you gain, as readable text.
 - 🌍 **Public holidays**: the whole year at a glance for 204 countries, national and regional.
 - 🔖 **Saved plans**: keep the breaks you like and tick off each day as your employer approves it.
+- 📄 **Year report (PDF)**: all saved breaks for a year in one document, with leave used against your allowance, a year calendar and warnings for overlaps or overspending. Share it, save it or print it.
 - 🗂️ **Your working week**: Monday–Friday or Sunday–Thursday, set from your country automatically.
 - 🌗 **Light, dark and black (OLED) themes**: follows your phone, or pick one yourself.
 - 🇬🇧 🇭🇷 **English and Croatian**, switchable in the app.

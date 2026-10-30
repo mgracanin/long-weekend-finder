@@ -19,6 +19,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -39,10 +41,15 @@ fun LongWeekendTopBar(
     onBackClick: () -> Unit = {},
     onProfileClick: (() -> Unit)? = null
 ) {
+    // A hairline under the bar instead of a shadow
+    val divider = CardBorder
     Surface(
         color = SurfaceLowest.copy(alpha = 0.95f),
-        shadowElevation = 2.dp,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .drawBehind {
+                drawLine(divider, Offset(0f, size.height), Offset(size.width, size.height), 1.dp.toPx())
+            }
     ) {
         Row(
             modifier = Modifier
@@ -122,12 +129,12 @@ fun LongWeekendTopBar(
                     modifier = Modifier
                         .size(40.dp)
                         .clip(CircleShape)
-                        .background(TealPrimary)
+                        .background(SelectedFill)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Person,
                         contentDescription = stringResource(R.string.cd_profile),
-                        tint = TealOnPrimary,
+                        tint = OnSelectedFill,
                         modifier = Modifier.size(20.dp)
                     )
                 }

@@ -1,5 +1,6 @@
 package com.longweekend.optimizer.ui.screens.holidays
 
+import androidx.compose.foundation.BorderStroke
 import com.longweekend.optimizer.model.WorkWeek
 import androidx.compose.ui.res.stringResource
 import com.longweekend.optimizer.R
@@ -96,7 +97,7 @@ fun HolidayCalendarScreen(
             item(key = "pickers") { Card(
                 colors = CardDefaults.cardColors(containerColor = SurfaceLowest),
                 shape = RoundedCornerShape(18.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                border = BorderStroke(1.dp, CardBorder),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(

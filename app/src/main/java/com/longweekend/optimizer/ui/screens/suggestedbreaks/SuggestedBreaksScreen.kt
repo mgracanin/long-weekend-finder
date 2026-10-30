@@ -2,6 +2,7 @@
 
 package com.longweekend.optimizer.ui.screens.suggestedbreaks
 
+import androidx.compose.foundation.BorderStroke
 import java.time.DayOfWeek
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.res.pluralStringResource
@@ -86,7 +87,7 @@ fun SuggestedBreaksScreen(
             item(key = "summary", contentType = "summary") { Card(
                 colors = CardDefaults.cardColors(containerColor = SurfaceLowest),
                 shape = RoundedCornerShape(14.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+                border = BorderStroke(1.dp, CardBorder),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(
@@ -496,8 +497,9 @@ private fun SortChip(
         modifier = Modifier
             .clip(CircleShape)
             .clickable(onClick = onClick),
-        color = if (isSelected) TealPrimary else SurfaceLowest,
-        shadowElevation = 1.dp
+        color = if (isSelected) SelectedFill else SurfaceLowest,
+        border = if (isSelected) null else BorderStroke(1.dp, CardBorder),
+        shape = CircleShape
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
@@ -507,14 +509,14 @@ private fun SortChip(
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = if (isSelected) TealOnPrimary else TextOnSurfaceVariant,
+                tint = if (isSelected) OnSelectedFill else TextOnSurfaceVariant,
                 modifier = Modifier.size(16.dp)
             )
             Text(
                 text = label,
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                color = if (isSelected) TealOnPrimary else TextOnSurfaceVariant
+                color = if (isSelected) OnSelectedFill else TextOnSurfaceVariant
             )
         }
     }
@@ -529,7 +531,7 @@ private fun OpportunityFeedCard(
     Card(
         colors = CardDefaults.cardColors(containerColor = SurfaceLowest),
         shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        border = BorderStroke(1.dp, CardBorder),
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(

@@ -2,6 +2,7 @@
 
 package com.longweekend.optimizer.ui.screens.profile
 
+import androidx.compose.foundation.BorderStroke
 import com.longweekend.optimizer.repository.ThemeMode
 import com.longweekend.optimizer.ui.theme.applyNightMode
 import java.time.DayOfWeek
@@ -425,7 +426,7 @@ private fun SettingsCard(content: @Composable ColumnScope.() -> Unit) {
     Card(
         colors = CardDefaults.cardColors(containerColor = SurfaceLowest),
         shape = RoundedCornerShape(18.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        border = BorderStroke(1.dp, CardBorder),
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(

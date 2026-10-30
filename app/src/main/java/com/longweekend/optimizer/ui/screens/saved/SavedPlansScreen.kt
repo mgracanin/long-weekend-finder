@@ -1,5 +1,14 @@
 package com.longweekend.optimizer.ui.screens.saved
 
+import android.widget.Toast
+import androidx.compose.runtime.rememberCoroutineScope
+import com.longweekend.optimizer.ui.report.yearReport
+import com.longweekend.optimizer.ui.report.shareYearReport
+import com.longweekend.optimizer.ui.report.writeYearReport
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import androidx.compose.foundation.BorderStroke
 import com.longweekend.optimizer.ui.share.planShare
 import com.longweekend.optimizer.ui.share.sharePlan
 import com.longweekend.optimizer.model.Country
@@ -44,6 +53,31 @@ fun SavedPlansScreen(
 ) {
     val savedPlans by viewModel.savedPlans.collectAsState()
     val context = LocalContext.current
+    val allowance by viewModel.annualAllowance.collectAsState()
+    val firstWorkday by viewModel.firstWorkday.collectAsState()
+    val scope = rememberCoroutineScope()
+
+    // One report per year that has saved plans; worded now, holidays loaded when it is made
+    val plansByYear = savedPlans.groupBy { it.opportunity.startDate.year }.toSortedMap()
+    val reports = plansByYear.mapValues { (year, plans) ->
+        val code = plans.groupingBy { it.opportunity.countryCode.orEmpty() }.eachCount().maxByOrNull { it.value }?.key.orEmpty()
+        val countryName = Country.forCode(code)?.localName() ?: plans.first().opportunity.countryName.orEmpty()
+        code to yearReport(year, plans, countryName, allowance, firstWorkday)
+    }
+    val chooserTitle = stringResource(R.string.report_chooser_title)
+    val failedMessage = stringResource(R.string.report_failed)
+    var pickYear by remember { mutableStateOf(false) }
+    val makeReport: (Int) -> Unit = { year ->
+        val (code, report) = reports.getValue(year)
+        scope.launch {
+            runCatching {
+                val holidays = runCatching { viewModel.publicHolidayDates(code, year) }.getOrDefault(emptySet())
+                val full = report.copy(publicHolidays = report.publicHolidays + holidays)
+                val file = withContext(Dispatchers.IO) { context.writeYearReport(full) }
+                context.shareYearReport(file, full, chooserTitle)
+            }.onFailure { Toast.makeText(context, failedMessage, Toast.LENGTH_SHORT).show() }
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -56,6 +90,23 @@ fun SavedPlansScreen(
         },
         containerColor = SurfaceBg
     ) { padding ->
+        if (pickYear) {
+            AlertDialog(
+                onDismissRequest = { pickYear = false },
+                title = { Text(stringResource(R.string.report_pick_year)) },
+                text = {
+                    Column {
+                        reports.keys.forEach { year ->
+                            TextButton(onClick = { pickYear = false; makeReport(year) }) {
+                                Text("$year", style = MaterialTheme.typography.titleMedium, color = TealPrimary)
+                            }
+                        }
+                    }
+                },
+                confirmButton = {},
+                dismissButton = { TextButton(onClick = { pickYear = false }) { Text(stringResource(android.R.string.cancel)) } }
+            )
+        }
         // Lazy so a long list of saved plans composes only what is on screen
         LazyColumn(
             modifier = Modifier
@@ -65,6 +116,17 @@ fun SavedPlansScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             // The plan count is already in the top bar
+            if (reports.isNotEmpty()) item(key = "report") {
+                OutlinedButton(
+                    onClick = { if (reports.size > 1) pickYear = true else makeReport(reports.keys.first()) },
+                    border = BorderStroke(1.dp, CardBorder),
+                    shape = CircleShape
+                ) {
+                    Icon(Icons.Default.PictureAsPdf, contentDescription = null, tint = TealPrimary, modifier = Modifier.size(18.dp))
+                    Spacer(Modifier.width(8.dp))
+                    Text(stringResource(R.string.report_action), color = TealPrimary, style = MaterialTheme.typography.labelLarge)
+                }
+            }
             item(key = "heading") {
                 Text(
                     text = stringResource(R.string.saved_heading),
@@ -122,7 +184,7 @@ fun SavedPlansScreen(
                     Card(
                         colors = CardDefaults.cardColors(containerColor = SurfaceLowest),
                         shape = RoundedCornerShape(16.dp),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                        border = BorderStroke(1.dp, CardBorder),
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Column(

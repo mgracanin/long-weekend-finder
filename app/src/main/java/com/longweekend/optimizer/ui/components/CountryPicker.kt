@@ -1,5 +1,6 @@
 package com.longweekend.optimizer.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -88,6 +89,58 @@ fun CountryPicker(
                 onCountrySelected(it)
                 showDialog = false
             }
+        )
+    }
+}
+
+/** Compact pill with the selected country's flag and name; tapping opens the same searchable list. */
+@Composable
+fun CountryChip(
+    selected: Country,
+    countries: List<Country>,
+    onCountrySelected: (Country) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var showDialog by remember { mutableStateOf(false) }
+    val locale = appLocale()
+    PillButton(onClick = { showDialog = true }, modifier = modifier) {
+        Text(selected.flagEmoji, fontSize = 15.sp)
+        Text(
+            text = selected.displayName(locale),
+            style = MaterialTheme.typography.labelLarge,
+            color = TextOnSurface,
+            maxLines = 1
+        )
+        Icon(Icons.Default.ExpandMore, contentDescription = null, tint = TextOnSurfaceVariant, modifier = Modifier.size(18.dp))
+    }
+    if (showDialog) {
+        CountrySearchDialog(
+            selected = selected,
+            countries = countries,
+            onDismiss = { showDialog = false },
+            onCountrySelected = {
+                onCountrySelected(it)
+                showDialog = false
+            }
+        )
+    }
+}
+
+/** Outlined pill used for the compact pickers on Discover. */
+@Composable
+fun PillButton(onClick: () -> Unit, modifier: Modifier = Modifier, content: @Composable RowScope.() -> Unit) {
+    Surface(
+        onClick = onClick,
+        shape = RoundedCornerShape(50),
+        color = SurfaceLowest,
+        border = BorderStroke(1.dp, CardBorder),
+        modifier = modifier
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 7.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+            content = content
         )
     }
 }

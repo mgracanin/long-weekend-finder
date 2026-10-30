@@ -1,5 +1,8 @@
 package com.longweekend.optimizer.ui.components
 
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.ui.res.stringResource
 import com.longweekend.optimizer.R
 import androidx.compose.foundation.background
@@ -131,5 +134,40 @@ private fun YearItem(
             style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp, fontWeight = FontWeight.Bold),
             color = if (isSelected) AmberSecondary else TextOnSurfaceVariant.copy(alpha = 0.7f)
         )
+    }
+}
+
+/** Compact pill with the selected year; tapping opens a short list of nearby years. */
+@Composable
+fun YearChip(
+    selectedYear: Int,
+    currentYear: Int,
+    onYearSelected: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    yearsAround: Int = 10
+) {
+    var expanded by remember { mutableStateOf(false) }
+    Box(modifier = modifier) {
+        PillButton(onClick = { expanded = true }) {
+            Text("$selectedYear", style = MaterialTheme.typography.labelLarge, color = TextOnSurface)
+            Icon(Icons.Default.ExpandMore, contentDescription = null, tint = TextOnSurfaceVariant, modifier = Modifier.size(18.dp))
+        }
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            ((currentYear - yearsAround)..(currentYear + yearsAround)).forEach { year ->
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            "$year",
+                            fontWeight = if (year == selectedYear) FontWeight.Bold else FontWeight.Normal,
+                            color = if (year == selectedYear) TealPrimary else TextOnSurface
+                        )
+                    },
+                    onClick = {
+                        expanded = false
+                        onYearSelected(year)
+                    }
+                )
+            }
+        }
     }
 }

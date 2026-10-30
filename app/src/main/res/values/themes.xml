@@ -4,5 +4,5 @@
     <style name="Theme.LongWeekend" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/window_background</item>
     </style>
-    <color name="window_background">#F9F9FF</color>
+    <color name="window_background">#F7F8F6</color>
 </resources>

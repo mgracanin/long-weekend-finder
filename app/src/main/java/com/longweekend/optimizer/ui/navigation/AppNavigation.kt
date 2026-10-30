@@ -22,6 +22,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -79,9 +81,14 @@ fun AppNavigation(
         contentWindowInsets = WindowInsets.navigationBars,
         bottomBar = {
             if (showBottomBar) {
+                // Flat bar with a hairline on top, matching the cards
+                val divider = CardBorder
                 NavigationBar(
                     containerColor = SurfaceLowest,
-                    tonalElevation = 8.dp,
+                    tonalElevation = 0.dp,
+                    modifier = Modifier.drawBehind {
+                        drawLine(divider, Offset(0f, 0f), Offset(size.width, 0f), 1.dp.toPx())
+                    }
                 ) {
                     val isDiscover = currentRoute == Screen.Discover.route
                     NavigationBarItem(

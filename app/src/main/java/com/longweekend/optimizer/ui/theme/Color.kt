@@ -48,40 +48,52 @@ data class AppColors(
     val onHighlightFill: Color,
     val onHighlightFillMuted: Color,
     val highlightAccent: Color,
+    // Selected chips and options: a tonal fill, not a heavy solid block
+    val selectedFill: Color,
+    val onSelectedFill: Color,
+    // Hairline around cards; replaces drop shadows
+    val cardBorder: Color,
     val isDark: Boolean
 )
 
+/**
+ * Light theme: a calm, neutral base. Large areas stay pale (selected options are tonal, holidays
+ * are a soft apricot), and only one primary action per screen uses the solid teal.
+ */
 val LightAppColors = AppColors(
-    tealPrimary = Color(0xFF003733),
-    tealPrimaryContainer = Color(0xFF0B4F4A),
+    tealPrimary = Color(0xFF1F5C55),
+    tealPrimaryContainer = Color(0xFF2E6F68),
     tealOnPrimary = Color(0xFFFFFFFF),
-    tealOnPrimaryContainer = Color(0xFF84BFB8),
-    tealPrimaryFixed = Color(0xFFB2EEE7),
-    tealPrimaryFixedDim = Color(0xFF96D2CB),
-    tealOnPrimaryFixed = Color(0xFF00201D),
-    amberSecondary = Color(0xFF855300),
-    amberSecondaryContainer = Color(0xFFFEA619),
-    amberOnSecondaryContainer = Color(0xFF684000),
-    amberSecondaryFixed = Color(0xFFFFDDB8),
-    amberOnSecondaryFixed = Color(0xFF2A1700),
+    tealOnPrimaryContainer = Color(0xFFCFEBE6),
+    tealPrimaryFixed = Color(0xFFDDF0EC),
+    tealPrimaryFixedDim = Color(0xFFBFE2DB),
+    tealOnPrimaryFixed = Color(0xFF123F3A),
+    amberSecondary = Color(0xFF8A5A00),
+    amberSecondaryContainer = Color(0xFFFCE3B4),
+    amberOnSecondaryContainer = Color(0xFF5C3A00),
+    amberSecondaryFixed = Color(0xFFFDF0DA),
+    amberOnSecondaryFixed = Color(0xFF4A2F00),
     amberOnSecondary = Color(0xFFFFFFFF),
-    surfaceBg = Color(0xFFF9F9FF),
+    surfaceBg = Color(0xFFF7F8F6),
     surfaceLowest = Color(0xFFFFFFFF),
-    surfaceContainerLow = Color(0xFFF0F3FF),
-    surfaceContainer = Color(0xFFE7EEFF),
-    surfaceContainerHigh = Color(0xFFDEE8FF),
-    surfaceContainerHighest = Color(0xFFD8E3FB),
-    textOnSurface = Color(0xFF111C2D),
-    textOnSurfaceVariant = Color(0xFF3F4947),
-    outlineVariant = Color(0xFFBFC8C6),
-    outline = Color(0xFF707977),
-    error = Color(0xFFBA1A1A),
-    errorContainer = Color(0xFFFFDAD6),
-    onErrorContainer = Color(0xFF93000A),
-    highlightFill = Color(0xFF003733),
-    onHighlightFill = Color(0xFFFFFFFF),
-    onHighlightFillMuted = Color(0xFF84BFB8),
-    highlightAccent = Color(0xFFB2EEE7),
+    surfaceContainerLow = Color(0xFFF3F5F4),
+    surfaceContainer = Color(0xFFEDF0EF),
+    surfaceContainerHigh = Color(0xFFE6EAE9),
+    surfaceContainerHighest = Color(0xFFDFE4E3),
+    textOnSurface = Color(0xFF1C2422),
+    textOnSurfaceVariant = Color(0xFF55605E),
+    outlineVariant = Color(0xFFD5DBD9),
+    outline = Color(0xFF7A8482),
+    error = Color(0xFFB3261E),
+    errorContainer = Color(0xFFFCE4E1),
+    onErrorContainer = Color(0xFF8C1D18),
+    highlightFill = Color(0xFFCDEBE5),
+    onHighlightFill = Color(0xFF123F3A),
+    onHighlightFillMuted = Color(0xFF2E6F68),
+    highlightAccent = Color(0xFF1F5C55),
+    selectedFill = Color(0xFFDDF0EC),
+    onSelectedFill = Color(0xFF123F3A),
+    cardBorder = Color(0xFFE2E6E4),
     isDark = false
 )
 
@@ -117,6 +129,9 @@ val DarkAppColors = AppColors(
     onHighlightFill = Color(0xFF00201D),
     onHighlightFillMuted = Color(0xFF00201D),
     highlightAccent = Color(0xFF1D4A46),
+    selectedFill = Color(0xFF96D2CB),
+    onSelectedFill = Color(0xFF00201D),
+    cardBorder = Color(0xFF263042),
     isDark = true
 )
 
@@ -157,6 +172,9 @@ val OledAppColors = AppColors(
     onHighlightFill = Color(0xFFA6E4DC),
     onHighlightFillMuted = Color(0xFF80CBC4),
     highlightAccent = Color(0xFF80CBC4),
+    selectedFill = Color(0xFF0F2F2C),
+    onSelectedFill = Color(0xFFA6E4DC),
+    cardBorder = Color(0xFF1E1E1E),
     isDark = true
 )
 
@@ -198,3 +216,6 @@ val HighlightFill: Color @Composable @ReadOnlyComposable get() = LocalAppColors.
 val OnHighlightFill: Color @Composable @ReadOnlyComposable get() = LocalAppColors.current.onHighlightFill
 val OnHighlightFillMuted: Color @Composable @ReadOnlyComposable get() = LocalAppColors.current.onHighlightFillMuted
 val HighlightAccent: Color @Composable @ReadOnlyComposable get() = LocalAppColors.current.highlightAccent
+val SelectedFill: Color @Composable @ReadOnlyComposable get() = LocalAppColors.current.selectedFill
+val OnSelectedFill: Color @Composable @ReadOnlyComposable get() = LocalAppColors.current.onSelectedFill
+val CardBorder: Color @Composable @ReadOnlyComposable get() = LocalAppColors.current.cardBorder

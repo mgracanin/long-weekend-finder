@@ -245,6 +245,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         settings.setOnboardingDone(false)
     }
 
+    /** National public holidays of [countryCode] in [year] (cached or offline when possible), for the report calendar. */
+    suspend fun publicHolidayDates(countryCode: String, year: Int): Set<LocalDate> =
+        repository.fetchHolidays(countryCode, year).holidays
+            .filter { it.global }
+            .mapNotNull { runCatching { LocalDate.parse(it.date) }.getOrNull() }
+            .toSet()
+
     /** Leave days already committed in saved plans for [year]. */
     fun plannedLeaveDays(plans: List<SavedPlan>, year: Int): Int =
         plans.filter { it.opportunity.startDate.year == year }.sumOf { it.opportunity.leaveDays }

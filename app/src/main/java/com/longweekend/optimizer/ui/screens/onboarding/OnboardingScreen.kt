@@ -2,6 +2,7 @@
 
 package com.longweekend.optimizer.ui.screens.onboarding
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -196,7 +197,7 @@ private fun SampleBridge() {
     Card(
         colors = CardDefaults.cardColors(containerColor = SurfaceLowest),
         shape = RoundedCornerShape(18.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        border = BorderStroke(1.dp, CardBorder)
     ) {
         BreakVisualizerStrip(days = days, modifier = Modifier.padding(16.dp))
     }

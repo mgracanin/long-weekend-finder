@@ -1,5 +1,6 @@
 package com.longweekend.optimizer.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import com.longweekend.optimizer.model.WorkWeek
 import com.longweekend.optimizer.ui.text.weekdayInitials
 import com.longweekend.optimizer.ui.text.formatDate
@@ -59,7 +60,7 @@ fun MonthCalendarView(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = SurfaceLowest),
         shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        border = BorderStroke(1.dp, CardBorder)
     ) {
         Column(
             modifier = Modifier

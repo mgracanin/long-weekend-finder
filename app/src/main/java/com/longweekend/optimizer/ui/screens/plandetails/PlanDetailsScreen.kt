@@ -2,6 +2,7 @@
 
 package com.longweekend.optimizer.ui.screens.plandetails
 
+import androidx.compose.foundation.BorderStroke
 import com.longweekend.optimizer.ui.share.planShare
 import com.longweekend.optimizer.ui.share.sharePlan
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -202,7 +203,7 @@ fun PlanDetailsScreen(
             Card(
                 colors = CardDefaults.cardColors(containerColor = SurfaceLowest),
                 shape = RoundedCornerShape(16.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+                border = BorderStroke(1.dp, CardBorder),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(
