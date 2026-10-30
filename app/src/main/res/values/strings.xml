@@ -44,7 +44,6 @@
     <string name="year_last">Last year</string>
 
     <!-- Discover -->
-    <string name="discover_tagline">Smart Holiday Stacking</string>
     <string name="discover_headline">Make more of your days off</string>
     <string name="discover_intro">Turn strategic annual leave into extended getaways by pairing your time off with official public holidays.</string>
     <string name="radar_label">OPPORTUNITY RADAR</string>
@@ -66,11 +65,6 @@
     <plurals name="label_leave_to_invest_hint">
         <item quantity="one">Up to your %1$d-day allowance (change it in your profile)</item>
         <item quantity="other">Up to your %1$d-day allowance (change it in your profile)</item>
-    </plurals>
-    <string name="preset_days">%d days</string>
-    <plurals name="preset_default">
-        <item quantity="one">%d day (your default)</item>
-        <item quantity="other">%d days (your default)</item>
     </plurals>
     <plurals name="preset_all">
         <item quantity="one">%d day (all)</item>
@@ -94,8 +88,6 @@
     <string name="label_first_workday_hint">Set automatically from your default country; change it if you work a different week</string>
     <string name="workweek_monday">Monday (Mon–Fri, weekend Sat–Sun)</string>
     <string name="workweek_sunday">Sunday (Sun–Thu, weekend Fri–Sat)</string>
-    <string name="tip_title">Smart booking tip</string>
-    <string name="tip_body">Booking %1$s around %2$s (%3$s) gives you %4$d consecutive days off.</string>
     <string name="top_picks_title">Top picks for you</string>
     <string name="top_picks_loading">Finding the best bridges…</string>
     <string name="top_picks_error">Top picks are unavailable until the calculation succeeds — tap the radar above to try again.</string>
@@ -107,7 +99,10 @@
     <string name="badge_summer">SUMMER GETAWAY • %d DAYS OFF</string>
     <string name="badge_one_day">HIGH EFFICIENCY • 1 DAY OF LEAVE</string>
     <string name="badge_smart">SMART BRIDGE • TAKE %1$d, GET %2$d</string>
-    <string name="gain_tag">+%d%% gain</string>
+    <string name="badge_best_ratio_short">BEST RATIO</string>
+    <string name="badge_summer_short">SUMMER GETAWAY</string>
+    <string name="badge_one_day_short">HIGH EFFICIENCY</string>
+    <string name="badge_smart_short">SMART BRIDGE</string>
     <string name="title_easter">Easter Spring Extension</string>
     <string name="title_festive">Festive Winter Bridge</string>
     <string name="title_may_day">May Day Long Weekend</string>
@@ -174,7 +169,6 @@
 
     <!-- Plan details -->
     <string name="detail_title">Plan details</string>
-    <string name="back_to_results">Back to results</string>
     <string name="country_calendar">%s calendar</string>
     <string name="metric_total">TOTAL</string>
     <string name="metric_days_away">Days away</string>
@@ -182,7 +176,6 @@
     <string name="metric_leave_days">Leave days</string>
     <string name="metric_roi">ROI</string>
     <string name="metric_extra_days">Extra days</string>
-    <string name="calendar_strategy_window">Strategy window</string>
     <string name="calendar_legend">LEGEND</string>
     <string name="legend_public_holiday">Public holiday</string>
     <string name="legend_annual_leave">Annual leave</string>
@@ -192,7 +185,6 @@
         <item quantity="one">Submit this %d working day in your HR portal:</item>
         <item quantity="other">Submit these %d working days in your HR portal:</item>
     </plurals>
-    <string name="full_day">Full day</string>
     <string name="status_requested">Requested</string>
     <string name="status_to_request">To request</string>
     <string name="holidays_included">Public holidays included automatically:</string>
@@ -218,9 +210,7 @@
 
     <!-- Saved -->
     <string name="saved_title">Saved breaks</string>
-    <string name="saved_subtitle">Leave planner</string>
     <string name="saved_heading">Your bookmarked plans</string>
-    <string name="saved_count">%d saved</string>
     <string name="saved_empty_title">No saved plans yet</string>
     <string name="saved_empty_body">Explore holiday bridge opportunities and bookmark your favourites to track which dates you\'ve requested.</string>
     <string name="action_explore">Explore opportunities</string>

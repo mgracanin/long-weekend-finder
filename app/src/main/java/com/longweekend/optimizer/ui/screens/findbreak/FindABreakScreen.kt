@@ -52,7 +52,6 @@ fun FindABreakScreen(
     val leaveBudget by viewModel.leaveBudget.collectAsState()
     val selectedSeason by viewModel.selectedSeason.collectAsState()
     val annualAllowance by viewModel.annualAllowance.collectAsState()
-    val defaultLeaveBudget by viewModel.defaultLeaveBudget.collectAsState()
     val opportunities by viewModel.opportunities.collectAsState()
     val topPicks by viewModel.topPicks.collectAsState()
     val uiStatus by viewModel.uiStatus.collectAsState()
@@ -60,7 +59,6 @@ fun FindABreakScreen(
     val isOfflineData by viewModel.isOfflineData.collectAsState()
     val countries = viewModel.supportedCountries
     val isLoading = uiStatus == UiStatus.LOADING
-    val bestPick = topPicks.firstOrNull()
     val seasonPassed = viewModel.seasonHasPassed(selectedSeason, selectedYear)
 
     Scaffold(
@@ -82,29 +80,6 @@ fun FindABreakScreen(
                 .padding(horizontal = 16.dp, vertical = 12.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Hero Tagline
-            Row(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .background(AmberSecondaryFixed.copy(alpha = 0.7f))
-                    .padding(horizontal = 10.dp, vertical = 4.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(6.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Lightbulb,
-                    contentDescription = null,
-                    tint = AmberSecondary,
-                    modifier = Modifier.size(15.dp)
-                )
-                Text(
-                    text = stringResource(R.string.discover_tagline),
-                    style = MaterialTheme.typography.labelSmall,
-                    fontWeight = FontWeight.Bold,
-                    color = AmberOnSecondaryFixed
-                )
-            }
-
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(
                     text = stringResource(R.string.discover_headline),
@@ -186,29 +161,21 @@ fun FindABreakScreen(
                             onValueChange = viewModel::setLeaveBudget
                         )
 
-                        Row(
+                        // One shortcut is enough next to the stepper: spend the whole allowance
+                        val allSelected = leaveBudget == annualAllowance
+                        Box(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .horizontalScroll(rememberScrollState()),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                .clip(CircleShape)
+                                .background(if (allSelected) TealPrimary else SurfaceContainerLow)
+                                .clickable { viewModel.setLeaveBudget(annualAllowance) }
+                                .padding(horizontal = 12.dp, vertical = 6.dp)
                         ) {
-                            leavePresets(defaultLeaveBudget, annualAllowance).forEach { (days, label) ->
-                                val isSelected = leaveBudget == days
-                                Box(
-                                    modifier = Modifier
-                                        .clip(CircleShape)
-                                        .background(if (isSelected) TealPrimary else SurfaceContainerLow)
-                                        .clickable { viewModel.setLeaveBudget(days) }
-                                        .padding(horizontal = 12.dp, vertical = 6.dp)
-                                ) {
-                                    Text(
-                                        text = label,
-                                        style = MaterialTheme.typography.labelMedium,
-                                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                        color = if (isSelected) TealOnPrimary else TextOnSurfaceVariant
-                                    )
-                                }
-                            }
+                            Text(
+                                text = pluralStringResource(R.plurals.preset_all, annualAllowance, annualAllowance),
+                                style = MaterialTheme.typography.labelMedium,
+                                fontWeight = if (allSelected) FontWeight.Bold else FontWeight.Normal,
+                                color = if (allSelected) TealOnPrimary else TextOnSurfaceVariant
+                            )
                         }
                     }
 
@@ -268,52 +235,6 @@ fun FindABreakScreen(
                         color = TextOnSurfaceVariant,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
-                }
-            }
-
-            // Smart booking tip, based on the best break for the current search
-            if (bestPick != null && !isLoading) {
-                Card(
-                    colors = CardDefaults.cardColors(containerColor = AmberSecondaryFixed.copy(alpha = 0.5f)),
-                    shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(14.dp),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        verticalAlignment = Alignment.Top
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(36.dp)
-                                .clip(CircleShape)
-                                .background(AmberSecondary),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(Icons.Default.Star, null, tint = AmberOnSecondary, modifier = Modifier.size(18.dp))
-                        }
-                        Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                            Text(
-                                text = stringResource(R.string.tip_title),
-                                style = MaterialTheme.typography.labelMedium,
-                                fontWeight = FontWeight.Bold,
-                                color = AmberOnSecondaryFixed
-                            )
-                            Text(
-                                text = stringResource(
-                                    R.string.tip_body,
-                                    daysText(bestPick.leaveDays),
-                                    bestPick.mainHolidayLabel(),
-                                    bestPick.dateRangeText(),
-                                    bestPick.totalDays
-                                ),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = AmberOnSecondaryFixed
-                            )
-                        }
-                    }
                 }
             }
 
@@ -393,19 +314,6 @@ private val SEASONS = listOf(
     SeasonOption("summer", R.string.season_summer, R.string.season_summer_months),
     SeasonOption("autumn", R.string.season_autumn, R.string.season_autumn_months)
 )
-
-/** Quick-pick chips: a few common sizes, the user's default, and the whole allowance. */
-@Composable
-private fun leavePresets(defaultBudget: Int, allowance: Int): List<Pair<Int, String>> {
-    val days = (listOf(3, 5, 10).filter { it < allowance } + defaultBudget + allowance).distinct().sorted()
-    return days.map { d ->
-        d to when (d) {
-            defaultBudget -> pluralStringResource(R.plurals.preset_default, d, d)
-            allowance -> pluralStringResource(R.plurals.preset_all, d, d)
-            else -> stringResource(R.string.preset_days, d)
-        }
-    }
-}
 
 @Composable
 private fun radarText(isLoading: Boolean, count: Int, year: Int, country: String, budget: Int): String = when {

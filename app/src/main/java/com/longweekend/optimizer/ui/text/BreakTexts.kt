@@ -123,9 +123,15 @@ fun Opportunity.badge(): String = when {
     else -> stringResource(R.string.badge_smart, leaveDays, totalDays)
 }
 
+/** The badge's category only ("Smart bridge"), for cards that show the numbers separately. */
 @Composable
 @ReadOnlyComposable
-fun Opportunity.gainTag(): String = stringResource(R.string.gain_tag, gainPercent)
+fun Opportunity.badgeTitle(): String = when {
+    efficiency >= 2.5 -> stringResource(R.string.badge_best_ratio_short)
+    startDate.monthValue in 6..8 -> stringResource(R.string.badge_summer_short)
+    leaveDays == 1 -> stringResource(R.string.badge_one_day_short)
+    else -> stringResource(R.string.badge_smart_short)
+}
 
 @Composable
 @ReadOnlyComposable

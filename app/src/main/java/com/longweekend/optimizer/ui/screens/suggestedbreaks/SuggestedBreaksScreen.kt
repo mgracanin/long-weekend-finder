@@ -7,9 +7,8 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import com.longweekend.optimizer.R
-import com.longweekend.optimizer.ui.text.badge
+import com.longweekend.optimizer.ui.text.badgeTitle
 import com.longweekend.optimizer.ui.text.dateRangeText
-import com.longweekend.optimizer.ui.text.gainTag
 import com.longweekend.optimizer.ui.text.includedHolidayLabels
 import com.longweekend.optimizer.ui.text.localName
 import com.longweekend.optimizer.ui.text.title
@@ -35,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.longweekend.optimizer.model.Opportunity
+import com.longweekend.optimizer.ui.components.BreakLegend
 import com.longweekend.optimizer.ui.components.BreakVisualizerStrip
 import com.longweekend.optimizer.ui.components.LongWeekendTopBar
 import com.longweekend.optimizer.ui.theme.*
@@ -64,7 +64,7 @@ fun SuggestedBreaksScreen(
         topBar = {
             LongWeekendTopBar(
                 title = stringResource(R.string.app_name),
-                subtitle = stringResource(R.string.app_subtitle),
+                subtitle = null,
                 countryBadge = selectedCountry.countryCode,
                 showBackButton = true,
                 onBackClick = onNavigateBack,
@@ -265,27 +265,8 @@ fun SuggestedBreaksScreen(
                         )
                     } }
 
-                    // Disclaimer Notice
-                    item(key = "disclaimer") { Card(
-                        colors = CardDefaults.cardColors(containerColor = SurfaceContainer),
-                        shape = RoundedCornerShape(12.dp),
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(12.dp),
-                            verticalAlignment = Alignment.Top,
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            Icon(Icons.Default.VerifiedUser, null, tint = TealPrimary, modifier = Modifier.size(18.dp))
-                            Text(
-                                text = stringResource(R.string.disclaimer),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = TextOnSurfaceVariant
-                            )
-                        }
-                    } }
+                    // One colour key for every card's day strip
+                    item(key = "legend") { BreakLegend() }
 
                     // Opportunities List
                     items(opportunities, key = { it.id }, contentType = { "opportunity" }) { opp ->
@@ -341,6 +322,16 @@ fun SuggestedBreaksScreen(
                             }
                         }
                     } }
+
+                    item(key = "disclaimer") {
+                        Text(
+                            text = stringResource(R.string.disclaimer),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = TextOnSurfaceVariant,
+                            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
+                        )
+                    }
                 }
 
                 UiStatus.LOADING -> item(key = "loading") {
@@ -547,44 +538,23 @@ private fun OpportunityFeedCard(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // ROI Badge Header: the gain tag moves to its own line rather than wrapping inside
-            FlowRow(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalArrangement = Arrangement.spacedBy(6.dp)
+            // Category badge only: the numbers are in the stats row below
+            Row(
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .background(AmberSecondaryContainer)
+                    .padding(horizontal = 10.dp, vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                Row(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .background(AmberSecondaryContainer)
-                        .padding(horizontal = 10.dp, vertical = 4.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Icon(Icons.Default.AutoAwesome, null, tint = AmberOnSecondaryContainer, modifier = Modifier.size(14.dp))
-                    Text(
-                        text = opportunity.badge(),
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = AmberOnSecondaryContainer,
-                        maxLines = 1
-                    )
-                }
-
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .background(TealPrimaryFixed)
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                ) {
-                    Text(
-                        text = opportunity.gainTag(),
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = TealOnPrimaryFixed,
-                        maxLines = 1
-                    )
-                }
+                Icon(Icons.Default.AutoAwesome, null, tint = AmberOnSecondaryContainer, modifier = Modifier.size(14.dp))
+                Text(
+                    text = opportunity.badgeTitle(),
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = AmberOnSecondaryContainer,
+                    maxLines = 1
+                )
             }
 
             // Title & Dates
@@ -651,7 +621,7 @@ private fun OpportunityFeedCard(
             }
 
             // Visual Strip
-            BreakVisualizerStrip(days = opportunity.days)
+            BreakVisualizerStrip(days = opportunity.days, showHeader = false)
 
             // Card Action Footer
             Row(

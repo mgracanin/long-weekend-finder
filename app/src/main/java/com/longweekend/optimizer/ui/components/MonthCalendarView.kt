@@ -41,7 +41,8 @@ fun MonthCalendarView(
     yearMonth: YearMonth,
     days: List<DayStripItem>,
     firstWorkday: DayOfWeek,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    showLegend: Boolean = true
 ) {
     val monthTitle = formatDate(yearMonth.atDay(1), R.string.pattern_month_year).replaceFirstChar { it.titlecase(appLocale()) }
     val daysInMonth = yearMonth.lengthOfMonth()
@@ -87,19 +88,6 @@ fun MonthCalendarView(
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = TextOnSurface
-                    )
-                }
-
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .background(AmberSecondaryFixed)
-                        .padding(horizontal = 8.dp, vertical = 3.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.calendar_strategy_window),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = AmberOnSecondaryFixed
                     )
                 }
             }
@@ -242,7 +230,7 @@ fun MonthCalendarView(
             }
 
             // Legend
-            Column(
+            if (showLegend) Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(10.dp))

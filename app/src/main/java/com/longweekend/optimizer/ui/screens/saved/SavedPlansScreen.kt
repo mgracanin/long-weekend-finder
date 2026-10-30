@@ -44,7 +44,7 @@ fun SavedPlansScreen(
         topBar = {
             LongWeekendTopBar(
                 title = stringResource(R.string.saved_title),
-                subtitle = stringResource(R.string.saved_subtitle),
+                subtitle = null,
                 countryBadge = "${savedPlans.size}",
                 onProfileClick = onNavigateToProfile
             )
@@ -59,34 +59,15 @@ fun SavedPlansScreen(
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 42.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            item(key = "heading") { Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            // The plan count is already in the top bar
+            item(key = "heading") {
                 Text(
                     text = stringResource(R.string.saved_heading),
                     style = MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.ExtraBold,
-                    color = TealPrimary,
-                    // A long heading wraps instead of squeezing the counter pill
-                    modifier = Modifier.weight(1f, fill = false).padding(end = 8.dp)
+                    color = TealPrimary
                 )
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .background(AmberSecondaryFixed)
-                        .padding(horizontal = 8.dp, vertical = 3.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.saved_count, savedPlans.size),
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = AmberOnSecondaryFixed,
-                        maxLines = 1
-                    )
-                }
-            } }
+            }
 
             if (savedPlans.isEmpty()) item(key = "empty") {
                 // Empty saved state

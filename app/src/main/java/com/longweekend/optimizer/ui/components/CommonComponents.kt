@@ -33,7 +33,7 @@ import java.time.LocalDate
 @Composable
 fun LongWeekendTopBar(
     title: String,
-    subtitle: String,
+    subtitle: String?,
     countryBadge: String,
     showBackButton: Boolean = false,
     onBackClick: () -> Unit = {},
@@ -108,7 +108,7 @@ fun LongWeekendTopBar(
                             )
                         }
                     }
-                    Text(
+                    if (subtitle != null) Text(
                         text = subtitle,
                         style = MaterialTheme.typography.labelSmall,
                         color = TextOnSurfaceVariant
@@ -235,31 +235,27 @@ private fun StepperButton(
 @Composable
 fun BreakVisualizerStrip(
     days: List<DayStripItem>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    // Lists of many breaks show the legend once above the list instead
+    showHeader: Boolean = true
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = stringResource(R.string.visualiser_label),
-                style = MaterialTheme.typography.labelSmall,
-                color = TextOnSurfaceVariant,
-                letterSpacing = 1.sp
-            )
+        if (showHeader) {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                LegendDot(color = SurfaceContainerHighest, label = stringResource(R.string.legend_weekend))
-                LegendDot(color = AmberSecondaryContainer, label = stringResource(R.string.legend_holiday))
-                LegendDot(color = TealPrimary, label = stringResource(R.string.legend_leave))
+                Text(
+                    text = stringResource(R.string.visualiser_label),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = TextOnSurfaceVariant,
+                    letterSpacing = 1.sp
+                )
+                BreakLegend()
             }
+            Spacer(modifier = Modifier.height(6.dp))
         }
-
-        Spacer(modifier = Modifier.height(6.dp))
 
         Row(
             modifier = Modifier
@@ -334,6 +330,20 @@ fun BreakVisualizerStrip(
                 }
             }
         }
+    }
+}
+
+/** Colour key for [BreakVisualizerStrip]: weekend, holiday, leave. */
+@Composable
+fun BreakLegend(modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        LegendDot(color = SurfaceContainerHighest, label = stringResource(R.string.legend_weekend))
+        LegendDot(color = AmberSecondaryContainer, label = stringResource(R.string.legend_holiday))
+        LegendDot(color = TealPrimary, label = stringResource(R.string.legend_leave))
     }
 }
 

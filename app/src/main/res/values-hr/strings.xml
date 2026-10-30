@@ -47,7 +47,6 @@
     <string name="year_last">Prošla</string>
 
     <!-- Discover -->
-    <string name="discover_tagline">Povežite blagdane i godišnji odmor</string>
     <string name="discover_headline">Maksimalno iskoristite svaki dan godišnjeg odmora</string>
     <string name="discover_intro">Povežite dane godišnjeg odmora s blagdanima i vikendima te uživajte u produljenom odmoru.</string>
     <string name="radar_label">PRILIKE ZA ODMOR</string>
@@ -72,12 +71,6 @@
         <item quantity="few">Na raspolaganju imate najviše %1$d dana godišnjeg odmora. To možete promijeniti u profilu.</item>
         <item quantity="other">Na raspolaganju imate najviše %1$d dana godišnjeg odmora. To možete promijeniti u profilu.</item>
     </plurals>
-    <string name="preset_days">%d dana</string>
-    <plurals name="preset_default">
-        <item quantity="one">%d dan (zadano)</item>
-        <item quantity="few">%d dana (zadano)</item>
-        <item quantity="other">%d dana (zadano)</item>
-    </plurals>
     <plurals name="preset_all">
         <item quantity="one">%d dan (sve)</item>
         <item quantity="few">Sva %d dana</item>
@@ -101,8 +94,6 @@
     <string name="label_first_workday_hint">Određuje se prema odabranoj državi. Promijenite ako imate drukčiji raspored radnih dana.</string>
     <string name="workweek_monday">Ponedjeljak (pon. – pet.; vikend sub. – ned.)</string>
     <string name="workweek_sunday">Nedjelja (ned. – čet.; vikend pet. – sub.)</string>
-    <string name="tip_title">Savjet za planiranje</string>
-    <string name="tip_body">Iskoristite li %1$s godišnjeg odmora uz blagdan %2$s (%3$s), možete imati %4$d dana neprekinutog odmora.</string>
     <string name="top_picks_title">Najpovoljnije prilike za odmor</string>
     <string name="top_picks_loading">Traženje najboljih kombinacija…</string>
     <string name="top_picks_error">Nije moguće prikazati prijedloge jer izračun nije uspio. Dodirnite radar iznad za ponovni pokušaj.</string>
@@ -114,7 +105,10 @@
     <string name="badge_summer">LJETNI ODMOR • %d DANA</string>
     <string name="badge_one_day">ODLIČNA PRILIKA • SAMO 1 DAN GODIŠNJEG</string>
     <string name="badge_smart">PAMETNA KOMBINACIJA • %1$d → %2$d DANA</string>
-    <string name="gain_tag">+%d %% više slobodnih dana</string>
+    <string name="badge_best_ratio_short">NAJBOLJI OMJER</string>
+    <string name="badge_summer_short">LJETNI ODMOR</string>
+    <string name="badge_one_day_short">ODLIČNA PRILIKA</string>
+    <string name="badge_smart_short">PAMETNA KOMBINACIJA</string>
     <string name="title_easter">Uskrsni odmor</string>
     <string name="title_festive">Božićni i novogodišnji odmor</string>
     <string name="title_may_day">Produljeni vikend za Praznik rada</string>
@@ -185,7 +179,6 @@
 
     <!-- Plan details -->
     <string name="detail_title">Detalji plana</string>
-    <string name="back_to_results">Natrag na prijedloge</string>
     <string name="country_calendar">Kalendar: %s</string>
     <string name="metric_total">UKUPNO</string>
     <string name="metric_days_away">Dana odmora</string>
@@ -193,7 +186,6 @@
     <string name="metric_leave_days">Dana godišnjeg odmora</string>
     <string name="metric_roi">DOBITAK</string>
     <string name="metric_extra_days">Dodatni dani</string>
-    <string name="calendar_strategy_window">Datumi odmora</string>
     <string name="calendar_legend">LEGENDA</string>
     <string name="legend_public_holiday">Blagdan</string>
     <string name="legend_annual_leave">Godišnji odmor</string>
@@ -204,7 +196,6 @@
         <item quantity="few">U sustavu za evidenciju godišnjeg odmora zatražite ova %d radna dana:</item>
         <item quantity="other">U sustavu za evidenciju godišnjeg odmora zatražite ovih %d radnih dana:</item>
     </plurals>
-    <string name="full_day">Cijeli dan</string>
     <string name="status_requested">Zatraženo</string>
     <string name="status_to_request">Još nije zatraženo</string>
     <string name="holidays_included">Blagdani uključeni u plan:</string>
@@ -231,9 +222,7 @@
 
     <!-- Saved -->
     <string name="saved_title">Spremljeni planovi odmora</string>
-    <string name="saved_subtitle">Planer godišnjeg odmora</string>
     <string name="saved_heading">Vaši planovi godišnjeg odmora</string>
-    <string name="saved_count">Spremljeno: %d</string>
     <string name="saved_empty_title">Još nema spremljenih planova</string>
     <string name="saved_empty_body">Pronađite povoljne kombinacije blagdana i godišnjeg odmora te spremite planove kako biste mogli pratiti za koje ste datume već podnijeli zahtjev.</string>
     <string name="action_explore">Istraži prilike za odmor</string>

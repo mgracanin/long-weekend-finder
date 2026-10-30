@@ -122,39 +122,8 @@ fun PlanDetailsScreen(
                 .padding(horizontal = 16.dp, vertical = 12.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Header context
+            // Header context (back and country are in the top bar)
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    TextButton(
-                        onClick = onNavigateBack,
-                        contentPadding = PaddingValues(0.dp)
-                    ) {
-                        Icon(Icons.Default.ArrowBack, null, tint = TextOnSurfaceVariant, modifier = Modifier.size(16.dp))
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(stringResource(R.string.back_to_results), style = MaterialTheme.typography.labelMedium, color = TextOnSurfaceVariant)
-                    }
-
-                    Row(
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .background(SurfaceContainerHigh)
-                            .padding(horizontal = 8.dp, vertical = 3.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        Text(planCountry.flagEmoji, fontSize = 12.sp)
-                        Text(
-                            stringResource(R.string.country_calendar, countryName),
-                            style = MaterialTheme.typography.labelSmall,
-                            color = TextOnSurface
-                        )
-                    }
-                }
-
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -204,11 +173,13 @@ fun PlanDetailsScreen(
             )
 
             // One calendar per month the break touches (e.g. 28 Apr – 4 May shows both)
-            months.forEach { month ->
+            months.forEachIndexed { index, month ->
                 MonthCalendarView(
                     yearMonth = month,
                     days = opportunity.days,
-                    firstWorkday = firstWorkday
+                    firstWorkday = firstWorkday,
+                    // One legend under the last month is enough
+                    showLegend = index == months.lastIndex
                 )
             }
 
@@ -257,50 +228,35 @@ fun PlanDetailsScreen(
                                 .clickable { setChecked(idx, !isChecked) },
                             color = SurfaceContainerLow
                         ) {
+                            // Status sits under the date (not in a side pill), so every row has the
+                            // same layout however long the date is
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(horizontal = 12.dp, vertical = 10.dp),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
+                                    .padding(horizontal = 12.dp, vertical = 8.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(10.dp)
                             ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(10.dp)
-                                ) {
-                                    Checkbox(
-                                        checked = isChecked,
-                                        onCheckedChange = { checked -> setChecked(idx, checked) },
-                                        colors = CheckboxDefaults.colors(
-                                            checkedColor = TealPrimary,
-                                            checkmarkColor = TealOnPrimary
-                                        )
+                                Checkbox(
+                                    checked = isChecked,
+                                    onCheckedChange = { checked -> setChecked(idx, checked) },
+                                    colors = CheckboxDefaults.colors(
+                                        checkedColor = TealPrimary,
+                                        checkmarkColor = TealOnPrimary
                                     )
-                                    Column {
-                                        Text(
-                                            text = dayFormatted,
-                                            style = MaterialTheme.typography.labelLarge,
-                                            fontWeight = FontWeight.SemiBold,
-                                            color = TextOnSurface
-                                        )
-                                        Text(
-                                            text = stringResource(R.string.full_day),
-                                            style = MaterialTheme.typography.labelSmall,
-                                            color = TextOnSurfaceVariant
-                                        )
-                                    }
-                                }
-
-                                Box(
-                                    modifier = Modifier
-                                        .clip(CircleShape)
-                                        .background(TealPrimaryFixed)
-                                        .padding(horizontal = 8.dp, vertical = 2.dp)
-                                ) {
+                                )
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = dayFormatted,
+                                        style = MaterialTheme.typography.labelLarge,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = TextOnSurface
+                                    )
                                     Text(
                                         text = stringResource(if (isChecked) R.string.status_requested else R.string.status_to_request),
                                         style = MaterialTheme.typography.labelSmall,
-                                        color = TealOnPrimaryFixed
+                                        fontWeight = if (isChecked) FontWeight.Bold else FontWeight.Normal,
+                                        color = if (isChecked) TealPrimary else TextOnSurfaceVariant
                                     )
                                 }
                             }
