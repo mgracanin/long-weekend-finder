@@ -26,7 +26,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -108,6 +110,9 @@ fun FindABreakScreen(
                     )
                     else -> radarText(isLoading, opportunities.size, selectedYear, selectedCountry.localName(), leaveBudget)
                 },
+                // Widest form of the result line (two-digit count and budget): the card is sized for
+                // it, so changing the days with +/- never adds or removes a line and moves the form
+                reservedHeadline = pluralStringResource(R.plurals.radar_count, 88, 88, daysText(88), selectedYear),
                 onClick = if (uiStatus == UiStatus.ERROR) viewModel::refresh else onNavigateToSuggested
             )
 
@@ -327,6 +332,7 @@ private fun RadarCard(
     status: UiStatus,
     isOffline: Boolean,
     headline: String,
+    reservedHeadline: String,
     onClick: () -> Unit
 ) {
     val isError = status == UiStatus.ERROR
@@ -373,34 +379,39 @@ private fun RadarCard(
                     color = if (isError) OnErrorContainer else TealPrimary,
                     letterSpacing = 1.sp
                 )
-                Text(
-                    text = headline,
-                    style = MaterialTheme.typography.titleMedium.copy(fontSize = 15.sp),
-                    fontWeight = FontWeight.SemiBold,
-                    color = TextOnSurface
-                )
-                val hint = when {
-                    status == UiStatus.LOADING -> null
-                    isError -> stringResource(R.string.radar_hint_retry)
-                    isOffline -> stringResource(R.string.radar_hint_offline)
-                    status == UiStatus.EMPTY -> stringResource(R.string.radar_hint_tips)
-                    else -> stringResource(R.string.radar_hint_results)
-                }
-                if (hint != null) {
+                // The card keeps the same size while results change or reload (e.g. after +/-),
+                // so the form below doesn't jump: the headline area is as tall as the reserved
+                // text, and the hint line and arrow are always laid out, just hidden while loading
+                val headlineStyle = MaterialTheme.typography.titleMedium.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                Box {
                     Text(
-                        text = hint,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = if (isError) OnErrorContainer else TextOnSurfaceVariant
+                        text = reservedHeadline,
+                        style = headlineStyle,
+                        minLines = 2,
+                        // Only reserves space: invisible and skipped by screen readers
+                        modifier = Modifier.alpha(0f).clearAndSetSemantics {}
                     )
+                    Text(text = headline, style = headlineStyle, color = TextOnSurface)
                 }
-            }
-            if (status != UiStatus.LOADING) {
-                Icon(
-                    imageVector = if (isError) Icons.Default.Refresh else Icons.Default.ChevronRight,
-                    contentDescription = null,
-                    tint = if (isError) OnErrorContainer else TealPrimary
+                val isLoading = status == UiStatus.LOADING
+                Text(
+                    text = when {
+                        isError -> stringResource(R.string.radar_hint_retry)
+                        isOffline -> stringResource(R.string.radar_hint_offline)
+                        status == UiStatus.EMPTY -> stringResource(R.string.radar_hint_tips)
+                        else -> stringResource(R.string.radar_hint_results)
+                    },
+                    style = MaterialTheme.typography.labelSmall,
+                    color = if (isError) OnErrorContainer else TextOnSurfaceVariant,
+                    modifier = Modifier.alpha(if (isLoading) 0f else 1f)
                 )
             }
+            Icon(
+                imageVector = if (isError) Icons.Default.Refresh else Icons.Default.ChevronRight,
+                contentDescription = null,
+                tint = if (isError) OnErrorContainer else TealPrimary,
+                modifier = Modifier.alpha(if (status == UiStatus.LOADING) 0f else 1f)
+            )
         }
     }
 }
