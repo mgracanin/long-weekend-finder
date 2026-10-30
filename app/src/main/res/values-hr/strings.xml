@@ -236,8 +236,8 @@
         <item quantity="other">Planirani godišnji odmor: %d dana. Produljeni odmor uz blagdane.</item>
     </plurals>
     <string name="data_verification">Izvor podataka</string>
-    <string name="data_source_full">Izvor podataka: Nager.Date (date.nager.at), sučelje za dohvaćanje podataka o blagdanima</string>
-    <string name="data_notice">Izračuni su okvirni. Prije rezervacije putovanja provjerite datume blagdana i pravila svojeg poslodavca o godišnjem odmoru.</string>
+    <string name="data_source_full">Izvor podataka: Nager.Date (date.nager.at), API za dohvaćanje podataka o blagdanima, praznicima i neradnim danima</string>
+    <string name="data_notice">Izračuni su okvirni. Prije rezervacije putovanja provjerite datume blagdana kao i pravila svojeg poslodavca o godišnjem odmoru.</string>
 
     <!-- Saved -->
     <string name="saved_title">Spremljeni planovi odmora</string>
