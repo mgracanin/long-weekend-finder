@@ -69,6 +69,19 @@ The black theme is made for OLED and AMOLED screens: the page is pure black, so 
 </p>
 <p align="center"><sub>Light &nbsp;·&nbsp; Dark &nbsp;·&nbsp; Black (OLED battery saver)</sub></p>
 
+## Plan your whole year
+
+Save the breaks you like, then tap **Year report (PDF)** on the Saved screen. You get one document for the year, made on your phone:
+
+- leave used against your allowance, and what's left,
+- warnings if plans overlap or use more leave than you have,
+- the whole year on one page, with your leave, public holidays and weekends,
+- every break with the days to request and whether you've requested them.
+
+<p align="center">
+  <img src="docs/screenshots/report.png" width="55%" alt="First page of a yearly PDF report">
+</p>
+
 ## Install
 
 1. Download **`long-weekend-<version>.apk`** from the [latest release](https://github.com/mgracanin/long-weekend-finder/releases/latest) on your phone.
