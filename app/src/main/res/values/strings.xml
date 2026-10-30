@@ -45,7 +45,7 @@
 
     <!-- Discover -->
     <string name="discover_tagline">Smart Holiday Stacking</string>
-    <string name="discover_headline">Make more of your days off.</string>
+    <string name="discover_headline">Make more of your days off</string>
     <string name="discover_intro">Turn strategic annual leave into extended getaways by pairing your time off with official public holidays.</string>
     <string name="radar_label">OPPORTUNITY RADAR</string>
     <string name="radar_error">Couldn\'t calculate your breaks</string>
