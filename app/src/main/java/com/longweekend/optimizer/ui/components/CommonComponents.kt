@@ -1,5 +1,6 @@
 package com.longweekend.optimizer.ui.components
 
+import androidx.compose.material.icons.outlined.Settings
 import com.longweekend.optimizer.ui.text.shortWeekday
 import com.longweekend.optimizer.ui.text.badgeText
 import androidx.compose.ui.res.stringResource
@@ -132,7 +133,7 @@ fun LongWeekendTopBar(
                         .background(SelectedFill)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Person,
+                        imageVector = Icons.Outlined.Settings,
                         contentDescription = stringResource(R.string.cd_profile),
                         tint = OnSelectedFill,
                         modifier = Modifier.size(20.dp)

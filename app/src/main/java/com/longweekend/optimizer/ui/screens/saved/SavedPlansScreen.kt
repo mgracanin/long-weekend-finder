@@ -1,5 +1,11 @@
 package com.longweekend.optimizer.ui.screens.saved
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import com.longweekend.optimizer.ui.report.YearReport
+import com.longweekend.optimizer.ui.report.openYearReport
+import com.longweekend.optimizer.ui.report.saveYearReport
+import java.io.File
 import android.widget.Toast
 import androidx.compose.runtime.rememberCoroutineScope
 import com.longweekend.optimizer.ui.report.yearReport
@@ -67,6 +73,21 @@ fun SavedPlansScreen(
     val chooserTitle = stringResource(R.string.report_chooser_title)
     val failedMessage = stringResource(R.string.report_failed)
     var pickYear by remember { mutableStateOf(false) }
+    // The written report waits here while the user chooses to open, save or share it
+    var ready by remember { mutableStateOf<Pair<File, YearReport>?>(null) }
+    val savedMessage = stringResource(R.string.report_saved)
+    val noViewerMessage = stringResource(R.string.report_no_viewer)
+    val saveLauncher = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/pdf")) { target ->
+        val file = ready?.first
+        if (target != null && file != null) {
+            scope.launch {
+                runCatching { withContext(Dispatchers.IO) { context.saveYearReport(file, target) } }
+                    .onSuccess { Toast.makeText(context, savedMessage, Toast.LENGTH_SHORT).show() }
+                    .onFailure { Toast.makeText(context, failedMessage, Toast.LENGTH_SHORT).show() }
+            }
+        }
+        ready = null
+    }
     val makeReport: (Int) -> Unit = { year ->
         val (code, report) = reports.getValue(year)
         scope.launch {
@@ -74,7 +95,7 @@ fun SavedPlansScreen(
                 val holidays = runCatching { viewModel.publicHolidayDates(code, year) }.getOrDefault(emptySet())
                 val full = report.copy(publicHolidays = report.publicHolidays + holidays)
                 val file = withContext(Dispatchers.IO) { context.writeYearReport(full) }
-                context.shareYearReport(file, full, chooserTitle)
+                ready = file to full
             }.onFailure { Toast.makeText(context, failedMessage, Toast.LENGTH_SHORT).show() }
         }
     }
@@ -90,6 +111,32 @@ fun SavedPlansScreen(
         },
         containerColor = SurfaceBg
     ) { padding ->
+        ready?.let { (file, report) ->
+            AlertDialog(
+                onDismissRequest = { ready = null },
+                icon = { Icon(Icons.Default.PictureAsPdf, contentDescription = null, tint = TealPrimary) },
+                title = { Text(stringResource(R.string.report_ready_title)) },
+                text = { Text(file.name, style = MaterialTheme.typography.bodyMedium, color = TextOnSurfaceVariant) },
+                confirmButton = {
+                    TextButton(onClick = {
+                        ready = null
+                        if (!context.openYearReport(file)) {
+                            Toast.makeText(context, noViewerMessage, Toast.LENGTH_LONG).show()
+                            context.shareYearReport(file, report, chooserTitle)
+                        }
+                    }) { Text(stringResource(R.string.report_open), fontWeight = FontWeight.Bold) }
+                },
+                dismissButton = {
+                    Row {
+                        TextButton(onClick = { saveLauncher.launch(file.name) }) { Text(stringResource(R.string.report_save)) }
+                        TextButton(onClick = {
+                            ready = null
+                            context.shareYearReport(file, report, chooserTitle)
+                        }) { Text(stringResource(R.string.action_share)) }
+                    }
+                }
+            )
+        }
         if (pickYear) {
             AlertDialog(
                 onDismissRequest = { pickYear = false },

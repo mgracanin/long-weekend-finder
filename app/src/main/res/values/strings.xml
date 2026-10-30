@@ -6,7 +6,7 @@
     <!-- Common -->
     <string name="cd_back">Back</string>
     <string name="cd_logo">Long Weekend logo</string>
-    <string name="cd_profile">Profile and settings</string>
+    <string name="cd_profile">Settings</string>
     <string name="cd_decrease">Decrease</string>
     <string name="cd_increase">Increase</string>
     <string name="cd_previous_year">Previous year</string>
@@ -191,7 +191,7 @@
     <string name="status_to_request">To request</string>
     <string name="holidays_included">Public holidays included automatically:</string>
     <string name="bullet_item">• %s</string>
-    <string name="saved_banner_title">Plan saved to your Saved tab!</string>
+    <string name="saved_banner_title">Added to Saved</string>
     <string name="saved_banner_body">It\'s ready for when you log into your company portal.</string>
     <string name="action_saved">Saved to my list</string>
     <string name="action_save">Save plan to my list</string>
@@ -222,6 +222,11 @@
     <string name="action_tips">Tips</string>
     <string name="report_action">Year report (PDF)</string>
     <string name="report_pick_year">Report for which year?</string>
+    <string name="report_ready_title">Report ready</string>
+    <string name="report_open">Open</string>
+    <string name="report_save">Save</string>
+    <string name="report_saved">Report saved</string>
+    <string name="report_no_viewer">No PDF viewer found, so the report opens in the share menu instead</string>
     <string name="report_chooser_title">Share report</string>
     <string name="report_failed">Couldn\'t create the report</string>
     <string name="report_title">Leave plan %1$d</string>
@@ -239,6 +244,7 @@
     <string name="report_holidays">Public holidays: %s</string>
     <string name="report_footer">Long Weekend · holiday data: Nager.Date · calculations are illustrative</string>
     <string name="report_page">Page %1$d</string>
+    <string name="action_view_saved">View</string>
     <string name="action_copy_dates">Copy dates</string>
     <string name="action_calendar">Calendar</string>
     <string name="clipboard_label">Leave request dates</string>
@@ -286,8 +292,8 @@
     <string name="tag_weekend">Weekend</string>
 
     <!-- Profile -->
-    <string name="profile_title">Your profile</string>
-    <string name="profile_subtitle">Settings &amp; about</string>
+    <string name="profile_title">Settings</string>
+    <string name="profile_subtitle">Profile, appearance and about</string>
     <string name="profile_heading">Your leave allowance</string>
     <string name="profile_intro">We use these to pick your country, cap your searches and pre-fill how many days you want to invest.</string>
     <string name="label_default_country">Default country</string>

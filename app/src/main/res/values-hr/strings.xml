@@ -6,7 +6,7 @@
     <!-- Common -->
     <string name="cd_back">Natrag</string>
     <string name="cd_logo">Logotip aplikacije Long Weekend</string>
-    <string name="cd_profile">Profil i postavke</string>
+    <string name="cd_profile">Postavke</string>
     <string name="cd_decrease">Smanji</string>
     <string name="cd_increase">Povećaj</string>
     <string name="cd_previous_year">Prethodna godina</string>
@@ -202,7 +202,7 @@
     <string name="status_to_request">Još nije zatraženo</string>
     <string name="holidays_included">Blagdani uključeni u plan:</string>
     <string name="bullet_item">• %s</string>
-    <string name="saved_banner_title">Plan je spremljen u odjeljak „Spremljeno”</string>
+    <string name="saved_banner_title">Dodano u Spremljeno</string>
     <string name="saved_banner_body">Datumi će vam biti pri ruci kada budete podnosili zahtjev za godišnji odmor.</string>
     <string name="action_saved">Plan je spremljen</string>
     <string name="action_save">Spremi plan</string>
@@ -236,6 +236,11 @@
     <string name="action_tips">Savjeti</string>
     <string name="report_action">Izvješće (PDF)</string>
     <string name="report_pick_year">Izvješće za koju godinu?</string>
+    <string name="report_ready_title">Izvješće je spremno</string>
+    <string name="report_open">Otvori</string>
+    <string name="report_save">Spremi</string>
+    <string name="report_saved">Izvješće je spremljeno</string>
+    <string name="report_no_viewer">Nije pronađen preglednik PDF-a, pa se izvješće otvara u izborniku za dijeljenje</string>
     <string name="report_chooser_title">Podijeli izvješće</string>
     <string name="report_failed">Izvješće nije izrađeno</string>
     <string name="report_title">Plan godišnjeg odmora za %1$d.</string>
@@ -253,6 +258,7 @@
     <string name="report_holidays">Blagdani: %s</string>
     <string name="report_footer">Long Weekend · podaci o blagdanima: Nager.Date · izračuni su okvirni</string>
     <string name="report_page">Stranica %1$d</string>
+    <string name="action_view_saved">Prikaži</string>
     <string name="action_copy_dates">Kopiraj datume</string>
     <string name="action_calendar">Kalendar</string>
     <string name="clipboard_label">Datumi za zahtjev za godišnji odmor</string>
@@ -301,8 +307,8 @@
     <string name="tag_weekend">Vikend</string>
 
     <!-- Profile -->
-    <string name="profile_title">Vaš profil</string>
-    <string name="profile_subtitle">Postavke i informacije</string>
+    <string name="profile_title">Postavke</string>
+    <string name="profile_subtitle">Profil, izgled i o aplikaciji</string>
     <string name="profile_heading">Vaš godišnji odmor</string>
     <string name="profile_intro">Odaberite državu i unesite koliko dana godišnjeg odmora imate na raspolaganju te koliko ih obično želite iskoristiti u pojedinom planu. Ti će se podaci koristiti kao početne vrijednosti pri izradi novih planova.</string>
     <string name="label_default_country">Zadana država</string>

@@ -56,7 +56,8 @@ import java.util.Locale
 fun PlanDetailsScreen(
     opportunity: Opportunity,
     viewModel: MainViewModel,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onOpenSaved: () -> Unit
 ) {
     val context = LocalContext.current
     val currentCountry by viewModel.selectedCountry.collectAsState()
@@ -350,6 +351,9 @@ fun PlanDetailsScreen(
                                         color = TealOnPrimaryContainer
                                     )
                                 }
+                            }
+                            TextButton(onClick = onOpenSaved) {
+                                Text(stringResource(R.string.action_view_saved), color = TealPrimaryFixed, fontWeight = FontWeight.Bold)
                             }
                             IconButton(onClick = { showSavedBanner = false }, modifier = Modifier.size(24.dp)) {
                                 Icon(Icons.Default.Close, null, tint = TealOnPrimaryContainer)

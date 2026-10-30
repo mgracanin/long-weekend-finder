@@ -2,6 +2,9 @@
 
 package com.longweekend.optimizer.ui.report
 
+import android.content.ActivityNotFoundException
+import android.content.ClipData
+import android.net.Uri
 import android.content.Context
 import android.content.Intent
 import androidx.compose.runtime.Composable
@@ -107,14 +110,42 @@ fun Context.writeYearReport(report: YearReport): File {
     return File(dir, "long-weekend-${report.year}.pdf").also { YearReportPdf.write(report, it) }
 }
 
-/** Opens the share sheet for a written report (e-mail, Drive, print…). */
+private fun Context.reportUri(file: File): Uri = FileProvider.getUriForFile(this, "$packageName.reports", file)
+
+/**
+ * Opens the share sheet for a written report (e-mail, Drive, print…). The file is also attached
+ * as ClipData: some share targets only receive the read permission that way.
+ */
 fun Context.shareYearReport(file: File, report: YearReport, chooserTitle: String) {
-    val uri = FileProvider.getUriForFile(this, "$packageName.reports", file)
+    val uri = reportUri(file)
     val send = Intent(Intent.ACTION_SEND).apply {
         type = "application/pdf"
         putExtra(Intent.EXTRA_STREAM, uri)
         putExtra(Intent.EXTRA_SUBJECT, report.title)
+        clipData = ClipData.newRawUri(file.name, uri)
         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
     }
     startActivity(Intent.createChooser(send, chooserTitle).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION))
+}
+
+/** Opens the report in the phone's PDF viewer; false when no app can show a PDF. */
+fun Context.openYearReport(file: File): Boolean {
+    val uri = reportUri(file)
+    val view = Intent(Intent.ACTION_VIEW).apply {
+        setDataAndType(uri, "application/pdf")
+        clipData = ClipData.newRawUri(file.name, uri)
+        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    }
+    return try {
+        startActivity(view)
+        true
+    } catch (_: ActivityNotFoundException) {
+        false
+    }
+}
+
+/** Copies the report to a place the user picked (e.g. Downloads), where any app can open it. */
+fun Context.saveYearReport(file: File, target: Uri) {
+    contentResolver.openOutputStream(target)?.use { out -> file.inputStream().use { it.copyTo(out) } }
+        ?: error("Can't write to $target")
 }

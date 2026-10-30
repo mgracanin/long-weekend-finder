@@ -66,7 +66,23 @@ fun AppNavigation(
     val savedPlans by viewModel.savedPlans.collectAsState()
     val selectedOpportunity by viewModel.selectedOpportunity.collectAsState()
 
-    val showBottomBar = currentRoute in listOf(Screen.Discover.route, Screen.Holidays.route, Screen.Saved.route)
+    // Suggestions belong to the Discover tab, so the bar stays; plan details and settings are focused screens
+    val showBottomBar = currentRoute in listOf(Screen.Discover.route, Screen.Suggested.route, Screen.Holidays.route, Screen.Saved.route)
+
+    // Switching tabs keeps each tab's place; tapping the tab you're on goes back to its start
+    val openTab: (String, Boolean) -> Unit = { route, isCurrent ->
+        if (isCurrent) {
+            navController.popBackStack(route, inclusive = false)
+        } else {
+            navController.navigate(route) {
+                popUpTo(navController.graph.findStartDestination().id) {
+                    saveState = true
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
+        }
+    }
 
     val openDetail: (Opportunity) -> Unit = { opp ->
         viewModel.selectOpportunity(opp)
@@ -90,18 +106,10 @@ fun AppNavigation(
                         drawLine(divider, Offset(0f, 0f), Offset(size.width, 0f), 1.dp.toPx())
                     }
                 ) {
-                    val isDiscover = currentRoute == Screen.Discover.route
+                    val isDiscover = currentRoute == Screen.Discover.route || currentRoute == Screen.Suggested.route
                     NavigationBarItem(
                         selected = isDiscover,
-                        onClick = {
-                            navController.navigate(Screen.Discover.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
+                        onClick = { openTab(Screen.Discover.route, isDiscover) },
                         icon = {
                             Icon(
                                 imageVector = if (isDiscover) Icons.Default.Explore else Icons.Outlined.Explore,
@@ -124,15 +132,7 @@ fun AppNavigation(
                     val isHolidays = currentRoute == Screen.Holidays.route
                     NavigationBarItem(
                         selected = isHolidays,
-                        onClick = {
-                            navController.navigate(Screen.Holidays.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
+                        onClick = { openTab(Screen.Holidays.route, isHolidays) },
                         icon = {
                             Icon(
                                 imageVector = if (isHolidays) Icons.Default.CalendarMonth else Icons.Outlined.CalendarMonth,
@@ -155,15 +155,7 @@ fun AppNavigation(
                     val isSaved = currentRoute == Screen.Saved.route
                     NavigationBarItem(
                         selected = isSaved,
-                        onClick = {
-                            navController.navigate(Screen.Saved.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
+                        onClick = { openTab(Screen.Saved.route, isSaved) },
                         icon = {
                             BadgedBox(
                                 badge = {
@@ -242,7 +234,8 @@ fun AppNavigation(
                         viewModel = viewModel,
                         onNavigateBack = {
                             navController.popBackStack()
-                        }
+                        },
+                        onOpenSaved = { openTab(Screen.Saved.route, false) }
                     )
                 } else {
                     // Navigation is a side effect; it must not run during composition
