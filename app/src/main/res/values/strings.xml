@@ -273,6 +273,7 @@
     <string name="theme_system">Same as phone</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
+    <string name="theme_oled">Black (OLED battery saver)</string>
     <string name="label_language">Language</string>
     <string name="label_language_hint">App language</string>
     <string name="language_system">System default</string>

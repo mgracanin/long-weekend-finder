@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import com.longweekend.optimizer.repository.ThemeMode
 import androidx.compose.ui.Modifier
 import com.longweekend.optimizer.repository.SettingsRepository
 import com.longweekend.optimizer.ui.navigation.AppNavigation
@@ -34,8 +37,13 @@ class MainActivity : AppCompatActivity() {
         val barStyle = if (dark) SystemBarStyle.dark(Color.TRANSPARENT)
         else SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
         enableEdgeToEdge(statusBarStyle = barStyle, navigationBarStyle = barStyle)
+        if (dark && viewModel.themeMode.value == ThemeMode.OLED) {
+            // Black from the very first frame instead of the regular dark window background
+            window.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(Color.BLACK))
+        }
         setContent {
-            LongWeekendTheme(darkTheme = isSystemInDarkTheme()) {
+            val themeMode by viewModel.themeMode.collectAsState()
+            LongWeekendTheme(darkTheme = isSystemInDarkTheme(), oled = themeMode == ThemeMode.OLED) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = SurfaceBg

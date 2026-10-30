@@ -288,6 +288,7 @@ private fun AppearanceCard(selected: ThemeMode, onSelect: (ThemeMode) -> Unit) {
                             ThemeMode.SYSTEM -> R.string.theme_system
                             ThemeMode.LIGHT -> R.string.theme_light
                             ThemeMode.DARK -> R.string.theme_dark
+                            ThemeMode.OLED -> R.string.theme_oled
                         }
                     ),
                     style = MaterialTheme.typography.bodyLarge,

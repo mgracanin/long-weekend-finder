@@ -107,6 +107,41 @@ val DarkAppColors = AppColors(
     isDark = true
 )
 
+/**
+ * Battery saver for OLED/AMOLED screens, where black pixels are switched off: a pure black
+ * page, near-black cards, deep low-luminance fills for holiday/leave blocks and slightly dimmed
+ * text (no pure white, which also smears on OLED). Designed in Stitch ("Long Weekend OLED").
+ */
+val OledAppColors = AppColors(
+    tealPrimary = Color(0xFF80CBC4),
+    tealPrimaryContainer = Color(0xFF5DA8A0),
+    tealOnPrimary = Color(0xFF00201D),
+    tealOnPrimaryContainer = Color(0xFF00201D),
+    tealPrimaryFixed = Color(0xFF0F2F2C),
+    tealPrimaryFixedDim = Color(0xFF173F3B),
+    tealOnPrimaryFixed = Color(0xFFA6E4DC),
+    amberSecondary = Color(0xFFFFB95F),
+    amberSecondaryContainer = Color(0xFF3D2800),
+    amberOnSecondaryContainer = Color(0xFFFFD9A8),
+    amberSecondaryFixed = Color(0xFF2E1E00),
+    amberOnSecondaryFixed = Color(0xFFFFD9A8),
+    amberOnSecondary = Color(0xFF472A00),
+    surfaceBg = Color(0xFF000000),
+    surfaceLowest = Color(0xFF0D0D0D),
+    surfaceContainerLow = Color(0xFF101010),
+    surfaceContainer = Color(0xFF141414),
+    surfaceContainerHigh = Color(0xFF1C1C1C),
+    surfaceContainerHighest = Color(0xFF242424),
+    textOnSurface = Color(0xFFE6E6E6),
+    textOnSurfaceVariant = Color(0xFFA6A6A6),
+    outlineVariant = Color(0xFF262626),
+    outline = Color(0xFF7A7A7A),
+    error = Color(0xFFFFB4AB),
+    errorContainer = Color(0xFF5C0006),
+    onErrorContainer = Color(0xFFFFDAD6),
+    isDark = true
+)
+
 val LocalAppColors = staticCompositionLocalOf { LightAppColors }
 
 // Named colours used across the UI; each resolves against the current theme

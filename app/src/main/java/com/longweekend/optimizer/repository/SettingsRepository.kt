@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import java.time.DayOfWeek
 import java.util.Locale
 
-/** Light/dark appearance; SYSTEM follows the phone's dark-theme setting. */
-enum class ThemeMode { SYSTEM, LIGHT, DARK }
+/** Appearance; SYSTEM follows the phone's dark-theme setting, OLED is a pure-black dark theme. */
+enum class ThemeMode { SYSTEM, LIGHT, DARK, OLED }
 
 /** User profile settings, persisted in SharedPreferences. */
 class SettingsRepository private constructor(context: Context) {

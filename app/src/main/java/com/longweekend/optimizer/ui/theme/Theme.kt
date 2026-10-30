@@ -6,6 +6,7 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.graphics.Color
 
 /** Material components (dialogs, text fields, switches…) take the same colours as our own UI. */
 private fun AppColors.toColorScheme(): ColorScheme {
@@ -40,15 +41,24 @@ private fun AppColors.toColorScheme(): ColorScheme {
 
 private val LightColorScheme = LightAppColors.toColorScheme()
 private val DarkColorScheme = DarkAppColors.toColorScheme()
+// Material lightens elevated surfaces (cards, bars) with a tint; on OLED that lights pixels, so it is off
+private val OledColorScheme = OledAppColors.toColorScheme().copy(surfaceTint = Color.Transparent)
 
+/** [oled] picks the pure-black palette; it only applies while the app is dark. */
 @Composable
 fun LongWeekendTheme(
     darkTheme: Boolean,
+    oled: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    CompositionLocalProvider(LocalAppColors provides if (darkTheme) DarkAppColors else LightAppColors) {
+    val (colors, scheme) = when {
+        darkTheme && oled -> OledAppColors to OledColorScheme
+        darkTheme -> DarkAppColors to DarkColorScheme
+        else -> LightAppColors to LightColorScheme
+    }
+    CompositionLocalProvider(LocalAppColors provides colors) {
         MaterialTheme(
-            colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme,
+            colorScheme = scheme,
             typography = Typography,
             content = content
         )

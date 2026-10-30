@@ -286,6 +286,7 @@
     <string name="theme_system">Prema postavci telefona</string>
     <string name="theme_light">Svijetla</string>
     <string name="theme_dark">Tamna</string>
+    <string name="theme_oled">Crna (štedi bateriju na OLED zaslonu)</string>
     <string name="label_language">Jezik</string>
     <string name="label_language_hint">Jezik aplikacije</string>
     <string name="language_system">Jezik sustava</string>
