@@ -47,6 +47,7 @@ Croatia, Christmas 2026: book **5 days** of leave and you are off for **11 days 
 - 🧭 **Discover**: pick a country, a year and how many leave days you want to spend, and see the best bridges straight away.
 - 📋 **Suggested breaks**: every useful combination, sorted by longest break, fewest leave days or soonest date, with a day-by-day strip.
 - 🗓️ **Plan details**: month calendars, the exact dates to request from HR with a checklist, copy to clipboard and add to Google Calendar.
+- 📤 **Share a plan** by e-mail, WhatsApp, Viber or any other app: the dates to request, the holidays and what you gain, as readable text.
 - 🌍 **Public holidays**: the whole year at a glance for 204 countries, national and regional.
 - 🔖 **Saved plans**: keep the breaks you like and tick off each day as your employer approves it.
 - 🗂️ **Your working week**: Monday–Friday or Sunday–Thursday, set from your country automatically.
