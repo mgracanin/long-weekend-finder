@@ -2,6 +2,8 @@
 
 package com.longweekend.optimizer.ui.screens.plandetails
 
+import com.longweekend.optimizer.ui.share.planShare
+import com.longweekend.optimizer.ui.share.sharePlan
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -95,6 +97,8 @@ fun PlanDetailsScreen(
     val noCalendarMessage = stringResource(R.string.toast_no_calendar)
     val eventTitle = stringResource(R.string.calendar_event_title, title, countryName)
     val eventDetails = pluralStringResource(R.plurals.calendar_event_details, opportunity.leaveDays, opportunity.leaveDays)
+    val share = planShare(opportunity, countryName)
+    val shareTitle = stringResource(R.string.share_chooser_title)
 
     val months = remember(opportunity.id) {
         generateSequence(YearMonth.from(opportunity.startDate)) { it.plusMonths(1) }
@@ -149,18 +153,29 @@ fun PlanDetailsScreen(
                         }
                     }
 
-                    IconButton(
-                        onClick = toggleSave,
-                        modifier = Modifier
-                            .size(42.dp)
-                            .clip(CircleShape)
-                            .background(SurfaceContainer)
-                    ) {
-                        Icon(
-                            imageVector = if (isSaved) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
-                            contentDescription = stringResource(if (isSaved) R.string.cd_remove_saved else R.string.cd_save_plan),
-                            tint = if (isSaved) AmberSecondary else TealPrimary
-                        )
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        IconButton(
+                            onClick = { context.sharePlan(share, shareTitle) },
+                            modifier = Modifier
+                                .size(42.dp)
+                                .clip(CircleShape)
+                                .background(SurfaceContainer)
+                        ) {
+                            Icon(Icons.Default.Share, stringResource(R.string.cd_share_plan), tint = TealPrimary)
+                        }
+                        IconButton(
+                            onClick = toggleSave,
+                            modifier = Modifier
+                                .size(42.dp)
+                                .clip(CircleShape)
+                                .background(SurfaceContainer)
+                        ) {
+                            Icon(
+                                imageVector = if (isSaved) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
+                                contentDescription = stringResource(if (isSaved) R.string.cd_remove_saved else R.string.cd_save_plan),
+                                tint = if (isSaved) AmberSecondary else TealPrimary
+                            )
+                        }
                     }
                 }
             }

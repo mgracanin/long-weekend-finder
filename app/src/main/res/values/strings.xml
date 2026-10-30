@@ -160,6 +160,8 @@
     <string name="stat_total_days">Total days off</string>
     <string name="stat_annual_leave">Annual leave</string>
     <string name="stat_public_holidays">Public holidays</string>
+    <string name="stat_gain">Gain</string>
+    <string name="stat_gain_value">+%d%%</string>
     <string name="includes">Includes:</string>
     <string name="action_view_plan">View plan</string>
     <string name="visualiser_label">BREAK VISUALISER</string>
@@ -193,6 +195,21 @@
     <string name="saved_banner_body">It\'s ready for when you log into your company portal.</string>
     <string name="action_saved">Saved to my list</string>
     <string name="action_save">Save plan to my list</string>
+    <string name="action_share">Share</string>
+    <string name="cd_share_plan">Share plan</string>
+    <string name="share_chooser_title">Share plan</string>
+    <string name="share_subject">Holiday plan: %1$s, %2$s</string>
+    <plurals name="share_range_line">
+        <item quantity="one">📅 %1$s · %2$d day off</item>
+        <item quantity="other">📅 %1$s · %2$d days off</item>
+    </plurals>
+    <plurals name="share_leave_heading">
+        <item quantity="one">Annual leave to request (%d day):</item>
+        <item quantity="other">Annual leave to request (%d days):</item>
+    </plurals>
+    <string name="share_holidays">🎉 Public holidays: %s</string>
+    <string name="share_summary">%1$s of leave → %2$s off (+%3$d%%)</string>
+    <string name="share_footer">Planned with Long Weekend, a free app: %s</string>
     <string name="action_copy_dates">Copy dates</string>
     <string name="action_calendar">Calendar</string>
     <string name="clipboard_label">Leave request dates</string>

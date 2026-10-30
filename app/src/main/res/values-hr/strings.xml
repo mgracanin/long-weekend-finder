@@ -170,6 +170,8 @@
     <string name="stat_total_days">Ukupno dana odmora</string>
     <string name="stat_annual_leave">Godišnji odmor</string>
     <string name="stat_public_holidays">Blagdani</string>
+    <string name="stat_gain">Dobitak</string>
+    <string name="stat_gain_value">+%d %%</string>
     <string name="includes">Uključuje:</string>
     <string name="action_view_plan">Pogledaj plan</string>
     <string name="visualiser_label">PRIKAZ ODMORA</string>
@@ -204,6 +206,23 @@
     <string name="saved_banner_body">Datumi će vam biti pri ruci kada budete podnosili zahtjev za godišnji odmor.</string>
     <string name="action_saved">Plan je spremljen</string>
     <string name="action_save">Spremi plan</string>
+    <string name="action_share">Podijeli</string>
+    <string name="cd_share_plan">Podijeli plan</string>
+    <string name="share_chooser_title">Podijeli plan</string>
+    <string name="share_subject">Plan odmora: %1$s, %2$s</string>
+    <plurals name="share_range_line">
+        <item quantity="one">📅 %1$s · %2$d dan odmora</item>
+        <item quantity="few">📅 %1$s · %2$d dana odmora</item>
+        <item quantity="other">📅 %1$s · %2$d dana odmora</item>
+    </plurals>
+    <plurals name="share_leave_heading">
+        <item quantity="one">Godišnji odmor za zatražiti (%d dan):</item>
+        <item quantity="few">Godišnji odmor za zatražiti (%d dana):</item>
+        <item quantity="other">Godišnji odmor za zatražiti (%d dana):</item>
+    </plurals>
+    <string name="share_holidays">🎉 Blagdani: %s</string>
+    <string name="share_summary">%1$s godišnjeg → %2$s odmora (+%3$d %%)</string>
+    <string name="share_footer">Isplanirano besplatnom aplikacijom Long Weekend: %s</string>
     <string name="action_copy_dates">Kopiraj datume</string>
     <string name="action_calendar">Kalendar</string>
     <string name="clipboard_label">Datumi za zahtjev za godišnji odmor</string>

@@ -584,6 +584,8 @@ private fun OpportunityFeedCard(
                 StatColumn(number = "${opportunity.totalDays}", label = stringResource(R.string.stat_total_days), color = TealPrimary)
                 StatColumn(number = "${opportunity.leaveDays}", label = stringResource(R.string.stat_annual_leave), color = AmberSecondary)
                 StatColumn(number = "${opportunity.publicHolidaysCount}", label = stringResource(R.string.stat_public_holidays), color = TealPrimaryContainer)
+                // Gain in a quiet colour: useful context, not a headline
+                StatColumn(number = stringResource(R.string.stat_gain_value, opportunity.gainPercent), label = stringResource(R.string.stat_gain), color = TextOnSurfaceVariant)
             }
 
             // Included Holidays Tags

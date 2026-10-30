@@ -1,5 +1,9 @@
 package com.longweekend.optimizer.ui.screens.saved
 
+import com.longweekend.optimizer.ui.share.planShare
+import com.longweekend.optimizer.ui.share.sharePlan
+import com.longweekend.optimizer.model.Country
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.longweekend.optimizer.R
 import com.longweekend.optimizer.ui.text.appLocale
@@ -39,6 +43,7 @@ fun SavedPlansScreen(
     onNavigateToDiscover: () -> Unit
 ) {
     val savedPlans by viewModel.savedPlans.collectAsState()
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -145,11 +150,24 @@ fun SavedPlansScreen(
                                     )
                                 }
 
-                                IconButton(
-                                    onClick = { viewModel.toggleSavePlan(opp) },
-                                    modifier = Modifier.size(28.dp)
-                                ) {
-                                    Icon(Icons.Default.DeleteOutline, stringResource(R.string.cd_remove), tint = TextOnSurfaceVariant)
+                                val share = planShare(
+                                    opp,
+                                    Country.forCode(opp.countryCode.orEmpty())?.localName() ?: opp.countryName.orEmpty()
+                                )
+                                val shareTitle = stringResource(R.string.share_chooser_title)
+                                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                                    IconButton(
+                                        onClick = { context.sharePlan(share, shareTitle) },
+                                        modifier = Modifier.size(28.dp)
+                                    ) {
+                                        Icon(Icons.Default.Share, stringResource(R.string.cd_share_plan), tint = TealPrimary)
+                                    }
+                                    IconButton(
+                                        onClick = { viewModel.toggleSavePlan(opp) },
+                                        modifier = Modifier.size(28.dp)
+                                    ) {
+                                        Icon(Icons.Default.DeleteOutline, stringResource(R.string.cd_remove), tint = TextOnSurfaceVariant)
+                                    }
                                 }
                             }
 
