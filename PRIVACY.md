@@ -1,6 +1,6 @@
 # Privacy Policy — Long Weekend: Leave Optimizer
 
-_Last updated: 23 October 2026_
+_Last updated: 30 October 2026_
 
 Long Weekend ("the app") is a free, open-source Android app that helps you plan annual leave around public holidays. Its source code is public at <https://github.com/mgracanin/long-weekend-finder>, so you can check everything in this policy yourself.
 
@@ -14,7 +14,7 @@ Long Weekend ("the app") is a free, open-source Android app that helps you plan 
 
 The app stores the following locally on your phone, only so it can work:
 
-- **Settings**: default country, annual leave allowance, default number of leave days to invest, app language, and whether you have seen the welcome screens.
+- **Settings**: default country, annual leave allowance, default number of leave days to invest, first working day of the week, app language, appearance (light, dark or black theme), and whether you have seen the welcome screens.
 - **Saved plans**: the breaks you bookmark and which leave dates you have marked as requested.
 
 This information never leaves your device through the app. If Android device backup is turned on, Android may include it in your own Google account backup, which is covered by Google's privacy policy. Uninstalling the app or clearing its data deletes it.

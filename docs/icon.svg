@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="18 18 72 72" width="256" height="256">
+  <!-- Long Weekend app icon (same artwork as app/src/main/res/drawable/ic_launcher_foreground.xml) -->
+  <rect x="18" y="18" width="72" height="72" rx="16" fill="#0B4F4A"/>
+  <path fill="#FFFFFF" d="M37,35h34a5,5 0,0 1,5 5v32a5,5 0,0 1,-5 5h-34a5,5 0,0 1,-5 -5v-32a5,5 0,0 1,5 -5z"/>
+  <path fill="#FFFFFF" stroke="#0B4F4A" stroke-width="1.5" d="M43,29h4a1.5,1.5 0,0 1,1.5 1.5v8a1.5,1.5 0,0 1,-1.5 1.5h-4a1.5,1.5 0,0 1,-1.5 -1.5v-8a1.5,1.5 0,0 1,1.5 -1.5z"/>
+  <path fill="#FFFFFF" stroke="#0B4F4A" stroke-width="1.5" d="M61,29h4a1.5,1.5 0,0 1,1.5 1.5v8a1.5,1.5 0,0 1,-1.5 1.5h-4a1.5,1.5 0,0 1,-1.5 -1.5v-8a1.5,1.5 0,0 1,1.5 -1.5z"/>
+  <path fill="#0B4F4A" d="M38,44h7v5h-7z M50.5,44h7v5h-7z M63,44h7v5h-7z"/>
+  <path fill="#14665F" d="M40,54h28a2,2 0,0 1,2 2v14a2,2 0,0 1,-2 2h-28a2,2 0,0 1,-2 -2v-14a2,2 0,0 1,2 -2z"/>
+  <path fill="#F59E0B" d="M45,66a9,9 0,0 1,18 0z"/>
+  <path fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" d="M41,66q3.25,-2.5 6.5,0t6.5,0t6.5,0t6.5,0"/>
+  <path fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" d="M44,70q2.5,-2 5,0t5,0t5,0t5,0"/>
+</svg>

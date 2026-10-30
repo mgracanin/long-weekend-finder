@@ -1,0 +1,27 @@
+name: Bug report
+description: Something doesn't work or looks wrong
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you do, what did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: input
+    id: country
+    attributes:
+      label: Country and year
+      placeholder: Croatia, 2026
+  - type: input
+    id: version
+    attributes:
+      label: App version and phone
+      description: The version is in Profile → About.
+      placeholder: 1.0.0 on Pixel 8, Android 16
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Optional, but they help a lot.

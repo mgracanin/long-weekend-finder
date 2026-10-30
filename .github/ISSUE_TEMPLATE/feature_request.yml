@@ -1,0 +1,14 @@
+name: Feature or translation idea
+description: Suggest an improvement, a new language or a country fix
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like?
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why would it help?
