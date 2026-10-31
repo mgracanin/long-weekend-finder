@@ -25,8 +25,8 @@ class CountryTest {
     fun displayName_followsTheAppLanguage() {
         val croatia = Country.forCode("hr")!!
         assertEquals("Croatia", croatia.displayName(Locale.ENGLISH))
-        assertEquals("Hrvatska", croatia.displayName(Locale("hr")))
-        assertEquals("Njemačka", Country.forCode("DE")!!.displayName(Locale("hr")))
+        assertEquals("Hrvatska", croatia.displayName(Locale.forLanguageTag("hr")))
+        assertEquals("Njemačka", Country.forCode("DE")!!.displayName(Locale.forLanguageTag("hr")))
     }
 
     @Test

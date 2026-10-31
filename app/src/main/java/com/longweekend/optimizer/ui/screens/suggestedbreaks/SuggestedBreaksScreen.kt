@@ -23,6 +23,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
@@ -646,7 +647,7 @@ private fun OpportunityFeedCard(
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         Text(stringResource(R.string.action_view_plan), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold)
-                        Icon(Icons.Default.ArrowForward, null, modifier = Modifier.size(16.dp))
+                        Icon(Icons.AutoMirrored.Filled.ArrowForward, null, modifier = Modifier.size(16.dp))
                     }
                 }
 

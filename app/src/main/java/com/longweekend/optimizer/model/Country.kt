@@ -13,7 +13,7 @@ data class Country(
 
     /** Country name in [locale]'s language, e.g. "Hrvatska" for HR in Croatian. */
     fun displayName(locale: Locale): String =
-        Locale("", countryCode).getDisplayCountry(locale).takeIf { it.isNotBlank() && it != countryCode } ?: name
+        Locale.Builder().setRegion(countryCode).build().getDisplayCountry(locale).takeIf { it.isNotBlank() && it != countryCode } ?: name
 
     companion object {
         val all: List<Country> = SupportedCountries.all.map { (code, name) -> Country(code, name) }

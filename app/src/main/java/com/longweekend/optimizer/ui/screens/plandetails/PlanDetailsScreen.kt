@@ -30,6 +30,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
@@ -217,7 +218,7 @@ fun PlanDetailsScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Icon(Icons.Default.FactCheck, null, tint = AmberSecondary, modifier = Modifier.size(22.dp))
+                        Icon(Icons.AutoMirrored.Filled.FactCheck, null, tint = AmberSecondary, modifier = Modifier.size(22.dp))
                         Column {
                             Text(
                                 text = stringResource(R.string.request_title),

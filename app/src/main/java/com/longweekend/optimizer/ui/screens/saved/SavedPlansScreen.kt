@@ -35,6 +35,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -358,7 +359,7 @@ fun SavedPlansScreen(
                             ) {
                                 Text(stringResource(R.string.action_view_full_plan), style = MaterialTheme.typography.labelLarge)
                                 Spacer(modifier = Modifier.width(6.dp))
-                                Icon(Icons.Default.ArrowForward, null, modifier = Modifier.size(16.dp))
+                                Icon(Icons.AutoMirrored.Filled.ArrowForward, null, modifier = Modifier.size(16.dp))
                             }
                         }
                     }

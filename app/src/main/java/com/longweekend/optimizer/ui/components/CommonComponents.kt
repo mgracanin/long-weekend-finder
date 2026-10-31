@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
@@ -70,7 +71,7 @@ fun LongWeekendTopBar(
                         modifier = Modifier.size(38.dp)
                     ) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.cd_back),
                             tint = TextOnSurface
                         )
@@ -503,7 +504,7 @@ fun MetricBentoStrip(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        imageVector = Icons.Default.TrendingUp,
+                        imageVector = Icons.AutoMirrored.Filled.TrendingUp,
                         contentDescription = null,
                         tint = AmberSecondary,
                         modifier = Modifier.size(16.dp)

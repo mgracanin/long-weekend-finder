@@ -124,7 +124,7 @@ It then drops any break that an overlapping one beats on both leave cost and len
 
 ## Build from source
 
-You need JDK 17+ and the Android SDK (platform 36). The easiest way is to open the project in Android Studio. From the command line, create `local.properties` with `sdk.dir=/path/to/Android/Sdk`, then:
+You need JDK 17+ and the Android SDK (platform 37). The easiest way is to open the project in Android Studio. From the command line, create `local.properties` with `sdk.dir=/path/to/Android/Sdk`, then:
 
 ```bash
 ./gradlew testDebugUnitTest   # unit tests

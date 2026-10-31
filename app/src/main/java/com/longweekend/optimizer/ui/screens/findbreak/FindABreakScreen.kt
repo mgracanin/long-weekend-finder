@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -269,7 +270,7 @@ private fun ResultsBar(
                     modifier = Modifier.alpha(if (isLoading) 0f else 1f)
                 )
                 Icon(
-                    imageVector = if (isError) Icons.Default.Refresh else Icons.Default.ArrowForward,
+                    imageVector = if (isError) Icons.Default.Refresh else Icons.AutoMirrored.Filled.ArrowForward,
                     contentDescription = null,
                     tint = onBar,
                     modifier = Modifier.size(18.dp).alpha(if (isLoading) 0f else 1f)

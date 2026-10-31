@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Long Weekend</string>
     <string name="app_subtitle">Planer godišnjeg odmora</string>
 
@@ -22,12 +22,12 @@
         <item quantity="few">%d dana</item>
         <item quantity="other">%d dana</item>
     </plurals>
-    <plurals name="working_days_unit">
+    <plurals name="working_days_unit" tools:ignore="ImpliedQuantity">
         <item quantity="one">radni dan</item>
         <item quantity="few">radna dana</item>
         <item quantity="other">radnih dana</item>
     </plurals>
-    <plurals name="days_per_year_unit">
+    <plurals name="days_per_year_unit" tools:ignore="ImpliedQuantity">
         <item quantity="one">dan godišnje</item>
         <item quantity="few">dana godišnje</item>
         <item quantity="other">dana godišnje</item>

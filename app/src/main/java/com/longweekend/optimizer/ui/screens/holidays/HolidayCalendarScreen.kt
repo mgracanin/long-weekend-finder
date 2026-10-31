@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -193,7 +194,7 @@ fun HolidayCalendarScreen(
                     item(key = "legend") { Legend() }
 
                     item(key = "list_label") {
-                        SectionLabel(icon = Icons.Default.EventNote, title = stringResource(R.string.holidays_all_in_year, selectedYear))
+                        SectionLabel(icon = Icons.AutoMirrored.Filled.EventNote, title = stringResource(R.string.holidays_all_in_year, selectedYear))
                     }
                     items(yearHolidays, key = { "${it.date}_${it.name}" }, contentType = { "holiday" }) {
                         HolidayRow(it, selectedCountry.countryCode, weekend)
