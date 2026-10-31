@@ -46,7 +46,7 @@ St Stephen's Day falls on a Saturday that year, so the app counts only the two w
 
 ## Features
 
-- 🧭 **Discover**: pick a country, a year and how many leave days you want to spend, and see the best bridges straight away.
+- 🧭 **Discover**: pick a country, this year or any of the next four, and how many leave days you want to spend, and see the best bridges straight away.
 - 📋 **Suggested breaks**: every useful combination, sorted by longest break, fewest leave days or soonest date, with a day-by-day strip and how many extra days you gain.
 - 🗓️ **Plan details**: month calendars, the exact dates to request from HR with a checklist, copy to clipboard and add to Google Calendar.
 - 📤 **Share a plan** from Plan details or Saved, by e-mail, WhatsApp, Viber or any other app: the dates to request, the holidays and what you gain, as readable text.
