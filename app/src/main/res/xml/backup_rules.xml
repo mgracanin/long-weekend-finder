@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 11 and older: back up settings and saved plans, not downloaded holidays (they download again) -->
+<full-backup-content>
+    <exclude domain="file" path="holidays/" />
+</full-backup-content>

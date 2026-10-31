@@ -16,6 +16,7 @@ The app stores the following locally on your phone, only so it can work:
 
 - **Settings**: default country, annual leave allowance, default number of leave days to invest, first working day of the week, app language, appearance (light, dark or black theme), and whether you have seen the welcome screens.
 - **Saved plans**: the breaks you bookmark and which leave dates you have marked as requested.
+- **Holiday data**: the public holiday lists the app has downloaded for this year and the next few, so it works without a connection. They contain no personal information, are updated about once a week and are not included in backups.
 
 This information never leaves your device through the app. If Android device backup is turned on, Android may include it in your own Google account backup, which is covered by Google's privacy policy. Uninstalling the app or clearing its data deletes it.
 

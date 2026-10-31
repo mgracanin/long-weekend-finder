@@ -356,4 +356,12 @@
     </plurals>
     <string name="onboarding_4_title">Let\'s set you up</string>
     <string name="onboarding_4_body">Pick your country and how many days of paid leave you get each year. You can change both later in your profile.</string>
+    <string name="label_holiday_data">Holiday data</string>
+    <string name="label_holiday_data_hint">Kept on your phone for %1$s, %2$d–%3$d, so the app works offline. Updated automatically about once a week.</string>
+    <string name="holiday_data_updated">Last updated %1$s</string>
+    <string name="holiday_data_partial">Some years are still downloading</string>
+    <string name="holiday_data_none">Not downloaded yet</string>
+    <string name="action_update_now">Update now</string>
+    <string name="holiday_data_refreshed">Holiday data updated</string>
+    <string name="holiday_data_failed">Couldn\'t reach the holiday service. Try again when you\'re online.</string>
 </resources>

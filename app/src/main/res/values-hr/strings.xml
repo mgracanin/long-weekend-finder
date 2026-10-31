@@ -375,4 +375,12 @@
 
     <string name="onboarding_4_title">Spremni za planiranje odmora?</string>
     <string name="onboarding_4_body">Odaberite državu i unesite broj dana plaćenog godišnjeg odmora koji imate na raspolaganju tijekom godine. Oba podatka možete poslije promijeniti u profilu.</string>
+    <string name="label_holiday_data">Podaci o blagdanima</string>
+    <string name="label_holiday_data_hint">Spremljeni na mobitelu za %1$s, %2$d.–%3$d., pa aplikacija radi i bez interneta. Ažuriraju se sami, otprilike jednom tjedno.</string>
+    <string name="holiday_data_updated">Zadnje ažuriranje: %1$s</string>
+    <string name="holiday_data_partial">Neke se godine još preuzimaju</string>
+    <string name="holiday_data_none">Još nisu preuzeti</string>
+    <string name="action_update_now">Ažuriraj</string>
+    <string name="holiday_data_refreshed">Podaci o blagdanima su ažurirani</string>
+    <string name="holiday_data_failed">Usluga za blagdane nije dostupna. Pokušajte ponovno kad budete povezani s internetom.</string>
 </resources>

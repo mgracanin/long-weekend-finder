@@ -25,6 +25,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -39,13 +43,20 @@ import androidx.core.os.LocaleListCompat
 import com.longweekend.optimizer.AppLinks
 import com.longweekend.optimizer.BuildConfig
 import com.longweekend.optimizer.R
+import com.longweekend.optimizer.model.Planning
+import com.longweekend.optimizer.repository.HolidayDataStatus
 import com.longweekend.optimizer.repository.SettingsRepository
 import com.longweekend.optimizer.ui.components.CountryPicker
 import com.longweekend.optimizer.ui.components.DaysStepper
 import com.longweekend.optimizer.ui.components.LongWeekendTopBar
 import com.longweekend.optimizer.ui.components.SectionLabel
+import com.longweekend.optimizer.ui.text.formatDate
+import com.longweekend.optimizer.ui.text.localName
 import com.longweekend.optimizer.ui.theme.*
 import com.longweekend.optimizer.viewmodel.MainViewModel
+import kotlinx.coroutines.launch
+import java.time.Instant
+import java.time.ZoneId
 
 /** Language tags offered in-app; "" follows the phone's language. */
 private val LANGUAGES = listOf("" to R.string.language_system, "en" to R.string.language_english, "hr" to R.string.language_croatian)
@@ -62,6 +73,7 @@ fun ProfileScreen(
     val savedPlans by viewModel.savedPlans.collectAsState()
     val firstWorkday by viewModel.firstWorkday.collectAsState()
     val themeMode by viewModel.themeMode.collectAsState()
+    val holidayDataStatus by viewModel.holidayDataStatus.collectAsState()
 
     val plannedDays = viewModel.plannedLeaveDays(savedPlans, selectedYear)
     val remainingDays = annualAllowance - plannedDays
@@ -113,6 +125,13 @@ fun ProfileScreen(
                     onCountrySelected = viewModel::setDefaultCountry
                 )
             }
+
+            HolidayDataCard(
+                countryName = defaultCountry.localName(),
+                years = Planning.years(viewModel.currentYear),
+                status = holidayDataStatus,
+                onRefresh = viewModel::refreshHolidayData
+            )
 
             SettingsCard {
                 SectionLabel(
@@ -223,6 +242,72 @@ fun ProfileScreen(
             )
 
             Spacer(modifier = Modifier.height(24.dp))
+        }
+    }
+}
+
+/** Where the home country's holidays stand on the phone, with a way to update them now. */
+@Composable
+private fun HolidayDataCard(
+    countryName: String,
+    years: IntRange,
+    status: HolidayDataStatus?,
+    onRefresh: suspend () -> Boolean
+) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    var refreshing by remember { mutableStateOf(false) }
+    val doneMessage = stringResource(R.string.holiday_data_refreshed)
+    val failedMessage = stringResource(R.string.holiday_data_failed)
+
+    SettingsCard {
+        SectionLabel(
+            icon = Icons.Default.CloudDownload,
+            title = stringResource(R.string.label_holiday_data),
+            subtitle = stringResource(R.string.label_holiday_data_hint, countryName, years.first, years.last)
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(
+                text = when {
+                    status == null -> ""
+                    status.storedYears == 0 -> stringResource(R.string.holiday_data_none)
+                    status.storedYears < status.totalYears -> stringResource(R.string.holiday_data_partial)
+                    else -> stringResource(
+                        R.string.holiday_data_updated,
+                        formatDate(
+                            Instant.ofEpochMilli(status.oldestUpdate ?: 0).atZone(ZoneId.systemDefault()).toLocalDate(),
+                            R.string.pattern_day_month_year
+                        )
+                    )
+                },
+                style = MaterialTheme.typography.labelMedium,
+                color = TextOnSurfaceVariant,
+                modifier = Modifier.weight(1f)
+            )
+            OutlinedButton(
+                onClick = {
+                    refreshing = true
+                    scope.launch {
+                        val ok = onRefresh()
+                        refreshing = false
+                        Toast.makeText(context, if (ok) doneMessage else failedMessage, Toast.LENGTH_SHORT).show()
+                    }
+                },
+                enabled = !refreshing,
+                border = BorderStroke(1.dp, CardBorder)
+            ) {
+                // The icon slot keeps its size, so the button doesn't change width while working
+                Box(modifier = Modifier.size(16.dp), contentAlignment = Alignment.Center) {
+                    if (refreshing) CircularProgressIndicator(strokeWidth = 2.dp, color = TealPrimary, modifier = Modifier.size(14.dp))
+                    else Icon(Icons.Default.Refresh, null, tint = TealPrimary, modifier = Modifier.size(16.dp))
+                }
+                Spacer(Modifier.width(6.dp))
+                Text(stringResource(R.string.action_update_now), color = TealPrimary)
+            }
         }
     }
 }

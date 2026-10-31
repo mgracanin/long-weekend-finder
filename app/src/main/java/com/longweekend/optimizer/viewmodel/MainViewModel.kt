@@ -9,6 +9,7 @@ import com.longweekend.optimizer.model.PublicHoliday
 import com.longweekend.optimizer.model.SavedPlan
 import com.longweekend.optimizer.model.WorkWeek
 import com.longweekend.optimizer.optimizer.HolidayBridgeOptimizer
+import com.longweekend.optimizer.repository.HolidayDataStatus
 import com.longweekend.optimizer.repository.HolidayRepository
 import com.longweekend.optimizer.repository.SettingsRepository
 import com.longweekend.optimizer.repository.ThemeMode
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -112,11 +114,40 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     val savedPlans: StateFlow<List<SavedPlan>> = repository.savedPlans
 
+    /** How much of the home country's holiday data is on the phone, for Settings; null until known. */
+    val holidayDataStatus: StateFlow<HolidayDataStatus?> = combine(settings.defaultCountryCode, repository.storeVersion) { code, _ -> code }
+        .map { repository.storedStatus(it, currentYear) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+
     private var searchJob: Job? = null
 
     init {
         searchBreaks()
+        // Before the welcome screens the home country is only a guess; finishing them prefetches
+        if (settings.onboardingDone.value) prefetchHomeCountry()
+        viewModelScope.launch {
+            repository.holidaysChanged.collect { (code, year) ->
+                // A background update changed holidays this search uses; redo it without a loading state
+                val selectedYear = _selectedYear.value
+                if (code == _selectedCountry.value.countryCode && (year == selectedYear || year == selectedYear + 1)) {
+                    searchBreaks(quiet = true)
+                }
+            }
+        }
     }
+
+    /** Puts every plannable year of the home country on the phone, once the search on screen has its data. */
+    private fun prefetchHomeCountry() {
+        viewModelScope.launch {
+            // A newer search may replace the one running now; wait for whichever is last
+            while (searchJob?.isActive == true) searchJob?.join()
+            repository.prefetch(settings.defaultCountryCode.value, currentYear)
+        }
+    }
+
+    /** Downloads the home country's holidays again; false when the API couldn't be reached. */
+    suspend fun refreshHolidayData(): Boolean =
+        repository.refreshAll(settings.defaultCountryCode.value, currentYear)
 
     fun setCountry(country: Country) {
         if (country == _selectedCountry.value) return
@@ -132,6 +163,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         settings.setDefaultCountryCode(country.countryCode)
         settings.setFirstWorkday(WorkWeek.defaultFor(country.countryCode))
         if (country != _selectedCountry.value) setCountry(country) else searchBreaks()
+        prefetchHomeCountry()
     }
 
     private fun countryFor(code: String): Country =
@@ -180,6 +212,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         _selectedCountry.value = defaultCountry.value
         _leaveBudget.value = defaultLeaveBudget.value
         searchBreaks()
+        prefetchHomeCountry()
     }
 
     /** Changes the working week (e.g. Sun–Thu) and recalculates, since the weekend days change. */
@@ -256,7 +289,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun plannedLeaveDays(plans: List<SavedPlan>, year: Int): Int =
         plans.filter { it.opportunity.startDate.year == year }.sumOf { it.opportunity.leaveDays }
 
-    private fun searchBreaks(forceRefresh: Boolean = false) {
+    /** [quiet] keeps the current results on screen while recalculating, instead of a loading state. */
+    private fun searchBreaks(forceRefresh: Boolean = false, quiet: Boolean = false) {
         // A newer search always wins; stale results must never overwrite it
         searchJob?.cancel()
         // A new country/year must never show the previous one's holidays while loading
@@ -266,7 +300,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             holidaysKey = key
         }
         searchJob = viewModelScope.launch {
-            _uiStatus.value = UiStatus.LOADING
+            if (!quiet) _uiStatus.value = UiStatus.LOADING
             val startedAt = System.currentTimeMillis()
             try {
                 val country = _selectedCountry.value

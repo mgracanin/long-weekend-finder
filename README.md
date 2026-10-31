@@ -56,7 +56,7 @@ St Stephen's Day falls on a Saturday that year, so the app counts only the two w
 - 🗂️ **Your working week**: Monday–Friday or Sunday–Thursday, set from your country automatically.
 - 🌗 **Light, dark and black (OLED) themes**: follows your phone, or pick one yourself.
 - 🇬🇧 🇭🇷 **English and Croatian**, switchable in the app.
-- ✈️ **Works offline** with built-in calendars for 10 countries (HR, GB, DE, FR, IT, ES, US, CA, AU, IE).
+- ✈️ **Works offline**: your country's holidays for this year and the next four are kept on the phone and updated about once a week, or on demand in Settings. Ten countries also have built-in calendars (HR, GB, DE, FR, IT, ES, US, CA, AU, IE).
 
 ## Three themes
 
@@ -112,7 +112,7 @@ No account, no ads, no analytics, no tracking. Your settings and saved plans are
 
 ## How it works
 
-Holidays come from the free [Nager.Date](https://date.nager.at) public holidays API, cached on the phone. For every holiday the optimizer tries each window around it. It keeps breaks that:
+Holidays come from the free [Nager.Date](https://date.nager.at) public holidays API and are kept on the phone, so the app works offline. For every holiday the optimizer tries each window around it. It keeps breaks that:
 
 - start and end next to working days,
 - need at least one leave day, within your budget,
@@ -168,7 +168,7 @@ Kotlin · Jetpack Compose with Material 3 · MVVM with StateFlow · Retrofit + G
 app/src/main/java/com/longweekend/optimizer/
 ├── model/        data classes, countries, working weeks
 ├── optimizer/    HolidayBridgeOptimizer: the bridge-finding algorithm
-├── repository/   holiday API, cache, offline calendars, settings, saved plans
+├── repository/   holiday API, offline holiday store, built-in calendars, settings, saved plans
 ├── viewmodel/    MainViewModel
 └── ui/           Compose screens, components, themes, plan sharing and text formatting
 ```

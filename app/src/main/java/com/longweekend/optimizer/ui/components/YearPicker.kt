@@ -22,10 +22,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.longweekend.optimizer.R
+import com.longweekend.optimizer.model.Planning
 import com.longweekend.optimizer.ui.theme.*
-
-/** How many years, counting this one, can be planned. */
-private const val PLANNABLE_YEARS = 5
 
 /**
  * The years leave can be planned for, all visible at once as one segmented strip: a single tap
@@ -50,7 +48,7 @@ fun YearPicker(
                 .selectableGroup(),
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            (currentYear until currentYear + PLANNABLE_YEARS).forEach { year ->
+            Planning.years(currentYear).forEach { year ->
                 YearSegment(
                     year = year,
                     caption = when (year) {
