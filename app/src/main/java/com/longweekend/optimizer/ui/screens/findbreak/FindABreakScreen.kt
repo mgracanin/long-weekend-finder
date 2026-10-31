@@ -38,7 +38,7 @@ import com.longweekend.optimizer.ui.components.CountryChip
 import com.longweekend.optimizer.ui.components.DaysStepper
 import com.longweekend.optimizer.ui.components.LongWeekendTopBar
 import com.longweekend.optimizer.ui.components.SectionLabel
-import com.longweekend.optimizer.ui.components.YearChip
+import com.longweekend.optimizer.ui.components.YearPicker
 import com.longweekend.optimizer.ui.theme.*
 import com.longweekend.optimizer.viewmodel.MainViewModel
 import com.longweekend.optimizer.viewmodel.UiStatus
@@ -98,20 +98,17 @@ fun FindABreakScreen(
                 color = TealPrimary
             )
 
-            // Country and year rarely change, so they are compact pills rather than big blocks
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                CountryChip(
-                    selected = selectedCountry,
-                    countries = countries,
-                    onCountrySelected = viewModel::setCountry,
-                    modifier = Modifier.weight(1f, fill = false)
-                )
-                YearChip(
-                    selectedYear = selectedYear,
-                    currentYear = viewModel.currentYear,
-                    onYearSelected = viewModel::setYear
-                )
-            }
+            // The country rarely changes, so it is a compact pill; every plannable year is one tap away
+            CountryChip(
+                selected = selectedCountry,
+                countries = countries,
+                onCountrySelected = viewModel::setCountry
+            )
+            YearPicker(
+                selectedYear = selectedYear,
+                currentYear = viewModel.currentYear,
+                onYearSelected = viewModel::setYear
+            )
 
             // The one control most people adjust: how many leave days, and when
             Card(

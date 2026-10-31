@@ -9,8 +9,6 @@
     <string name="cd_profile">Settings</string>
     <string name="cd_decrease">Decrease</string>
     <string name="cd_increase">Increase</string>
-    <string name="cd_previous_year">Previous year</string>
-    <string name="cd_next_year">Next year</string>
     <string name="cd_save_plan">Save plan</string>
     <string name="cd_remove_saved">Remove from saved</string>
     <string name="action_retry">Retry</string>
@@ -39,9 +37,9 @@
     <string name="cd_nav_holidays">Public holidays</string>
 
     <!-- Year picker -->
-    <string name="year_this">This year</string>
     <string name="year_next">Next year</string>
-    <string name="year_last">Last year</string>
+    <string name="year_short_this">this</string>
+    <string name="year_short_next">next</string>
 
     <!-- Discover -->
     <string name="discover_headline">Make more of your days off</string>

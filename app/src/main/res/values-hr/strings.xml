@@ -9,8 +9,6 @@
     <string name="cd_profile">Postavke</string>
     <string name="cd_decrease">Smanji</string>
     <string name="cd_increase">Povećaj</string>
-    <string name="cd_previous_year">Prethodna godina</string>
-    <string name="cd_next_year">Sljedeća godina</string>
     <string name="cd_save_plan">Spremi plan</string>
     <string name="cd_remove_saved">Ukloni iz spremljenih planova</string>
     <string name="action_retry">Pokušaj ponovno</string>
@@ -42,9 +40,9 @@
     <string name="cd_nav_holidays">Blagdani</string>
 
     <!-- Year picker -->
-    <string name="year_this">Ova godina</string>
     <string name="year_next">Sljedeća</string>
-    <string name="year_last">Prošla</string>
+    <string name="year_short_this">ova</string>
+    <string name="year_short_next">sljedeća</string>
 
     <!-- Discover -->
     <string name="discover_headline">Maksimalno iskoristite svaki dan godišnjeg odmora</string>

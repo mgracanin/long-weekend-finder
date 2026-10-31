@@ -1,173 +1,106 @@
 package com.longweekend.optimizer.ui.components
 
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material.icons.filled.ExpandMore
-import androidx.compose.ui.res.stringResource
-import com.longweekend.optimizer.R
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ChevronLeft
-import androidx.compose.material.icons.filled.ChevronRight
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.longweekend.optimizer.R
 import com.longweekend.optimizer.ui.theme.*
 
-private val YearItemWidth = 72.dp
+/** How many years, counting this one, can be planned. */
+private const val PLANNABLE_YEARS = 5
 
 /**
- * Horizontally scrollable year selector spanning [yearsAround] years either side of
- * [currentYear]. The selected year is always scrolled to the centre.
+ * The years leave can be planned for, all visible at once as one segmented strip: a single tap
+ * picks a year, and "this" / "next" captions orient the user without reading the numbers.
  */
 @Composable
 fun YearPicker(
     selectedYear: Int,
     currentYear: Int,
     onYearSelected: (Int) -> Unit,
-    modifier: Modifier = Modifier,
-    yearsAround: Int = 10
+    modifier: Modifier = Modifier
 ) {
-    val years = remember(currentYear, yearsAround) {
-        ((currentYear - yearsAround)..(currentYear + yearsAround)).toList()
-    }
-    val selectedIndex = years.indexOf(selectedYear).coerceAtLeast(0)
-    val listState = rememberLazyListState(initialFirstVisibleItemIndex = selectedIndex)
-    var hasPositioned by remember { mutableStateOf(false) }
-
-    LaunchedEffect(selectedIndex) {
-        // Content padding of half the viewport means "first visible item" is the centred one
-        if (hasPositioned) listState.animateScrollToItem(selectedIndex) else listState.scrollToItem(selectedIndex)
-        hasPositioned = true
-    }
-
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(SurfaceContainerLow)
-            .padding(vertical = 4.dp),
-        verticalAlignment = Alignment.CenterVertically
+    Surface(
+        shape = RoundedCornerShape(14.dp),
+        color = SurfaceLowest,
+        border = BorderStroke(1.dp, CardBorder),
+        modifier = modifier.fillMaxWidth()
     ) {
-        IconButton(
-            onClick = { onYearSelected(selectedYear - 1) },
-            enabled = selectedYear > years.first(),
-            modifier = Modifier.size(36.dp)
+        Row(
+            modifier = Modifier
+                .padding(4.dp)
+                .selectableGroup(),
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            Icon(Icons.Default.ChevronLeft, stringResource(R.string.cd_previous_year), tint = if (selectedYear > years.first()) TealPrimary else OutlineVariant)
-        }
-
-        BoxWithConstraints(modifier = Modifier.weight(1f)) {
-            val sidePadding = ((maxWidth - YearItemWidth) / 2).coerceAtLeast(0.dp)
-            LazyRow(
-                state = listState,
-                contentPadding = PaddingValues(horizontal = sidePadding),
-                horizontalArrangement = Arrangement.spacedBy(0.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                itemsIndexed(years, key = { _, year -> year }) { _, year ->
-                    YearItem(
-                        year = year,
-                        isSelected = year == selectedYear,
-                        caption = when (year) {
-                            currentYear -> stringResource(R.string.year_this)
-                            currentYear + 1 -> stringResource(R.string.year_next)
-                            currentYear - 1 -> stringResource(R.string.year_last)
-                            else -> null
-                        },
-                        onClick = { onYearSelected(year) }
-                    )
-                }
+            (currentYear until currentYear + PLANNABLE_YEARS).forEach { year ->
+                YearSegment(
+                    year = year,
+                    caption = when (year) {
+                        currentYear -> stringResource(R.string.year_short_this)
+                        currentYear + 1 -> stringResource(R.string.year_short_next)
+                        else -> null
+                    },
+                    selected = year == selectedYear,
+                    onClick = { onYearSelected(year) },
+                    modifier = Modifier.weight(1f)
+                )
             }
-        }
-
-        IconButton(
-            onClick = { onYearSelected(selectedYear + 1) },
-            enabled = selectedYear < years.last(),
-            modifier = Modifier.size(36.dp)
-        ) {
-            Icon(Icons.Default.ChevronRight, stringResource(R.string.cd_next_year), tint = if (selectedYear < years.last()) TealPrimary else OutlineVariant)
         }
     }
 }
 
 @Composable
-private fun YearItem(
+private fun YearSegment(
     year: Int,
-    isSelected: Boolean,
     caption: String?,
-    onClick: () -> Unit
+    selected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
+    val fill by animateColorAsState(if (selected) SelectedFill else Color.Transparent, label = "yearFill")
     Column(
-        modifier = Modifier
-            .width(YearItemWidth)
-            .clip(RoundedCornerShape(8.dp))
-            .background(if (isSelected) SurfaceLowest else Color.Transparent)
-            .clickable(onClick = onClick)
+        modifier = modifier
+            .clip(RoundedCornerShape(10.dp))
+            .background(fill)
+            .selectable(selected = selected, role = Role.Tab, onClick = onClick)
+            .heightIn(min = 48.dp)
             .padding(vertical = 6.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         Text(
             text = "$year",
             style = MaterialTheme.typography.labelLarge,
-            fontWeight = if (isSelected) FontWeight.ExtraBold else FontWeight.Normal,
-            color = if (isSelected) TealPrimary else TextOnSurfaceVariant
+            fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal,
+            color = if (selected) OnSelectedFill else TextOnSurface,
+            maxLines = 1,
+            softWrap = false
         )
+        // Every segment keeps the caption line, so the numbers stay on one baseline
         Text(
             text = caption ?: " ",
-            style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp, fontWeight = FontWeight.Bold),
-            color = if (isSelected) AmberSecondary else TextOnSurfaceVariant.copy(alpha = 0.7f)
+            style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
+            color = if (selected) OnSelectedFill.copy(alpha = 0.8f) else TextOnSurfaceVariant,
+            maxLines = 1,
+            softWrap = false
         )
-    }
-}
-
-/** Compact pill with the selected year; tapping opens a short list of nearby years. */
-@Composable
-fun YearChip(
-    selectedYear: Int,
-    currentYear: Int,
-    onYearSelected: (Int) -> Unit,
-    modifier: Modifier = Modifier,
-    yearsAround: Int = 10
-) {
-    var expanded by remember { mutableStateOf(false) }
-    Box(modifier = modifier) {
-        PillButton(onClick = { expanded = true }) {
-            Text("$selectedYear", style = MaterialTheme.typography.labelLarge, color = TextOnSurface)
-            Icon(Icons.Default.ExpandMore, contentDescription = null, tint = TextOnSurfaceVariant, modifier = Modifier.size(18.dp))
-        }
-        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-            ((currentYear - yearsAround)..(currentYear + yearsAround)).forEach { year ->
-                DropdownMenuItem(
-                    text = {
-                        Text(
-                            "$year",
-                            fontWeight = if (year == selectedYear) FontWeight.Bold else FontWeight.Normal,
-                            color = if (year == selectedYear) TealPrimary else TextOnSurface
-                        )
-                    },
-                    onClick = {
-                        expanded = false
-                        onYearSelected(year)
-                    }
-                )
-            }
-        }
     }
 }
