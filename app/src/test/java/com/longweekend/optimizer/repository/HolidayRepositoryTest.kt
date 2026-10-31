@@ -1,9 +1,7 @@
 package com.longweekend.optimizer.repository
 
 import com.longweekend.optimizer.model.StoredHolidays
-import com.longweekend.optimizer.optimizer.HolidayBridgeOptimizer
 import com.longweekend.optimizer.testing.FakeHolidayApi
-import com.longweekend.optimizer.testing.FakeSharedPreferences
 import com.longweekend.optimizer.testing.holiday
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
@@ -27,17 +25,14 @@ class HolidayRepositoryTest {
     val folder = TemporaryFolder()
 
     private val year = 2030
-    private val gson = HolidayRepository.createGson()
+    private val gson = createGson()
     private val api = FakeHolidayApi { code, year -> listOf(holiday("$year-12-25", countryCode = code)) }
-    private val prefs = FakeSharedPreferences()
     private var clock = 1_000_000_000_000L
 
     /** A new repository over the same phone storage, as after an app restart. */
     private fun TestScope.repository() = HolidayRepository(
         api = api,
         store = HolidayStore(folder.root, gson),
-        prefs = prefs,
-        gson = gson,
         ioDispatcher = StandardTestDispatcher(testScheduler),
         now = { clock }
     )
@@ -144,29 +139,5 @@ class HolidayRepositoryTest {
         api.online = true
         assertTrue(repository.refreshAll("HR", year))
         assertEquals(6, repository.storedStatus("HR", year).storedYears)
-    }
-
-    @Test
-    fun savedPlansAndTheirTicksSurviveARestart() = runTest {
-        val opportunity = HolidayBridgeOptimizer.generateOpportunities(
-            holidays = listOf(holiday("2030-12-25"), holiday("2030-12-26")),
-            year = year,
-            leaveBudget = 3
-        ).first { it.leaveDays >= 2 }
-
-        val repository = repository()
-        assertTrue(repository.toggleSavePlan(opportunity, checkedStates = listOf(true)))
-        assertTrue(repository.isPlanSaved(opportunity.id))
-        repository.updateChecklistItem(opportunity.id, itemIndex = 1, isChecked = true)
-
-        val restored = repository().savedPlans.value.single()
-        assertEquals(opportunity.copy(isSaved = true), restored.opportunity)
-        assertEquals(
-            listOf(true, true) + List(restored.checklistItems.size - 2) { false },
-            restored.checklistItems.map { it.isChecked }
-        )
-
-        assertFalse("a second tap removes it", repository.toggleSavePlan(opportunity))
-        assertTrue(repository().savedPlans.value.isEmpty())
     }
 }

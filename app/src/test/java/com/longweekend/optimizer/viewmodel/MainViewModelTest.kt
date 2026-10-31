@@ -6,7 +6,9 @@ import com.longweekend.optimizer.model.PublicHoliday
 import com.longweekend.optimizer.model.StoredHolidays
 import com.longweekend.optimizer.repository.HolidayRepository
 import com.longweekend.optimizer.repository.HolidayStore
+import com.longweekend.optimizer.repository.SavedPlansRepository
 import com.longweekend.optimizer.repository.SettingsRepository
+import com.longweekend.optimizer.repository.createGson
 import com.longweekend.optimizer.testing.FakeHolidayApi
 import com.longweekend.optimizer.testing.FakeSharedPreferences
 import com.longweekend.optimizer.testing.holiday
@@ -38,7 +40,7 @@ class MainViewModelTest {
     val folder = TemporaryFolder()
 
     private val dispatcher = StandardTestDispatcher()
-    private val gson = HolidayRepository.createGson()
+    private val gson = createGson()
     private val api = FakeHolidayApi { code, year -> croatianHolidays(year, code) }
     private val settings = SettingsRepository(FakeSharedPreferences()).apply {
         setDefaultCountryCode("HR")
@@ -59,11 +61,10 @@ class MainViewModelTest {
         repository = HolidayRepository(
             api = api,
             store = HolidayStore(folder.root, gson),
-            prefs = FakeSharedPreferences(),
-            gson = gson,
             ioDispatcher = dispatcher,
             now = { clock }
         ),
+        savedPlansRepository = SavedPlansRepository(FakeSharedPreferences(), gson),
         settings = settings,
         computeDispatcher = dispatcher
     )

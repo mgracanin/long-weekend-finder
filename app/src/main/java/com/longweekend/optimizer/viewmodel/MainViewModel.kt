@@ -13,6 +13,7 @@ import com.longweekend.optimizer.model.WorkWeek
 import com.longweekend.optimizer.optimizer.HolidayBridgeOptimizer
 import com.longweekend.optimizer.repository.HolidayDataStatus
 import com.longweekend.optimizer.repository.HolidayRepository
+import com.longweekend.optimizer.repository.SavedPlansRepository
 import com.longweekend.optimizer.repository.SettingsRepository
 import com.longweekend.optimizer.repository.ThemeMode
 import kotlinx.coroutines.CancellationException
@@ -50,6 +51,7 @@ enum class SortOrder {
 /** [computeDispatcher] runs the optimizer; tests pass their own so results arrive in virtual time. */
 class MainViewModel(
     private val repository: HolidayRepository,
+    private val savedPlansRepository: SavedPlansRepository,
     private val settings: SettingsRepository,
     private val computeDispatcher: CoroutineDispatcher = Dispatchers.Default
 ) : ViewModel() {
@@ -117,7 +119,7 @@ class MainViewModel(
     private val _selectedOpportunity = MutableStateFlow<Opportunity?>(null)
     val selectedOpportunity: StateFlow<Opportunity?> = _selectedOpportunity.asStateFlow()
 
-    val savedPlans: StateFlow<List<SavedPlan>> = repository.savedPlans
+    val savedPlans: StateFlow<List<SavedPlan>> = savedPlansRepository.savedPlans
 
     /** How much of the home country's holiday data is on the phone, for Settings; null until known. */
     val holidayDataStatus: StateFlow<HolidayDataStatus?> = combine(settings.defaultCountryCode, repository.storeVersion) { code, _ -> code }
@@ -247,7 +249,7 @@ class MainViewModel(
     }
 
     fun toggleSavePlan(opp: Opportunity, checkedStates: List<Boolean>? = null) {
-        val isNowSaved = repository.toggleSavePlan(opp, checkedStates)
+        val isNowSaved = savedPlansRepository.toggleSavePlan(opp, checkedStates)
         _opportunities.value = _opportunities.value.map {
             if (it.id == opp.id) it.copy(isSaved = isNowSaved) else it
         }
@@ -257,7 +259,7 @@ class MainViewModel(
     }
 
     fun updateChecklistItem(oppId: String, index: Int, isChecked: Boolean) {
-        repository.updateChecklistItem(oppId, index, isChecked)
+        savedPlansRepository.updateChecklistItem(oppId, index, isChecked)
     }
 
     /** True when every start date [season] allows in [year] is already behind us. */
@@ -342,7 +344,7 @@ class MainViewModel(
                 _holidays.value = result.holidays
                     .distinctBy { it.date to it.name }
                     .sortedBy { it.date }
-                _opportunities.value = sorted(bookable.map { it.copy(isSaved = repository.isPlanSaved(it.id)) })
+                _opportunities.value = sorted(bookable.map { it.copy(isSaved = savedPlansRepository.isPlanSaved(it.id)) })
                 _uiStatus.value = if (bookable.isEmpty()) UiStatus.EMPTY else UiStatus.RESULTS
             } catch (e: CancellationException) {
                 throw e
@@ -367,7 +369,11 @@ class MainViewModel(
         val Factory = viewModelFactory {
             initializer {
                 val app = checkNotNull(this[APPLICATION_KEY])
-                MainViewModel(HolidayRepository.getInstance(app), SettingsRepository.getInstance(app))
+                MainViewModel(
+                    HolidayRepository.getInstance(app),
+                    SavedPlansRepository.getInstance(app),
+                    SettingsRepository.getInstance(app)
+                )
             }
         }
 

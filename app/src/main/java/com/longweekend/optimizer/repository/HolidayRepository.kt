@@ -1,21 +1,10 @@
 package com.longweekend.optimizer.repository
 
 import android.content.Context
-import android.content.SharedPreferences
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.TypeAdapter
-import com.google.gson.reflect.TypeToken
-import com.google.gson.stream.JsonReader
-import com.google.gson.stream.JsonWriter
 import com.longweekend.optimizer.BuildConfig
 import com.longweekend.optimizer.api.NagerDateApi
-import com.longweekend.optimizer.model.ChecklistItem
-import com.longweekend.optimizer.model.DayType
-import com.longweekend.optimizer.model.Opportunity
 import com.longweekend.optimizer.model.Planning
 import com.longweekend.optimizer.model.PublicHoliday
-import com.longweekend.optimizer.model.SavedPlan
 import com.longweekend.optimizer.model.StoredHolidays
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
@@ -37,7 +26,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.time.LocalDate
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 
@@ -55,14 +43,12 @@ data class HolidayDataStatus(
 )
 
 /**
- * Public holidays (downloaded, kept on the phone, or built in) and the user's saved plans.
- * Tests pass fakes for the API, the preferences, the dispatcher and the clock.
+ * Public holidays: downloaded, kept on the phone, or built in.
+ * Tests pass fakes for the API, the dispatcher and the clock.
  */
 class HolidayRepository internal constructor(
     private val api: NagerDateApi,
     private val store: HolidayStore,
-    private val prefs: SharedPreferences,
-    private val gson: Gson = createGson(),
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val now: () -> Long = System::currentTimeMillis
 ) {
@@ -82,9 +68,6 @@ class HolidayRepository internal constructor(
 
     /** Changes whenever a list is saved, for screens that show how fresh the data is. */
     val storeVersion: StateFlow<Int> = _storeVersion.asStateFlow()
-
-    private val _savedPlans = MutableStateFlow(loadSavedPlans())
-    val savedPlans: StateFlow<List<SavedPlan>> = _savedPlans.asStateFlow()
 
     /**
      * Returns the public holidays for [countryCode] in [year], from the phone whenever they were
@@ -200,76 +183,7 @@ class HolidayRepository internal constructor(
             !retrySoon || now - fetchedAt < OFFLINE_RETRY_AFTER_MS
     }
 
-    fun isPlanSaved(opportunityId: String): Boolean {
-        return _savedPlans.value.any { it.opportunity.id == opportunityId }
-    }
-
-    /**
-     * Saves or removes [opportunity]. When saving, [checkedStates] carries over the
-     * "requested from HR" ticks the user already made on the detail screen.
-     */
-    fun toggleSavePlan(opportunity: Opportunity, checkedStates: List<Boolean>? = null): Boolean {
-        val currentList = _savedPlans.value.toMutableList()
-        val existingIndex = currentList.indexOfFirst { it.opportunity.id == opportunity.id }
-        val nowSaved = if (existingIndex >= 0) {
-            currentList.removeAt(existingIndex)
-            false
-        } else {
-            val checklist = opportunity.days
-                .filter { it.type == DayType.ANNUAL_LEAVE }
-                .mapIndexed { idx, day ->
-                    ChecklistItem(
-                        date = day.date,
-                        title = day.date.format(ChecklistItem.TITLE_FORMAT),
-                        isChecked = checkedStates?.getOrNull(idx) ?: false
-                    )
-                }
-            currentList.add(0, SavedPlan(opportunity.copy(isSaved = true), checklist))
-            true
-        }
-        updateSavedPlans(currentList)
-        return nowSaved
-    }
-
-    fun updateChecklistItem(opportunityId: String, itemIndex: Int, isChecked: Boolean) {
-        val currentList = _savedPlans.value.map { plan ->
-            if (plan.opportunity.id == opportunityId && itemIndex in plan.checklistItems.indices) {
-                val updatedItems = plan.checklistItems.toMutableList()
-                updatedItems[itemIndex] = updatedItems[itemIndex].copy(isChecked = isChecked)
-                plan.copy(checklistItems = updatedItems)
-            } else {
-                plan
-            }
-        }
-        updateSavedPlans(currentList)
-    }
-
-    private fun updateSavedPlans(plans: List<SavedPlan>) {
-        _savedPlans.value = plans
-        prefs.edit().putString(KEY_SAVED_PLANS, gson.toJson(plans)).apply()
-    }
-
-    private fun loadSavedPlans(): List<SavedPlan> {
-        val json = prefs.getString(KEY_SAVED_PLANS, null) ?: return emptyList()
-        return try {
-            val type = object : TypeToken<List<SavedPlan>>() {}.type
-            gson.fromJson<List<SavedPlan>>(json, type).orEmpty()
-        } catch (e: Exception) {
-            emptyList()
-        }
-    }
-
-    private class LocalDateAdapter : TypeAdapter<LocalDate>() {
-        override fun write(out: JsonWriter, value: LocalDate?) {
-            if (value == null) out.nullValue() else out.value(value.toString())
-        }
-
-        override fun read(input: JsonReader): LocalDate = LocalDate.parse(input.nextString())
-    }
-
     companion object {
-        private const val PREFS_NAME = "saved_plans"
-        private const val KEY_SAVED_PLANS = "plans_json"
         internal const val OFFLINE_RETRY_AFTER_MS = 60_000L
         // The API itself allows a week of caching; holidays rarely change faster than that
         internal const val UPDATE_AFTER_MS = 7L * 24 * 60 * 60 * 1000
@@ -280,19 +194,12 @@ class HolidayRepository internal constructor(
         fun getInstance(context: Context): HolidayRepository {
             return instance ?: synchronized(this) {
                 val app = context.applicationContext
-                val gson = createGson()
                 instance ?: HolidayRepository(
                     api = createApi(),
-                    store = HolidayStore(app.filesDir, gson),
-                    prefs = app.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE),
-                    gson = gson
+                    store = HolidayStore(app.filesDir, createGson())
                 ).also { instance = it }
             }
         }
-
-        internal fun createGson(): Gson = GsonBuilder()
-            .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
-            .create()
 
         private fun createApi(): NagerDateApi {
             val logging = HttpLoggingInterceptor().apply {
