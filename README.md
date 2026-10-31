@@ -160,9 +160,22 @@ To try a release build without your own key, add `-PsignReleaseWithDebug`. Googl
 If you publish a fork, change `applicationId` in `app/build.gradle.kts` and the links in `AppLinks.kt`, and sign it with your own key.
 </details>
 
+<details>
+<summary>Performance profiles and benchmarks</summary>
+
+Release builds ship a Baseline Profile and a Startup Profile in `app/src/release/generated/baselineProfiles`, so the code for launching and for the main screens is compiled ahead of time on install. The `baselineprofile` module records them by driving the app on a connected phone or emulator (Android 9+). Regenerate them after larger UI changes and commit the result:
+
+```bash
+./gradlew :app:generateBaselineProfile                             # records both profiles
+./gradlew :baselineprofile:connectedBenchmarkReleaseAndroidTest    # cold-start time, without and with the profile
+```
+
+Benchmark on a real phone; emulator timings are only a rough guide. Both commands uninstall the app when they finish, which deletes its saved plans and settings, so use an emulator or a test phone rather than the one you plan with.
+</details>
+
 ## Under the hood
 
-Kotlin · Jetpack Compose with Material 3 · MVVM with StateFlow · Retrofit + Gson · lazy lists and Compose strong skipping for smooth scrolling · R8 + baseline profile · `minSdk 26`, `targetSdk 36`
+Kotlin · Jetpack Compose with Material 3 · MVVM with StateFlow, collected only while the app is visible · Retrofit + Gson · lazy lists and Compose strong skipping for smooth scrolling · R8 + generated Baseline and Startup Profiles · unit tests for the optimizer, repositories and view model, with fakes for the network and storage · `minSdk 26`, `targetSdk 36`
 
 ```
 app/src/main/java/com/longweekend/optimizer/

@@ -19,13 +19,13 @@ import androidx.compose.material.icons.outlined.Explore
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
 import androidx.compose.ui.res.stringResource
@@ -54,7 +54,7 @@ sealed class Screen(val route: String) {
 fun AppNavigation(
     viewModel: MainViewModel
 ) {
-    val onboardingDone by viewModel.onboardingDone.collectAsState()
+    val onboardingDone by viewModel.onboardingDone.collectAsStateWithLifecycle()
     if (!onboardingDone) {
         OnboardingScreen(viewModel = viewModel)
         return
@@ -63,8 +63,8 @@ fun AppNavigation(
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    val savedPlans by viewModel.savedPlans.collectAsState()
-    val selectedOpportunity by viewModel.selectedOpportunity.collectAsState()
+    val savedPlans by viewModel.savedPlans.collectAsStateWithLifecycle()
+    val selectedOpportunity by viewModel.selectedOpportunity.collectAsStateWithLifecycle()
 
     // Suggestions belong to the Discover tab, so the bar stays; plan details and settings are focused screens
     val showBottomBar = currentRoute in listOf(Screen.Discover.route, Screen.Suggested.route, Screen.Holidays.route, Screen.Saved.route)

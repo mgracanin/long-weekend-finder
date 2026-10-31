@@ -3,6 +3,7 @@
 package com.longweekend.optimizer.ui.screens.profile
 
 import androidx.compose.foundation.BorderStroke
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.longweekend.optimizer.repository.ThemeMode
 import com.longweekend.optimizer.ui.theme.applyNightMode
 import java.time.DayOfWeek
@@ -23,7 +24,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,14 +66,14 @@ fun ProfileScreen(
     viewModel: MainViewModel,
     onNavigateBack: () -> Unit
 ) {
-    val defaultCountry by viewModel.defaultCountry.collectAsState()
-    val annualAllowance by viewModel.annualAllowance.collectAsState()
-    val defaultLeaveBudget by viewModel.defaultLeaveBudget.collectAsState()
-    val selectedYear by viewModel.selectedYear.collectAsState()
-    val savedPlans by viewModel.savedPlans.collectAsState()
-    val firstWorkday by viewModel.firstWorkday.collectAsState()
-    val themeMode by viewModel.themeMode.collectAsState()
-    val holidayDataStatus by viewModel.holidayDataStatus.collectAsState()
+    val defaultCountry by viewModel.defaultCountry.collectAsStateWithLifecycle()
+    val annualAllowance by viewModel.annualAllowance.collectAsStateWithLifecycle()
+    val defaultLeaveBudget by viewModel.defaultLeaveBudget.collectAsStateWithLifecycle()
+    val selectedYear by viewModel.selectedYear.collectAsStateWithLifecycle()
+    val savedPlans by viewModel.savedPlans.collectAsStateWithLifecycle()
+    val firstWorkday by viewModel.firstWorkday.collectAsStateWithLifecycle()
+    val themeMode by viewModel.themeMode.collectAsStateWithLifecycle()
+    val holidayDataStatus by viewModel.holidayDataStatus.collectAsStateWithLifecycle()
 
     val plannedDays = viewModel.plannedLeaveDays(savedPlans, selectedYear)
     val remainingDays = annualAllowance - plannedDays

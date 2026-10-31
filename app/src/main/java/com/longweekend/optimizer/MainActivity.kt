@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.longweekend.optimizer.repository.ThemeMode
 import androidx.compose.ui.Modifier
 import com.longweekend.optimizer.repository.SettingsRepository
@@ -24,7 +24,7 @@ import com.longweekend.optimizer.viewmodel.MainViewModel
 // AppCompatActivity applies the in-app language and appearance chosen in the profile
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels { MainViewModel.Factory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Before super.onCreate, so the saved appearance applies without an extra recreate
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             window.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(Color.BLACK))
         }
         setContent {
-            val themeMode by viewModel.themeMode.collectAsState()
+            val themeMode by viewModel.themeMode.collectAsStateWithLifecycle()
             LongWeekendTheme(darkTheme = isSystemInDarkTheme(), oled = themeMode == ThemeMode.OLED) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),

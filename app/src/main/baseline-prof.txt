@@ -1,4 +1,0 @@
-# Baseline profile: the app's own code is compiled ahead of time on install, so the first
-# launch and first scrolls don't run in the interpreter. Compose and AndroidX ship their own.
-HSPLcom/longweekend/optimizer/**->**(**)**
-Lcom/longweekend/optimizer/**;

@@ -3,6 +3,7 @@
 package com.longweekend.optimizer.ui.screens.findbreak
 
 import androidx.compose.foundation.BorderStroke
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import java.time.DayOfWeek
 import androidx.annotation.StringRes
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -51,15 +52,15 @@ fun FindABreakScreen(
     onNavigateToDetail: (Opportunity) -> Unit,
     onNavigateToProfile: () -> Unit
 ) {
-    val selectedCountry by viewModel.selectedCountry.collectAsState()
-    val selectedYear by viewModel.selectedYear.collectAsState()
-    val leaveBudget by viewModel.leaveBudget.collectAsState()
-    val selectedSeason by viewModel.selectedSeason.collectAsState()
-    val annualAllowance by viewModel.annualAllowance.collectAsState()
-    val opportunities by viewModel.opportunities.collectAsState()
-    val topPicks by viewModel.topPicks.collectAsState()
-    val uiStatus by viewModel.uiStatus.collectAsState()
-    val isOfflineData by viewModel.isOfflineData.collectAsState()
+    val selectedCountry by viewModel.selectedCountry.collectAsStateWithLifecycle()
+    val selectedYear by viewModel.selectedYear.collectAsStateWithLifecycle()
+    val leaveBudget by viewModel.leaveBudget.collectAsStateWithLifecycle()
+    val selectedSeason by viewModel.selectedSeason.collectAsStateWithLifecycle()
+    val annualAllowance by viewModel.annualAllowance.collectAsStateWithLifecycle()
+    val opportunities by viewModel.opportunities.collectAsStateWithLifecycle()
+    val topPicks by viewModel.topPicks.collectAsStateWithLifecycle()
+    val uiStatus by viewModel.uiStatus.collectAsStateWithLifecycle()
+    val isOfflineData by viewModel.isOfflineData.collectAsStateWithLifecycle()
     val countries = viewModel.supportedCountries
     val isLoading = uiStatus == UiStatus.LOADING
 

@@ -3,6 +3,7 @@ import java.util.Properties
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.plugin.compose")
+    id("androidx.baselineprofile")
 }
 
 // Upload-key credentials live in keystore.properties (never committed). See PLAY_STORE.md.
@@ -75,6 +76,14 @@ android {
     }
 }
 
+baselineProfile {
+    // Profiles are generated on demand (./gradlew :app:generateBaselineProfile) and committed,
+    // so release builds and CI don't need a phone
+    automaticGenerationDuringBuild = false
+    // Puts the startup code first in the dex files, using the Startup Profile
+    dexLayoutOptimization = true
+}
+
 composeCompiler {
     // Strong skipping is on by default; the config file marks our read-only models as stable,
     // so composables taking them skip recomposition when their inputs are unchanged
@@ -89,6 +98,8 @@ dependencies {
     implementation("androidx.core:core-ktx:1.19.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.11.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.11.0")
+    // collectAsStateWithLifecycle: screens stop collecting while the app is in the background
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.11.0")
     implementation("androidx.activity:activity-compose:1.13.0")
     // Per-app language (in-app picker + Android 13 system setting), with storage on older versions
     implementation("androidx.appcompat:appcompat:1.8.0")
@@ -100,8 +111,9 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.navigation:navigation-compose:2.10.2")
-    // Installs the baseline profile (src/main/baseline-prof.txt) on sideloaded installs too
+    // Installs the baseline profile (src/release/generated/baselineProfiles) on sideloaded installs too
     implementation("androidx.profileinstaller:profileinstaller:1.4.1")
+    baselineProfile(project(":baselineprofile"))
 
     // Networking & Serialization (2.11 / 2.11 ship the R8 rules release builds need)
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
@@ -114,6 +126,7 @@ dependencies {
 
     // Tooling & Testing
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.11.0")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 }

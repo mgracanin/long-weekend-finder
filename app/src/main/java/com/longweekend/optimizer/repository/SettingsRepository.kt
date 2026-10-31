@@ -1,6 +1,7 @@
 package com.longweekend.optimizer.repository
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.longweekend.optimizer.model.Country
 import com.longweekend.optimizer.model.WorkWeek
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,9 +14,7 @@ import java.util.Locale
 enum class ThemeMode { SYSTEM, LIGHT, DARK, OLED }
 
 /** User profile settings, persisted in SharedPreferences. */
-class SettingsRepository private constructor(context: Context) {
-
-    private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+class SettingsRepository internal constructor(private val prefs: SharedPreferences) {
 
     private val _annualAllowance = MutableStateFlow(
         prefs.getInt(KEY_ANNUAL_ALLOWANCE, DEFAULT_ANNUAL_ALLOWANCE).coerceIn(ALLOWANCE_RANGE)
@@ -102,7 +101,9 @@ class SettingsRepository private constructor(context: Context) {
 
         fun getInstance(context: Context): SettingsRepository {
             return instance ?: synchronized(this) {
-                instance ?: SettingsRepository(context.applicationContext).also { instance = it }
+                instance ?: SettingsRepository(
+                    context.applicationContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                ).also { instance = it }
             }
         }
     }

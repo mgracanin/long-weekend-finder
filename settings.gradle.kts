@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "LongWeekendFinder"
 include(":app")
+include(":baselineprofile")

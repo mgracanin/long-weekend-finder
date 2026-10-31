@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.longweekend.optimizer.R
 import com.longweekend.optimizer.model.Country
 import com.longweekend.optimizer.model.DayStripItem
@@ -51,8 +52,8 @@ private const val PAGE_COUNT = 4
 fun OnboardingScreen(viewModel: MainViewModel) {
     val pagerState = rememberPagerState(pageCount = { PAGE_COUNT })
     val scope = rememberCoroutineScope()
-    val defaultCountry by viewModel.defaultCountry.collectAsState()
-    val savedAllowance by viewModel.annualAllowance.collectAsState()
+    val defaultCountry by viewModel.defaultCountry.collectAsStateWithLifecycle()
+    val savedAllowance by viewModel.annualAllowance.collectAsStateWithLifecycle()
     var country by remember { mutableStateOf(defaultCountry) }
     var allowance by remember { mutableIntStateOf(savedAllowance) }
     val isLastPage = pagerState.currentPage == PAGE_COUNT - 1

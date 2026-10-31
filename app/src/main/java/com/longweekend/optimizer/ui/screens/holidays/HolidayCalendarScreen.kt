@@ -1,6 +1,7 @@
 package com.longweekend.optimizer.ui.screens.holidays
 
 import androidx.compose.foundation.BorderStroke
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.longweekend.optimizer.model.WorkWeek
 import androidx.compose.ui.res.stringResource
 import com.longweekend.optimizer.R
@@ -20,7 +21,6 @@ import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -60,12 +60,12 @@ fun HolidayCalendarScreen(
     viewModel: MainViewModel,
     onNavigateToProfile: () -> Unit
 ) {
-    val selectedCountry by viewModel.selectedCountry.collectAsState()
-    val selectedYear by viewModel.selectedYear.collectAsState()
-    val holidays by viewModel.holidays.collectAsState()
-    val uiStatus by viewModel.uiStatus.collectAsState()
-    val isOfflineData by viewModel.isOfflineData.collectAsState()
-    val firstWorkday by viewModel.firstWorkday.collectAsState()
+    val selectedCountry by viewModel.selectedCountry.collectAsStateWithLifecycle()
+    val selectedYear by viewModel.selectedYear.collectAsStateWithLifecycle()
+    val holidays by viewModel.holidays.collectAsStateWithLifecycle()
+    val uiStatus by viewModel.uiStatus.collectAsStateWithLifecycle()
+    val isOfflineData by viewModel.isOfflineData.collectAsStateWithLifecycle()
+    val firstWorkday by viewModel.firstWorkday.collectAsStateWithLifecycle()
     val weekend = WorkWeek.weekend(firstWorkday)
 
     // Holidays are fetched for the selected year; ignore anything else that slipped in

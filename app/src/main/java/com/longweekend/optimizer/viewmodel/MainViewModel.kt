@@ -1,8 +1,10 @@
 package com.longweekend.optimizer.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.longweekend.optimizer.model.Country
 import com.longweekend.optimizer.model.Opportunity
 import com.longweekend.optimizer.model.PublicHoliday
@@ -14,6 +16,7 @@ import com.longweekend.optimizer.repository.HolidayRepository
 import com.longweekend.optimizer.repository.SettingsRepository
 import com.longweekend.optimizer.repository.ThemeMode
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -44,10 +47,12 @@ enum class SortOrder {
     UPCOMING_FIRST
 }
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository = HolidayRepository.getInstance(application)
-    private val settings = SettingsRepository.getInstance(application)
+/** [computeDispatcher] runs the optimizer; tests pass their own so results arrive in virtual time. */
+class MainViewModel(
+    private val repository: HolidayRepository,
+    private val settings: SettingsRepository,
+    private val computeDispatcher: CoroutineDispatcher = Dispatchers.Default
+) : ViewModel() {
 
     /** Every country the holiday API covers, sorted by name in the current language by the UI. */
     val supportedCountries: List<Country> = Country.all
@@ -312,7 +317,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     current.await() to next.await()
                 }
 
-                val generated = withContext(Dispatchers.Default) {
+                val generated = withContext(computeDispatcher) {
                     HolidayBridgeOptimizer.generateOpportunities(
                         holidays = result.holidays + nextYear.holidays,
                         year = year,
@@ -359,6 +364,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     )
 
     companion object {
+        val Factory = viewModelFactory {
+            initializer {
+                val app = checkNotNull(this[APPLICATION_KEY])
+                MainViewModel(HolidayRepository.getInstance(app), SettingsRepository.getInstance(app))
+            }
+        }
+
         private const val TOP_PICKS_COUNT = 4
         private const val MIN_REFRESH_DISPLAY_MS = 900L
     }

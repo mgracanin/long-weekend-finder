@@ -3,6 +3,7 @@
 package com.longweekend.optimizer.ui.screens.suggestedbreaks
 
 import androidx.compose.foundation.BorderStroke
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import java.time.DayOfWeek
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.res.pluralStringResource
@@ -51,16 +52,16 @@ fun SuggestedBreaksScreen(
     onNavigateToDetail: (Opportunity) -> Unit,
     onNavigateToProfile: () -> Unit
 ) {
-    val selectedCountry by viewModel.selectedCountry.collectAsState()
-    val selectedYear by viewModel.selectedYear.collectAsState()
-    val leaveBudget by viewModel.leaveBudget.collectAsState()
-    val annualAllowance by viewModel.annualAllowance.collectAsState()
-    val opportunities by viewModel.opportunities.collectAsState()
-    val uiStatus by viewModel.uiStatus.collectAsState()
-    val sortOrder by viewModel.sortOrder.collectAsState()
-    val firstWorkday by viewModel.firstWorkday.collectAsState()
-    val selectedSeason by viewModel.selectedSeason.collectAsState()
-    val isOfflineData by viewModel.isOfflineData.collectAsState()
+    val selectedCountry by viewModel.selectedCountry.collectAsStateWithLifecycle()
+    val selectedYear by viewModel.selectedYear.collectAsStateWithLifecycle()
+    val leaveBudget by viewModel.leaveBudget.collectAsStateWithLifecycle()
+    val annualAllowance by viewModel.annualAllowance.collectAsStateWithLifecycle()
+    val opportunities by viewModel.opportunities.collectAsStateWithLifecycle()
+    val uiStatus by viewModel.uiStatus.collectAsStateWithLifecycle()
+    val sortOrder by viewModel.sortOrder.collectAsStateWithLifecycle()
+    val firstWorkday by viewModel.firstWorkday.collectAsStateWithLifecycle()
+    val selectedSeason by viewModel.selectedSeason.collectAsStateWithLifecycle()
+    val isOfflineData by viewModel.isOfflineData.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {

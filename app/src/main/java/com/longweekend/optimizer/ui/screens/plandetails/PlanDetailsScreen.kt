@@ -3,6 +3,7 @@
 package com.longweekend.optimizer.ui.screens.plandetails
 
 import androidx.compose.foundation.BorderStroke
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.longweekend.optimizer.ui.share.planShare
 import com.longweekend.optimizer.ui.share.sharePlan
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -61,11 +62,11 @@ fun PlanDetailsScreen(
     onOpenSaved: () -> Unit
 ) {
     val context = LocalContext.current
-    val currentCountry by viewModel.selectedCountry.collectAsState()
+    val currentCountry by viewModel.selectedCountry.collectAsStateWithLifecycle()
     // A saved plan keeps its own country, even after the search switches to another one
     val planCountry = viewModel.supportedCountries.firstOrNull { it.countryCode == opportunity.countryCode } ?: currentCountry
-    val savedPlans by viewModel.savedPlans.collectAsState()
-    val firstWorkday by viewModel.firstWorkday.collectAsState()
+    val savedPlans by viewModel.savedPlans.collectAsStateWithLifecycle()
+    val firstWorkday by viewModel.firstWorkday.collectAsStateWithLifecycle()
 
     val savedPlan = savedPlans.firstOrNull { it.opportunity.id == opportunity.id }
     val isSaved = savedPlan != null

@@ -1,6 +1,7 @@
 package com.longweekend.optimizer.repository
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter
@@ -17,6 +18,7 @@ import com.longweekend.optimizer.model.PublicHoliday
 import com.longweekend.optimizer.model.SavedPlan
 import com.longweekend.optimizer.model.StoredHolidays
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -52,18 +54,21 @@ data class HolidayDataStatus(
     val oldestUpdate: Long?
 )
 
-class HolidayRepository private constructor(context: Context) {
-
-    private val api: NagerDateApi
-    private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    private val gson: Gson = GsonBuilder()
-        .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
-        .create()
-
-    private val store = HolidayStore(context.filesDir, gson)
+/**
+ * Public holidays (downloaded, kept on the phone, or built in) and the user's saved plans.
+ * Tests pass fakes for the API, the preferences, the dispatcher and the clock.
+ */
+class HolidayRepository internal constructor(
+    private val api: NagerDateApi,
+    private val store: HolidayStore,
+    private val prefs: SharedPreferences,
+    private val gson: Gson = createGson(),
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val now: () -> Long = System::currentTimeMillis
+) {
 
     // Background downloads outlive any one screen; they only ever update the store and caches
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private val scope = CoroutineScope(SupervisorJob() + ioDispatcher)
 
     private val holidayCache = ConcurrentHashMap<Pair<String, Int>, CachedHolidays>()
     private val downloading: MutableSet<Pair<String, Int>> = ConcurrentHashMap.newKeySet()
@@ -81,26 +86,6 @@ class HolidayRepository private constructor(context: Context) {
     private val _savedPlans = MutableStateFlow(loadSavedPlans())
     val savedPlans: StateFlow<List<SavedPlan>> = _savedPlans.asStateFlow()
 
-    init {
-        val logging = HttpLoggingInterceptor().apply {
-            // Request logging is for debugging only; release builds log nothing
-            level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE
-        }
-        val okHttpClient = OkHttpClient.Builder()
-            .addInterceptor(logging)
-            .connectTimeout(15, TimeUnit.SECONDS)
-            .readTimeout(15, TimeUnit.SECONDS)
-            .build()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://date.nager.at/")
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        api = retrofit.create(NagerDateApi::class.java)
-    }
-
     /**
      * Returns the public holidays for [countryCode] in [year], from the phone whenever they were
      * downloaded before; lists older than a week are updated in the background. Only lists never
@@ -110,8 +95,8 @@ class HolidayRepository private constructor(context: Context) {
     suspend fun fetchHolidays(countryCode: String, year: Int, forceRefresh: Boolean = false): HolidayFetchResult {
         val key = countryCode to year
         if (!forceRefresh) {
-            holidayCache[key]?.takeIf { it.isFresh() }?.let { return it.result }
-            val saved = withContext(Dispatchers.IO) { store.read(countryCode, year) }
+            holidayCache[key]?.takeIf { it.isFresh(now()) }?.let { return it.result }
+            val saved = withContext(ioDispatcher) { store.read(countryCode, year) }
             if (saved != null) {
                 if (saved.isOutdated()) scope.launch { download(countryCode, year) }
                 return cacheResult(key, saved.holidays.orEmpty(), retrySoon = false)
@@ -121,7 +106,7 @@ class HolidayRepository private constructor(context: Context) {
         val downloaded = download(countryCode, year)
         if (!downloaded.isNullOrEmpty()) return cacheResult(key, downloaded, retrySoon = false)
         // A refresh without a connection keeps what the phone already has
-        val saved = withContext(Dispatchers.IO) { store.read(countryCode, year) }
+        val saved = withContext(ioDispatcher) { store.read(countryCode, year) }
         return if (saved != null) cacheResult(key, saved.holidays.orEmpty(), retrySoon = true)
         else cacheResult(key, OfflineHolidayCalendar.holidays(countryCode, year), retrySoon = true, isOffline = true)
     }
@@ -133,7 +118,7 @@ class HolidayRepository private constructor(context: Context) {
         isOffline: Boolean = false
     ): HolidayFetchResult {
         val result = HolidayFetchResult(holidays, isOffline)
-        holidayCache[key] = CachedHolidays(result, System.currentTimeMillis(), retrySoon)
+        holidayCache[key] = CachedHolidays(result, now(), retrySoon)
         return result
     }
 
@@ -154,9 +139,9 @@ class HolidayRepository private constructor(context: Context) {
                 return null
             }
             if (holidays.isEmpty()) return holidays
-            val changed = withContext(Dispatchers.IO) {
+            val changed = withContext(ioDispatcher) {
                 val previous = store.read(countryCode, year)
-                store.write(countryCode, year, StoredHolidays(holidays, System.currentTimeMillis()))
+                store.write(countryCode, year, StoredHolidays(holidays, now()))
                 previous?.holidays != holidays
             }
             cacheResult(key, holidays, retrySoon = false)
@@ -196,7 +181,7 @@ class HolidayRepository private constructor(context: Context) {
 
     /** How much of [countryCode]'s plannable holiday data is on the phone, and how old it is. */
     suspend fun storedStatus(countryCode: String, currentYear: Int): HolidayDataStatus =
-        withContext(Dispatchers.IO) {
+        withContext(ioDispatcher) {
             val years = Planning.holidayYears(currentYear)
             val saved = years.mapNotNull { store.read(countryCode, it) }
             HolidayDataStatus(
@@ -207,12 +192,12 @@ class HolidayRepository private constructor(context: Context) {
         }
 
     private fun StoredHolidays.isOutdated(): Boolean =
-        System.currentTimeMillis() - fetchedAt > UPDATE_AFTER_MS
+        now() - fetchedAt > UPDATE_AFTER_MS
 
     private class CachedHolidays(val result: HolidayFetchResult, val fetchedAt: Long, val retrySoon: Boolean) {
         /** Saved and downloaded lists last the session; stand-ins are retried after a short while. */
-        fun isFresh(): Boolean =
-            !retrySoon || System.currentTimeMillis() - fetchedAt < OFFLINE_RETRY_AFTER_MS
+        fun isFresh(now: Long): Boolean =
+            !retrySoon || now - fetchedAt < OFFLINE_RETRY_AFTER_MS
     }
 
     fun isPlanSaved(opportunityId: String): Boolean {
@@ -285,17 +270,47 @@ class HolidayRepository private constructor(context: Context) {
     companion object {
         private const val PREFS_NAME = "saved_plans"
         private const val KEY_SAVED_PLANS = "plans_json"
-        private const val OFFLINE_RETRY_AFTER_MS = 60_000L
+        internal const val OFFLINE_RETRY_AFTER_MS = 60_000L
         // The API itself allows a week of caching; holidays rarely change faster than that
-        private const val UPDATE_AFTER_MS = 7L * 24 * 60 * 60 * 1000
+        internal const val UPDATE_AFTER_MS = 7L * 24 * 60 * 60 * 1000
 
         @Volatile
         private var instance: HolidayRepository? = null
 
         fun getInstance(context: Context): HolidayRepository {
             return instance ?: synchronized(this) {
-                instance ?: HolidayRepository(context.applicationContext).also { instance = it }
+                val app = context.applicationContext
+                val gson = createGson()
+                instance ?: HolidayRepository(
+                    api = createApi(),
+                    store = HolidayStore(app.filesDir, gson),
+                    prefs = app.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE),
+                    gson = gson
+                ).also { instance = it }
             }
+        }
+
+        internal fun createGson(): Gson = GsonBuilder()
+            .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
+            .create()
+
+        private fun createApi(): NagerDateApi {
+            val logging = HttpLoggingInterceptor().apply {
+                // Request logging is for debugging only; release builds log nothing
+                level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE
+            }
+            val okHttpClient = OkHttpClient.Builder()
+                .addInterceptor(logging)
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(15, TimeUnit.SECONDS)
+                .build()
+
+            return Retrofit.Builder()
+                .baseUrl("https://date.nager.at/")
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(NagerDateApi::class.java)
         }
     }
 }

@@ -2,6 +2,7 @@ package com.longweekend.optimizer.ui.screens.saved
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.longweekend.optimizer.ui.report.YearReport
 import com.longweekend.optimizer.ui.report.openYearReport
 import com.longweekend.optimizer.ui.report.saveYearReport
@@ -58,10 +59,10 @@ fun SavedPlansScreen(
     onNavigateToProfile: () -> Unit,
     onNavigateToDiscover: () -> Unit
 ) {
-    val savedPlans by viewModel.savedPlans.collectAsState()
+    val savedPlans by viewModel.savedPlans.collectAsStateWithLifecycle()
     val context = LocalContext.current
-    val allowance by viewModel.annualAllowance.collectAsState()
-    val firstWorkday by viewModel.firstWorkday.collectAsState()
+    val allowance by viewModel.annualAllowance.collectAsStateWithLifecycle()
+    val firstWorkday by viewModel.firstWorkday.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
 
     // One report per year that has saved plans; worded now, holidays loaded when it is made
