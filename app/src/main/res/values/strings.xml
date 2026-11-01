@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Long Weekend</string>
     <string name="app_subtitle">Leave Optimizer</string>
 
@@ -220,13 +220,13 @@
     <string name="action_tips">Tips</string>
     <string name="report_action">Year report (PDF)</string>
     <string name="report_pick_year">Report for which year?</string>
-    <string name="report_ready_title">Report ready</string>
-    <string name="report_open">Open</string>
-    <string name="report_save">Save</string>
-    <string name="report_saved">Report saved</string>
-    <string name="report_no_viewer">No PDF viewer found, so the report opens in the share menu instead</string>
-    <string name="report_chooser_title">Share report</string>
-    <string name="report_failed">Couldn\'t create the report</string>
+    <string name="pdf_ready_title">PDF ready</string>
+    <string name="pdf_open">Open</string>
+    <string name="pdf_save">Save</string>
+    <string name="pdf_saved">PDF saved</string>
+    <string name="pdf_no_viewer">No PDF viewer found, so the file opens in the share menu instead</string>
+    <string name="pdf_chooser_title">Share PDF</string>
+    <string name="pdf_failed">Couldn\'t create the PDF</string>
     <string name="report_title">Leave plan %1$d</string>
     <string name="report_subtitle">%1$s · created %2$s</string>
     <string name="report_tile_plans">Plans</string>
@@ -283,6 +283,12 @@
     <string name="holidays_offline_empty_body">The holiday service can\'t be reached and there is no built-in calendar for %1$s. Try again when you\'re online.</string>
     <string name="holidays_summary">%1$d public holidays · %2$d on weekdays</string>
     <string name="holidays_all_in_year">All holidays in %d</string>
+    <string name="calendar_action">Holiday calendar (PDF)</string>
+    <string name="calendar_title">Public holidays %1$d</string>
+    <string name="calendar_subtitle">%1$s · %2$s</string>
+    <!-- The same for any number, so not a plural -->
+    <string name="calendar_more" tools:ignore="PluralsCandidate">+%d more</string>
+    <string name="calendar_footer">Long Weekend · holiday data: Nager.Date · as of %1$s</string>
     <string name="legend_national">National</string>
     <string name="legend_regional">Regional</string>
     <string name="legend_today">Today</string>

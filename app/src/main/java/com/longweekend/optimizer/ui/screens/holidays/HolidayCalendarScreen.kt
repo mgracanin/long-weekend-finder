@@ -45,6 +45,7 @@ import com.longweekend.optimizer.ui.components.CountryPicker
 import com.longweekend.optimizer.ui.components.LongWeekendTopBar
 import com.longweekend.optimizer.ui.components.SectionLabel
 import com.longweekend.optimizer.ui.components.YearPicker
+import com.longweekend.optimizer.ui.report.HolidayCalendarButton
 import com.longweekend.optimizer.ui.theme.*
 import com.longweekend.optimizer.viewmodel.MainViewModel
 import com.longweekend.optimizer.viewmodel.UiStatus
@@ -176,6 +177,9 @@ fun HolidayCalendarScreen(
                         fontWeight = FontWeight.Bold,
                         color = TealPrimary
                     ) }
+
+                    // The same year as a PDF to print or send
+                    item(key = "export") { HolidayCalendarButton(viewModel) }
 
                     // Year at a glance: two months per row
                     items((1..12).chunked(2), key = { "months_${it.first()}" }, contentType = { "months" }) { months ->

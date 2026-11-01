@@ -3,7 +3,6 @@ package com.longweekend.optimizer.ui.report
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
-import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument
 import java.io.File
 import java.time.DayOfWeek
@@ -51,23 +50,6 @@ data class YearReport(
  * extra library is needed. Page 1 holds the summary and the year calendar; plans follow.
  */
 object YearReportPdf {
-    private const val PAGE_W = 595
-    private const val PAGE_H = 842
-    private const val MARGIN = 40f
-    private const val FOOTER_H = 36f
-
-    // Same calm palette as the light theme
-    private const val INK = 0xFF1C2422.toInt()
-    private const val INK_SOFT = 0xFF55605E.toInt()
-    private const val TEAL = 0xFF1F5C55.toInt()
-    private const val TEAL_SOFT = 0xFFCDEBE5.toInt()
-    private const val APRICOT = 0xFFFCE3B4.toInt()
-    private const val APRICOT_INK = 0xFF5C3A00.toInt()
-    private const val WEEKEND = 0xFFEDF0EF.toInt()
-    private const val TILE = 0xFFF3F5F4.toInt()
-    private const val LINE = 0xFFE2E6E4.toInt()
-    private const val WARN_BG = 0xFFFDF0DA.toInt()
-
     fun write(report: YearReport, file: File) {
         val doc = PdfDocument()
         val pen = Pen(doc, report)
@@ -87,11 +69,7 @@ object YearReportPdf {
         private lateinit var c: Canvas
         private var y = MARGIN
 
-        private fun paint(size: Float, color: Int = INK, bold: Boolean = false) = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            textSize = size
-            this.color = color
-            typeface = if (bold) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
-        }
+        private fun paint(size: Float, color: Int = INK, bold: Boolean = false) = pdfPaint(size, color, bold)
 
         private val fill = Paint(Paint.ANTI_ALIAS_FLAG)
 

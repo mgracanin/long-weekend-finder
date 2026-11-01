@@ -51,6 +51,7 @@ St Stephen's Day falls on a Saturday that year, so the app counts only the two w
 - 🗓️ **Plan details**: month calendars, the exact dates to request from HR with a checklist, copy to clipboard and add to Google Calendar.
 - 📤 **Share a plan** from Plan details or Saved, by e-mail, WhatsApp, Viber or any other app: the dates to request, the holidays and what you gain, as readable text.
 - 🌍 **Public holidays**: the whole year at a glance for 204 countries, national and regional.
+- 🖨️ **Holiday calendar (PDF)**: any country's year on one A4 page, every holiday named, ready to print, pin up or send. Export it from Public holidays or under Suggested breaks.
 - 🔖 **Saved plans**: keep the breaks you like and tick off each day as your employer approves it.
 - 📄 **Year report (PDF)**: all saved breaks for a year in one document, with leave used against your allowance, a year calendar and warnings for overlaps or overspending. Share it, save it or print it.
 - 🗂️ **Your working week**: Monday–Friday or Sunday–Thursday, set from your country automatically.
@@ -80,6 +81,18 @@ Save the breaks you like, then tap **Year report (PDF)** on the Saved screen. Yo
 
 <p align="center">
   <img src="docs/screenshots/report.png" width="55%" alt="First page of a yearly PDF report">
+</p>
+
+## A holiday calendar to print
+
+Tap **Holiday calendar (PDF)** on the Public holidays screen for a clean calendar of any country and year:
+
+- the whole year on page 1, with national holidays filled in, regional ones outlined and each month's holidays named underneath,
+- every holiday in a list after that, in your language and the local one, with where regional holidays apply and which fall on a weekend,
+- A4, so it reads well on screen and prints sharply in colour or black and white.
+
+<p align="center">
+  <img src="docs/screenshots/holiday-calendar.png" width="55%" alt="First page of a printable public holiday calendar">
 </p>
 
 ## Install

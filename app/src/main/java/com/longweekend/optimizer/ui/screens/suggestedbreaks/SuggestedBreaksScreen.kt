@@ -40,6 +40,7 @@ import com.longweekend.optimizer.model.Opportunity
 import com.longweekend.optimizer.ui.components.BreakLegend
 import com.longweekend.optimizer.ui.components.BreakVisualizerStrip
 import com.longweekend.optimizer.ui.components.LongWeekendTopBar
+import com.longweekend.optimizer.ui.report.HolidayCalendarButton
 import com.longweekend.optimizer.ui.theme.*
 import com.longweekend.optimizer.viewmodel.MainViewModel
 import com.longweekend.optimizer.viewmodel.SortOrder
@@ -325,6 +326,13 @@ fun SuggestedBreaksScreen(
                             }
                         }
                     } }
+
+                    // The year's holidays to print or send alongside the chosen breaks
+                    item(key = "calendar") {
+                        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                            HolidayCalendarButton(viewModel)
+                        }
+                    }
 
                     item(key = "disclaimer") {
                         Text(
