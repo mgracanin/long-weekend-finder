@@ -1,16 +1,16 @@
 <p align="center">
-  <img src="docs/icon.svg" width="112" alt="Long Weekend app icon">
-</p>
-
-<h1 align="center">Long Weekend</h1>
-
-<p align="center">
-  <b>Turn a few days of annual leave into long breaks.</b><br>
-  A free, open-source Android planner that finds every public-holiday bridge for 204 countries.
+  <img src="docs/banner.png" alt="Long Weekend: turn a few days of leave into long breaks. Take 5, get 11 days off." width="100%">
 </p>
 
 <p align="center">
-  <a href="https://github.com/mgracanin/long-weekend-finder/releases/latest"><img src="https://img.shields.io/github/v/release/mgracanin/long-weekend-finder?style=for-the-badge&label=Download%20APK&logo=android&logoColor=white&color=0B4F4A" alt="Download the latest APK"></a>
+  <b>A free, open-source Android planner that finds every public-holiday bridge in 204 countries.</b><br>
+  No account, no ads, no tracking. Works offline.
+</p>
+
+<p align="center">
+  <a href="https://github.com/mgracanin/long-weekend-finder/releases/latest"><img src="https://img.shields.io/github/v/release/mgracanin/long-weekend-finder?style=for-the-badge&label=Download%20APK&logo=android&logoColor=white&color=0B4F4A" height="40" alt="Download the latest APK"></a>
+  &nbsp;
+  <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/mgracanin/long-weekend-finder"><img src="https://github.com/ImranR98/Obtainium/blob/main/assets/graphics/badge_obtainium.png?raw=true" height="40" alt="Get it on Obtainium"></a>
 </p>
 
 <p align="center">
@@ -21,26 +21,26 @@
   <a href="PRIVACY.md"><img src="https://img.shields.io/badge/ads%20%26%20tracking-none-0B4F4A" alt="No ads or tracking"></a>
 </p>
 
-<p align="center">
-  <img src="docs/screenshots/light-discover.png" width="24%" alt="Discover screen">
-  <img src="docs/screenshots/light-suggested.png" width="24%" alt="Suggested breaks">
-  <img src="docs/screenshots/light-plan.png" width="24%" alt="Plan details with calendar">
-  <img src="docs/screenshots/light-holidays.png" width="24%" alt="Year of public holidays">
-</p>
-
----
+<table>
+  <tr>
+    <td width="33%"><img src="docs/gallery/1_discover.jpg" alt="Discover: the best breaks for your leave, straight away"></td>
+    <td width="33%"><img src="docs/gallery/2_suggested.jpg" alt="Suggested breaks, ranked by length, leave days or date"></td>
+    <td width="33%"><img src="docs/gallery/3_plan.jpg" alt="Plan details with month calendars and the dates to request"></td>
+  </tr>
+  <tr>
+    <td width="33%"><img src="docs/gallery/4_holidays.jpg" alt="Public holidays for 204 countries"></td>
+    <td width="33%"><img src="docs/gallery/5_saved.jpg" alt="Saved plans with each requested day ticked off"></td>
+    <td width="33%"><img src="docs/gallery/6_pdf.jpg" alt="Printable holiday calendar PDF"></td>
+  </tr>
+</table>
 
 ## Take 5, get 11
 
 Public holidays rarely fall where you need them. Long Weekend looks at every holiday in your country and works out exactly which working days to book so they join up with weekends into one long break.
 
-Croatia, Christmas 2026: book **5 days** of leave and you are off for **11 days in a row**.
-
-| Thu 24 | Fri 25 | Sat 26 | Sun 27 | Mon 28 | Tue 29 | Wed 30 | Thu 31 | Fri 1 | Sat 2 | Sun 3 |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 🟩 | 🟧 | 🟧 | ⬜ | 🟩 | 🟩 | 🟩 | 🟩 | 🟧 | ⬜ | ⬜ |
-
-🟩 annual leave &nbsp;·&nbsp; 🟧 public holiday &nbsp;·&nbsp; ⬜ weekend
+<p align="center">
+  <img src="docs/take-5-get-11.svg" width="100%" alt="Croatia, Christmas 2026: annual leave on 24 and 28 to 31 December, public holidays on 25 and 26 December and 1 January, and two weekends. 5 leave days give 11 days off.">
+</p>
 
 St Stephen's Day falls on a Saturday that year, so the app counts only the two weekday holidays as saving leave: 5 leave + 2 holidays + 4 weekend days = 11.
 
@@ -56,7 +56,7 @@ St Stephen's Day falls on a Saturday that year, so the app counts only the two w
 - 📄 **Year report (PDF)**: all saved breaks for a year in one document, with leave used against your allowance, a year calendar and warnings for overlaps or overspending. Share it, save it or print it.
 - 🗂️ **Your working week**: Monday–Friday or Sunday–Thursday, set from your country automatically.
 - 🌗 **Light, dark and black (OLED) themes**: follows your phone, or pick one yourself.
-- 🇬🇧 🇭🇷 **English and Croatian**, switchable in the app.
+- 🗣️ **English and Croatian**, switchable in the app.
 - ✈️ **Works offline**: your country's holidays for this year and the next four are kept on the phone and updated about once a week, or on demand in Settings. Ten countries also have built-in calendars (HR, GB, DE, FR, IT, ES, US, CA, AU, IE).
 
 ## Three themes
@@ -102,8 +102,6 @@ Tap **Holiday calendar (PDF)** on the Public holidays screen for a clean calenda
 3. Done. Updates install over the top and keep your saved plans.
 
 Requires Android 8.0 or newer.
-
-<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/mgracanin/long-weekend-finder"><img src="https://github.com/ImranR98/Obtainium/blob/main/assets/graphics/badge_obtainium.png?raw=true" height="48" alt="Get it on Obtainium"></a>
 
 Use [Obtainium](https://github.com/ImranR98/Obtainium) to get new versions automatically.
 
